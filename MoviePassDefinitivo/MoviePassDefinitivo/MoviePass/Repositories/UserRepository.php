@@ -37,7 +37,6 @@ class UserRepository implements IUserRepository{
         $this->SaveData();
     }
 
-    //Json Persistence
     private function SaveData()
     {
         $arrayToEncode = array();
@@ -56,7 +55,7 @@ class UserRepository implements IUserRepository{
 
         $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
         
-        file_put_contents('../Repository/Data/users.json', $jsonContent);
+        file_put_contents('../Data/users.json', $jsonContent);
     }
 
     private function RetrieveData()
