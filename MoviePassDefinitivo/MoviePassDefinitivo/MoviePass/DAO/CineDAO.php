@@ -74,7 +74,7 @@ class CineDAO implements ICineDAO{
                 $cine->setAddress($valuesArray["Address"]);
                 $cine->setCapacity($valuesArray["Capacity"]);
                 $cine->setValue($valuesArray["Value"]);
-                $cine->setFunciones($valuesArray["funciones"]);
+                $cine->setfunciones($valuesArray["funciones"]);
 
                 array_push($this->cineList, $cine);
             }
