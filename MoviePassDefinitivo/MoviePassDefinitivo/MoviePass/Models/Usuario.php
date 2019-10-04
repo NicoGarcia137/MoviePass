@@ -3,9 +3,18 @@ namespace Models;
     class Usuario{
         private $eMail;
         private $password;
+        private $rol;
         
 
+        public function getRol()
+        {
+                return $this->rol;
+        }
 
+        public function setRol($rol)
+        {
+                $this->rol = $rol;
+        }
    
         public function getEMail()
         {

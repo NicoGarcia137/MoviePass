@@ -24,7 +24,7 @@
 
         //     require_once(VIEWS_PATH."User-list.php");
         // }
-        public function Add($userName, $password, $firstName,$lastName,$email)
+        public function Add($userName, $password, $firstName,$lastName,$email,$rol)
         {
             $User = new User();
             $User->setUserName($userName);
@@ -32,11 +32,17 @@
             $user->setFirstName($firstName);
             $user->setLastName($lastName);
             $user->setEmail($email);
+            $user->setRol($rol);
 
 
             $this->UserDAO->Add($User);
 
-            $this->ShowAddView();
+            if($rol=="X"){
+            $this->ShowXView();
+            }
+            else if($rol=="x"){
+                $this->ShowxView();
+            }
         }
         
     }
