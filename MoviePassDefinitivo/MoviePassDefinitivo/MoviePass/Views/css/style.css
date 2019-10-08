@@ -531,10 +531,10 @@ a:hover {
 	margin:0 0 40px 0;
 }
 
-.active a {
+/* .active a {
 	background:var(--main);
 	color:var(--white);
-}
+} */
 
 /* Se comento li a debido a que se quitaron dichos elementos del login */
 
@@ -606,7 +606,7 @@ li a:hover {
 .log-input/*, .log-textarea */{
 	font-size:22px;
 	display:block;
-	width:96%;
+	width:100%;
 	height:100%;
 	padding:5px 10px;
 	background:none;

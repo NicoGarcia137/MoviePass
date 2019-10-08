@@ -25,10 +25,10 @@
             
                 <div class="top-row">
                     <div class="field-wrap">
-                    <label class="log-label" >
-                        First Name
-                    </label>
-                    <input class="log-input" type="text" required />
+                        <label class="log-label" >
+                            First Name
+                        </label>
+                        <input class="log-input" type="text" required />
                     </div>
                 </div>
 
