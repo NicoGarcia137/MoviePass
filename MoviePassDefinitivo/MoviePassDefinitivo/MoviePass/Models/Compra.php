@@ -1,6 +1,7 @@
 <?php
 namespace Models;
     class Compra{
+
         private $FechaCompra;
         private $CantidadEntradas;
         private $Total;
