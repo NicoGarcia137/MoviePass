@@ -12,63 +12,59 @@
     <body>
     <div class="form">
         
-        <ul class="tab-group">
+        <!-- <ul class="tab-group">
             <li class="tab active"><a href="signup.php">Sign Up</a></li>
             <li class="tab"><a href="login.php">Log In</a></li>
-        </ul>
+        </ul> -->
         
-         <div class="tab-content">
+        <div class="tab-content">
             <div id="signup">   
-            <h1>Sign Up for Free</h1>
+            <h1 class="log-h1" >Sign Up for Free</h1>
             
             <form action="/" method="post">
             
-            <div class="top-row">
-                <div class="field-wrap">
-                <label>
-                    First Name
-                </label>
-                <input type="text" required />
-                </div>
-            
-                <!-- <div class="field-wrap">
-                <label>
-                    Last Name
-                </label>
-                <input type="text"required />
-                </div> -->
-            </div>
-
-            <div class="top-right" >
-                <div class="field-wrap">
-                    <label>
-                        Last Name
+                <div class="top-row">
+                    <div class="field-wrap">
+                    <label class="log-label" >
+                        First Name
                     </label>
-                    <input type="text"required />
+                    <input class="log-input" type="text" required />
+                    </div>
                 </div>
-            </div>
 
-            <div class="field-wrap">
-                <label >
-                Email Address
-                </label>
-                <input type="email" placeholder="example@gmail.com" required />
-            </div>
+                <div class="top-right" >
+                    <div class="field-wrap">
+                        <label class="log-label" >
+                            Last Name
+                        </label>
+                        <input class="log-input" type="text"required />
+                    </div>
+                </div>
+
+                <div class="field-wrap">
+                    <label class="log-label" >
+                    Email Address
+                    </label>
+                    <input class="log-input" type="email" placeholder="example@gmail.com" required />
+                </div>
             
-            <div class="field-wrap">
-                <label>
-                Set a Password
-                </label>
-                <input type="password" placeholder="••••••" required/>
-            </div>
+                <div class="field-wrap">
+                    <label class="log-label" >
+                    Set a Password
+                    </label>
+                    <input class="log-input" type="password" placeholder="••••••" required/>
+                </div>
+
+                <div class="field-wrap" >
+
+                    <button type="submit" class="button button-block">Create account</button>
+
+                </div>
             
-            <button type="submit" class="button button-block">Create account</button>
+                
             
             </form>
 
-            </div> 
-        
-            
         </div><!-- tab-content -->
         
     </div> <!-- /form -->
