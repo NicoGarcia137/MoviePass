@@ -22,12 +22,15 @@
     <div id="main">
       <div id="header">
         <div class="row-1">
-        <div class="fleft"><a href="#">Movie <span>Pass</span></a></div>
-          <ul>
-            <li><a href="#"><img src="images/icon1.gif" alt="" /></a></li>
-            <li><a href="#"><img src="images/icon2.gif" alt="" /></a></li>
-            <li><a href="#"><img src="images/icon3.gif" alt="" /></a></li>
-          </ul>
-        </div>
+          <div class="fleft"><a href="index.php">Movie <span>Pass</span></a></div>  <!-- Cambiar el href mas adelante -->
+            
+            <ul>
+              
+              <li><a href="login.php">LogIn</a></li>
+              <li><a href="signup.php">SignUp</a></li>
+              
+              <!-- CAMBIAR TODO ESTO DE LOS HREF POR LOS CONTROLADORES QUE CORRESPONDA -->
+            </ul>
+          </div>
         
         
