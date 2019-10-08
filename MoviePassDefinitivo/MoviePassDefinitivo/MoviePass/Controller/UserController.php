@@ -1,5 +1,5 @@
 <?php
-    namespace Controllers;
+    namespace Controller;
 
     use DAO\UserDAO as UserDAO;
     use Models\User as User;
@@ -13,17 +13,6 @@
             $this->UserDAO = new UserDAO();
         }
 
-        // public function ShowAddView()
-        // {
-        //     require_once(VIEWS_PATH."User-add.php");
-        // }
-
-        // public function ShowListView()
-        // {
-        //     $UserList = $this->UserDAO->GetAll();
-
-        //     require_once(VIEWS_PATH."User-list.php");
-        // }
         public function Add($userName, $password, $firstName,$lastName,$email,$rol)
         {
             $User = new User();

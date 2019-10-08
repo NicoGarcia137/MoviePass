@@ -28,6 +28,20 @@ class CineDAO implements ICineDAO{
         return $cineFounded;
     }
 
+    public function RemoveCineByName($name){
+         $this->RetrieveData();
+
+        foreach($this->cineList as $cineValue){
+
+            if($cineValue->GetByCineName($name) == $name){
+                $key = array_search($cineValue, $this->cineList);
+                unset($this->cineList[$key]);
+            }
+        }
+
+        $this->SaveData();
+    }
+
     public function Add(Cine $newCine){
         
         $this->RetrieveData();

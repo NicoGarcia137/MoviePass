@@ -1,7 +1,7 @@
 <?php namespace DAO;
 
 use DAO\IUserDAO as IUserDAO;
-use Models\User as User;
+use Models\Usuario as User;
 
 class UserDAO implements IUserDAO{
 
@@ -13,13 +13,27 @@ class UserDAO implements IUserDAO{
         return $this->userList;
     }
 
-    public function GetByUserName($userName){
+    public function GetUserLogin($name){
         $this->RetrieveData();
         $userFounded = null;
         
         if(!empty($this->userList)){
             foreach($this->userList as $user){
-                if($user->getUserName() == $userName){
+                if($user->getEmail() == $Email){
+                    $userFounded = $user;
+                }
+            }
+        }
+        return $userFounded;
+    }
+
+    public function GetByEmail($Email){
+        $this->RetrieveData();
+        $userFounded = null;
+        
+        if(!empty($this->userList)){
+            foreach($this->userList as $user){
+                if($user->getEmail() == $Email){
                     $userFounded = $user;
                 }
             }
@@ -43,12 +57,12 @@ class UserDAO implements IUserDAO{
 
         foreach($this->userList as $user)
         {
+
+
+            $valuesArray["perfilUsuario"] =$user->getPerfilUsuario();
             $valuesArray["firstName"] = $user->getFirstName();
             $valuesArray["lastName"] = $user->getLastName();
-            $valuesArray["dni"] = $user->getDni();
-            $valuesArray["email"] = $user->getEmail();
-            $valuesArray["username"] = $user->getUserName();
-            $valuesArray["password"] = $user->getPassword();
+            $valuesArray["rol"] = $user->getRol();
 
             array_push($arrayToEncode, $valuesArray);
         }
@@ -73,8 +87,17 @@ class UserDAO implements IUserDAO{
                 $user = new User();
                 $user->setFirstName($valuesArray["firstName"]);
                 $user->setLastName($valuesArray["lastName"]);
-                $user->setEmail($valuesArray["email"]);
-                $user->setUserName($valuesArray["username"]);
+
+                $usuario= new PerfilUsuario();
+                $usuario->set();
+                $usuario->
+                $user->setPerfilUsuario($valuesArray["perfilUsuario"]);
+
+
+                $user->setRol($valuesArray["rol"]);
+
+
+
                 $user->setPassword($valuesArray["password"]);
 
                 array_push($this->userList, $user);
