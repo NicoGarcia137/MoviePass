@@ -1,12 +1,13 @@
 <?php 
     include_once('header.php');
 ?>
-
+</div> <!-- div cerrado que le corresponde al nav -->
 
     <div class="form">
         
         <div id="login">   
             <h1 class="log-h1" >Welcome Back!</h1>
+            <br><br>
             
             <form action="/" method="post">
             
@@ -27,3 +28,6 @@
         </div><!-- tab-content -->
         
     </div> <!-- /form -->
+
+
+<?php include_once("footer.php") ?>

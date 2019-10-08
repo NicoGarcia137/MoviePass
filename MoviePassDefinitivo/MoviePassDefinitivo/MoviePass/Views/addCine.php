@@ -1,5 +1,6 @@
 <?php 
     include_once("header.php");
+    include_once("navAdmin.php")
 ?>
 
 <div class="form">
@@ -33,3 +34,5 @@
     </form>
 
 </div>
+
+<?php include_once("footer.php") ?>

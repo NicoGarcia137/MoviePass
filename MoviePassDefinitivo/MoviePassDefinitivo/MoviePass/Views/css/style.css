@@ -505,7 +505,7 @@ a {
 }
 
 .form {
-	background:rgba(var(--form-bg),.9);
+	background:rgba(var(--form-bg),.9); 
 	padding: 40px;
 	max-width:600px;
 	margin:40px auto;
