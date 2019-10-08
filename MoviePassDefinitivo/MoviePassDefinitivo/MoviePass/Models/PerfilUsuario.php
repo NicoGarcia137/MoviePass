@@ -1,18 +1,11 @@
 <?php
 namespace Models;
     class PerfilUsuario{
-        private $userName;
-        private $Usuario;
         private $firstName;
-        private $lastName;
-		private $rol;
+		private $lastName;
+		private $dni;
 
-	public function getUserName(){
-		return $this->userName;
-	}
-	public function getPassword(){
-		return $this->password;
-	}
+	
 	public function getFirstName(){
 		return $this->firstName;
 	}
@@ -20,8 +13,14 @@ namespace Models;
 		return $this->lastName;
 	}
 
-	public function setUserName($userName){
-		$this->userName = $userName;
+
+	public function getDni(){
+		return $this->dni;
+	}
+
+
+	public function setDni($dni){
+		$this->dni = $dni;
 	}
 
 

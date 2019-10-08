@@ -1,20 +1,41 @@
 <?php
 namespace Models;
     class Usuario{
-        private $eMail;
+        private $perfilUsuario;
+        private $Email;
         private $password;
+        private $rol;
         
 
-
-   
-        public function getEMail()
+        public function getPerfilUsuario()
         {
-                return $this->eMail;
+                return $this->perfilUsuario;
         }
 
-        public function setEMail($eMail)
+        public function setPerfilUsuario($perfilUsuario)
         {
-                $this->eMail = $eMail;
+                $this->perfilUsuario = $perfilUsuario;
+        }
+
+
+        public function getRol()
+        {
+                return $this->rol;
+        }
+
+        public function setRol($rol)
+        {
+                $this->rol = $rol;
+        }
+   
+        public function getEmail()
+        {
+                return $this->Email;
+        }
+
+        public function setEmail($Email)
+        {
+                $this->Email = $Email;
 
                 return $this;
         }
