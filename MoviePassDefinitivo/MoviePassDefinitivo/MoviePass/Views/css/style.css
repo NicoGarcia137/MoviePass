@@ -504,18 +504,6 @@ a {
 	--br: 4px;
 }
 
-/* Se comento el a debido a que se quito el forgot password */
-/* a {
-	text-decoration:none;
-	color:var(--main);
-	transition:.5s ease;
-	
-} 
-  
-a:hover {
-	color:var(--main-dark);
-} */
-
 .form {
 	background:rgba(var(--form-bg),.9);
 	padding: 40px;
@@ -531,38 +519,11 @@ a:hover {
 	margin:0 0 40px 0;
 }
 
-/* .active a {
-	background:var(--main);
-	color:var(--white);
-} */
-
-/* Se comento li a debido a que se quitaron dichos elementos del login */
-
-/* li a {
-	display:block;
-	text-decoration:none;
-	padding:15px;
-	background:rgba(var(--gray-light),.25);
-	color:var(--gray-light);
-	font-size:20px;
-	float:left;
-	width:50%;
-	text-align:center;
-	cursor:pointer;
-	transition:.5s ease;
-} 
-
-li a:hover {
-	background:var(--main-dark);
-	color:var(--white);
-} */
-
 .tab-group:after {
 	content: "";
 	display: table;
 	clear: both;
 }
-
 
 .log-h1 {
 	text-align:center;
@@ -601,12 +562,10 @@ li a:hover {
 	color:var(--white);
 }
 
-/* Textarea comentado debido a que no se utiliza */
-
-.log-input/*, .log-textarea */{
+.log-input{
 	font-size:22px;
 	display:block;
-	width:100%;
+	width:96%;
 	height:100%;
 	padding:5px 10px;
 	background:none;
@@ -617,15 +576,10 @@ li a:hover {
 	transition:border-color .25s ease, box-shadow .25s ease;
 }
 
-.log-input:focus/*, .log-textarea:focus */{
+.log-input:focus{
 	outline:0;
 	border-color:var(--main);
 }
-
-/* .log-textarea {
-	border:2px solid var(--gray-light);
-	resize: vertical;
-} */
 
 .field-wrap {
 	position:relative;

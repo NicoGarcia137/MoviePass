@@ -3,19 +3,9 @@
     include_once('header.php');
 ?>
 
-<html>
 
-    <head>
-        
-    </head>
 
-    <body>
     <div class="form">
-        
-        <!-- <ul class="tab-group">
-            <li class="tab active"><a href="signup.php">Sign Up</a></li>
-            <li class="tab"><a href="login.php">Log In</a></li>
-        </ul> -->
         
         <div class="tab-content">
             <div id="signup">   
@@ -25,34 +15,26 @@
             
                 <div class="top-row">
                     <div class="field-wrap">
-                        <label class="log-label" >
-                            First Name
-                        </label>
-                        <input class="log-input" type="text" required />
+                        <label class="log-label" >First Name</label>
+                        <input class="log-input" type="text" name="firstName" required />
                     </div>
                 </div>
 
                 <div class="top-right" >
                     <div class="field-wrap">
-                        <label class="log-label" >
-                            Last Name
-                        </label>
-                        <input class="log-input" type="text"required />
+                        <label class="log-label" >Last Name</label>
+                        <input class="log-input" type="text" name="lastName" required />
                     </div>
                 </div>
 
                 <div class="field-wrap">
-                    <label class="log-label" >
-                    Email Address
-                    </label>
-                    <input class="log-input" type="email" placeholder="example@gmail.com" required />
+                    <label class="log-label" >Email Address </label>
+                    <input class="log-input" type="email" name="email" placeholder="example@gmail.com" required />
                 </div>
             
                 <div class="field-wrap">
-                    <label class="log-label" >
-                    Set a Password
-                    </label>
-                    <input class="log-input" type="password" placeholder="••••••" required/>
+                    <label class="log-label" >Set a Password</label>
+                    <input class="log-input" type="password" name="password" placeholder="••••••" required/>
                 </div>
 
                 <div class="field-wrap" >
@@ -61,13 +43,9 @@
 
                 </div>
             
-                
-            
             </form>
 
         </div><!-- tab-content -->
         
     </div> <!-- /form -->
-    </body>
 
-</html>
