@@ -1,8 +1,5 @@
 <?php 
-include_once("header.php");
-include_once("nav.php");
-
-
+include_once("navUser.php");
 ?>
       <div id="content">
         <div class="line-hor"></div>
@@ -31,6 +28,3 @@ include_once("nav.php");
           </div>
         </div>
       </div>
-<?php
- include('footer.php') 
-?>

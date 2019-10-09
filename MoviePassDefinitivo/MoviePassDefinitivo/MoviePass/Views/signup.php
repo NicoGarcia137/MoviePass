@@ -1,6 +1,3 @@
-<?php 
-    include_once('header.php');
-?>
 </div> <!-- div cerrado que le corresponde al nav -->
 
     <div class="form">
@@ -12,14 +9,14 @@
             
                 <form action="/" method="post">
                 
-                    <div>
+                    <div class="top-row">
                         <div class="field-wrap">
                             <label class="log-label" >First Name</label>
                             <input class="log-input" type="text" name="firstName" required />
                         </div>
                     </div>
 
-                    <div>
+                    <div class="top-right" >
                         <div class="field-wrap">
                             <label class="log-label" >Last Name</label>
                             <input class="log-input" type="text" name="lastName" required />
@@ -45,4 +42,3 @@
         
     </div> <!-- /form -->
 
-<?php include_once("footer.php") ?>
