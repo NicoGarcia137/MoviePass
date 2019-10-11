@@ -20,8 +20,8 @@
             $moviesJson=file_get_contents($url);
             $moviesInc=json_decode($moviesJson,true);
             $movies=[];
-            foreach($moviesInc as $result){
-                foreach($result as $movie){
+            
+                foreach($moviesInc['results'] as $movie){
                     $newMovie=new Movie();              
                     $newMovie->setName($movie['original_title']);
                     $newMovie->setDuration($movie['popularity']);
@@ -31,7 +31,7 @@
                     $newMovie->setGenre($this->GetMovieGenres($genres));
                     array_push($movies,$newMovie);
                 }
-            }
+            
             require_once(VIEWS_PATH."moviesApi.php");
         }
 
