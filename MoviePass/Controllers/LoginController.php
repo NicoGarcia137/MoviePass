@@ -15,9 +15,9 @@ class LoginController
 
     public function Login($email, $password)
     {
-        //$this->ShowAdminView();
-        
-        $user = $this->userDAO->GetByEmail($email);
+        $this->ShowAdminView();
+        /*
+        $user = $this->UserDAO->GetByEmail($email);
 
         if(($user != null) && ($user->getPassword() === $password))
         {
@@ -31,7 +31,7 @@ class LoginController
             }
         }
         else
-            $this->Index("Usuario y/o Contraseña incorrectos");
+            $this->Index("Usuario y/o Contraseña incorrectos");*/
     }
 
     public function Logout()
@@ -49,7 +49,7 @@ class LoginController
     }
 
     public function ShowAdminView(){
-        require_once(VIEWS_PATH."settings.php");
+        require_once(VIEWS_PATH."indexAdmin.php");
     }
 
 

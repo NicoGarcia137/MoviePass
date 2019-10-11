@@ -1,5 +1,6 @@
 <?php 
-    include_once('header.php');
+    include_once("header.php");
+    include_once("navUser.php");
 ?>
 </div> <!-- div cerrado que le corresponde al nav -->
 

@@ -1,34 +1,34 @@
 <?php
 namespace Models;
     class Cine{
-        private $name;
-        private $address;
+        private $Name;
+        private $Address;
         private $Capacity;
         private $Value;
-        private $funciones;
+        private $Funciones;
 
         
 
 
         public function getName()
         {
-                return $this->name;
+                return $this->Name;
         }
 
 
         public function setName($name)
         {
-                $this->name = $name;
+                $this->Name = $name;
         }
 
         public function getAddress()
         {
-                return $this->address;
+                return $this->Address;
         }
 
         public function setAddress($address)
         {
-                $this->address = $address;
+                $this->Address = $address;
 
         }
 
@@ -37,9 +37,9 @@ namespace Models;
                 return $this->Capacity;
         }
 
-        public function setCapacity($Capacity)
+        public function setCapacity($capacity)
         {
-                $this->Capacity = $Capacity;
+                $this->Capacity = $capacity;
 
         }
 
@@ -48,19 +48,19 @@ namespace Models;
                 return $this->Value;
         }
      
-        public function setValue($Value)
+        public function setValue($value)
         {
-                $this->Value = $Value;
+                $this->Value = $value;
         }
 
         public function getfunciones()
         {
-                return $this->funciones;
+                return $this->Funciones;
         }
 
         public function setfunciones($funciones)
         {
-                $this->funciones = $funciones;
+                $this->Funciones = $funciones;
 
         }
     }

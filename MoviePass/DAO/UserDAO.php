@@ -58,7 +58,6 @@ class UserDAO implements IUserDAO{
         foreach($this->userList as $user)
         {
 
-
             $valuesArray["perfilUsuario"] =$user->getPerfilUsuario();
             $valuesArray["firstName"] = $user->getFirstName();
             $valuesArray["lastName"] = $user->getLastName();

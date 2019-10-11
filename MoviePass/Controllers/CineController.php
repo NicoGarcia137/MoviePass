@@ -13,18 +13,17 @@
             $this->CineDAO = new CineDAO();
         }
 
-         public function ShowAddView()
-         {
-             require_once(VIEWS_PATH."addCine.php");
-         }
 
+        public function GetAllCines(){
+           return $this->CineDAO->GetAll();
+        }
 
         public function GetCine($name){
             $cine= $this->CineDAO->GetByCineName($name);
             return $cine;
          }
 
-        public function Add($name, $address, $capacity,$value,$funciones)
+        public function Add($name, $address, $capacity,$value,$funciones=null)
         {
 
             $Cine = new Cine();
@@ -42,9 +41,29 @@
         }
         
         public function RemoveCine($name){
-            $this->CineDAO->RemoveCineByName($name);
-            $this->ShowListView();
+            $cine= $this->GetCine($name);
+            $this->CineDAO->RemoveCine($cine);
+            $this->ShowListCinesAdminView();
         }
 
+
+        
+        public function ShowAddView()
+        {
+            require_once(VIEWS_PATH."addCine.php");
+        }
+        public function ShowRemoveView()
+        {
+            require_once(VIEWS_PATH."removeCine.php");
+        }
+        
+        public function ShowListCinesAdminView(){
+            $cines=$this->GetAllCines();
+            require_once(VIEWS_PATH."listarCinesAdmin.php");
+        }
+        public function ShowListCinesView(){
+            $cines=$this->GetAllCines();
+            require_once(VIEWS_PATH."listarCinesUsuario.php");
+        }
     }
 ?>

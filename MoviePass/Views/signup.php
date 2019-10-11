@@ -1,3 +1,7 @@
+<?php 
+    include_once("header.php");
+    include_once("navUser.php");
+?>
 </div> <!-- div cerrado que le corresponde al nav -->
 
     <div class="form">
@@ -41,4 +45,4 @@
         </div><!-- tab-content -->
         
     </div> <!-- /form -->
-
+<?php include_once("footer.php") ?>

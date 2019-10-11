@@ -1,69 +1,69 @@
 <?php
 namespace Models;
-    class Pelicula{
-        private $Nombre;
-        private $Duracion;
-        private $Lenguaje;
-        private $Imagen;
-        private $Genero;
+    class Movie{
+        private $Name;
+        private $Duration;
+        private $Language;
+        private $Image;
+        private $Genre;
         
         
 
  
-        public function getNombre()
+        public function getName()
         {
-                return $this->Nombre;
+                return $this->Name;
         }
 
 
-        public function setNombre($Nombre)
+        public function setName($Name)
         {
-                $this->Nombre = $Nombre;
+                $this->Name = $Name;
 
         }
 
-        public function getDuracion()
+        public function getDuration()
         {
-                return $this->Duracion;
+                return $this->Duration;
         }
 
 
-        public function setDuracion($Duracion)
+        public function setDuration($Duration)
         {
-                $this->Duracion = $Duracion;
+                $this->Duration = $Duration;
 
         }
 
-        public function getLenguaje()
+        public function getLenguage()
         {
-                return $this->Lenguaje;
+                return $this->Lenguage;
         }
 
-        public function setLenguaje($Lenguaje)
+        public function setLenguage($Language)
         {
-                $this->Lenguaje = $Lenguaje;
+                $this->Lenguage = $Language;
 
         }
 
         public function getImagen()
         {
-                return $this->Imagen;
+                return $this->Image;
         }
 
-        public function setImagen($Imagen)
+        public function setImagen($Image)
         {
-                $this->Imagen = $Imagen;
+                $this->Image = $Image;
 
         }
 
-        public function getGenero()
+        public function getGenre()
         {
-                return $this->Genero;
+                return $this->Genre;
         }
 
-        public function setGenero($Genero)
+        public function setGenre($Genre)
         {
-                $this->Genero = $Genero;
+                $this->Genre = $Genre;
 
         }
     }

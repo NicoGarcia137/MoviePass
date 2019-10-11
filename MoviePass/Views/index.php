@@ -53,6 +53,4 @@ include_once("navUser.php");
       </div>
       <?php 
 include_once("footer.php");
-
-
 ?>

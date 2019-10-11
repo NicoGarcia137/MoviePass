@@ -19,7 +19,7 @@ class CineDAO implements ICineDAO{
         
         if(!empty($this->cineList)){
             foreach($this->cineList as $cine){
-                if($cine->getUserName() == $name){
+                if($cine->getName() == $name){
                     $cineFounded = $cine;
                 }
             }
@@ -28,12 +28,12 @@ class CineDAO implements ICineDAO{
         return $cineFounded;
     }
 
-    public function RemoveCineByName($name){
+    public function RemoveCine($cine){
          $this->RetrieveData();
 
         foreach($this->cineList as $cineValue){
 
-            if($cineValue->GetByCineName($name) == $name){
+            if($cineValue->GetName() == $cine->getName()){
                 $key = array_search($cineValue, $this->cineList);
                 unset($this->cineList[$key]);
             }
@@ -58,37 +58,37 @@ class CineDAO implements ICineDAO{
         foreach($this->cineList as $cine)
         {
             $valuesArray["Name"] = $cine->getName();
-            $valuesArray["address"] = $cine->getAddress();
+            $valuesArray["Address"] = $cine->getAddress();
             $valuesArray["Capacity"] = $cine->getCapacity();
             $valuesArray["Value"] = $cine->getValue();
-            $valuesArray["funciones"] = $cine->getFunciones();
+            $valuesArray["Funciones"] = $cine->getFunciones();
 
             array_push($arrayToEncode, $valuesArray);
         }
 
         $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
         
-        file_put_contents('../Data/Cines.json', $jsonContent);
+        file_put_contents('Data/Cines.json', $jsonContent);
     }
 
     private function RetrieveData()
     {
         $this->cineList = array();
 
-        if(file_exists('../Data/Cines.json'))
+        if(file_exists('Data/Cines.json'))
         {
-            $jsonContent = file_get_contents('../Data/Cines.json');
+            $jsonContent = file_get_contents('Data/Cines.json');
 
             $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
 
             foreach($arrayToDecode as $valuesArray)
             {
                 $cine = new Cine();
-                $cine->setName($valuesArray["name"]);
+                $cine->setName($valuesArray["Name"]);
                 $cine->setAddress($valuesArray["Address"]);
                 $cine->setCapacity($valuesArray["Capacity"]);
                 $cine->setValue($valuesArray["Value"]);
-                $cine->setfunciones($valuesArray["funciones"]);
+                $cine->setfunciones($valuesArray["Funciones"]);
 
                 array_push($this->cineList, $cine);
             }

@@ -22,11 +22,10 @@
     <div id="main">
       <div id="header">
         <div class="row-1">
-          <div class="fleft"><a href="<?php echo FRONT_ROOT."Home/Index"?>">Movie <span>Pass</span></a></div>  <!-- Cambiar el href mas adelante -->
+          <div class="fleft"><a href="#">Movie <span>Pass</span></a></div>  <!-- Cambiar el href mas adelante -->
             
             <ul>
              
-
               <li><a href="<?php echo FRONT_ROOT."Login/ShowLoginView"?>">LogIn</a></li>
               <li><a href="<?php echo FRONT_ROOT."User/ShowSignUpView"?>">SignUp</a></li>
               
