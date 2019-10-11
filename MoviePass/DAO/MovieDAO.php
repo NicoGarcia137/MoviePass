@@ -59,7 +59,7 @@ class MovieDAO implements IMovieDAO{
                 $Movie->setDuration($valuesArray["Duration"]);
                 $Movie->setLanguage($valuesArray["Language"]);
                 $Movie->setImage($valuesArray["Image"]);
-                $Movie->setImage($valuesArray["Genre"]);
+                $Movie->setGenre($valuesArray["Genre"]);
 
            
 
