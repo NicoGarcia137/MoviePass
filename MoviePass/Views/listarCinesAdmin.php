@@ -35,12 +35,23 @@ include_once("navAdmin.php");
                         </div>
 
                         <div class="fright">
+                            
+                            <form action="<?php echo FRONT_ROOT."Cine/ShowModifyView" ?>">
+                        
+                                <input type=submit class="optButton optButton-block" value="Modificar">
+                        
+                            </form>
 
-                            <div class="wrapper"> <a href="#" class="link2"> <span> <span>Modificar</span> </span> </a> </div>
                             <br>
-                            <input type=submit class="optButton optButton-block" value="Modificar">    
+                            
+                            <form action="<?php echo FRONT_ROOT."Cine/RemoveCine" ?>">
+                        
+                                <button class="optButton optButton-block" type="submit" name="name" value="<?php echo $cine->getName() ?>" >Eliminar</button>
+                        
+                            </form>
 
                         </div>
+                        
                     </div>
 
                 </div>

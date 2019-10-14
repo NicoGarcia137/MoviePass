@@ -33,8 +33,6 @@
             $Cine->setValue($value);
             $Cine->setFunciones($funciones);
 
-
-
             $this->CineDAO->Add($Cine);
 
             $this->ShowAddView();
@@ -45,13 +43,17 @@
             $this->CineDAO->RemoveCine($cine);
             $this->ShowListCinesAdminView();
         }
-
-
         
         public function ShowAddView()
         {
             require_once(VIEWS_PATH."addCine.php");
         }
+
+        public function ShowModifyView()
+        {
+            require_once(VIEWS_PATH."modifyCine.php");
+        }
+
         public function ShowRemoveView()
         {
             require_once(VIEWS_PATH."removeCine.php");
