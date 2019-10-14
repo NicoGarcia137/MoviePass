@@ -34,26 +34,26 @@ namespace Models;
 
 
 
-		public function getRol()
-		{
-				return $this->rol;
-		}
+	public function getRol()
+	{
+			return $this->rol;
+	}
 
-		public function setRol($rol)
-		{
-				$this->rol = $rol;
-		}
+	public function setRol($rol)
+	{
+			$this->rol = $rol;
+	}
 
-  
-        public function getUsuario()
-        {
-                return $this->Usuario;
-        }
 
-        public function setUsuario($Usuario)
-        {
-                $this->Usuario = $Usuario;
-        }
+	public function getUsuario()
+	{
+			return $this->Usuario;
+	}
+
+	public function setUsuario($Usuario)
+	{
+			$this->Usuario = $Usuario;
+	}
     }
 
 ?>

@@ -399,6 +399,37 @@ h4 {
 	overflow:hidden;
 	padding:0;
 }
+
+/*********************** SignUp Slogan *************************/
+
+
+#signupSlogan {
+	width:940px;
+	height:175px;
+	position:relative;
+	background:url(../images/banner-bg2.gif) no-repeat left top;
+	color:#1d1d1d;
+}
+
+#signupSlogan .image {
+	position:absolute;
+	right:-30px;
+	top:-11px;
+	z-index:100;
+	width:572px;
+	height:348px;
+	background:url(../images/banner-img.png) no-repeat left top;
+}
+#signupSlogan p {
+	margin-bottom:23px;
+}
+#signupSlogan .inside {
+	padding:36px 0 0 50px;
+	width:320px;
+}
+
+/***********************************************************************/
+
 #slogan {
 	width:940px;
 	height:322px;
@@ -508,7 +539,7 @@ a {
 	background:rgba(var(--form-bg),.9); 
 	padding: 40px;
 	max-width:600px;
-	margin:40px auto;
+	margin:5px auto;
 	border-radius:var(--br);
 	box-shadow:0 4px 10px 4px rgba(var(--form-bg),.3);
 }
@@ -603,7 +634,7 @@ a {
 }
 
 .top-right {
-	float: right;;
+	float: right;
 	width:45%;
 	margin-left:4%;
 }
@@ -648,3 +679,40 @@ a {
 } 
 
 /* -------------------------------- */
+
+/* -------- Opt Button ------------ */
+
+.optButton {
+	border: 0;
+    outline: none;
+    border-radius: 0;
+    padding: 10px 10px;
+    font-size: 18px;
+    /* font-weight: var(--bold); */
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: var(--main);
+    color: var(--white);
+    transition: all.5s ease;
+    -webkit-appearance: none;
+}
+
+.optButton:hover, .optButton:focus {
+	background:var(--main-dark);
+}
+
+.optButton-block {
+	display:block;
+	width:100%;
+}
+
+/* -------------------------------- */
+
+.movieImg {
+	width: 200px;
+	height: 300px;
+}
+
+.movieText {
+	font-size: 18px;
+}

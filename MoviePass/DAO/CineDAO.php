@@ -28,6 +28,11 @@ class CineDAO implements ICineDAO{
         return $cineFounded;
     }
 
+    public function ModifyCine()
+    {
+        
+    }
+
     public function RemoveCine($cine){
          $this->RetrieveData();
 
@@ -39,7 +44,11 @@ class CineDAO implements ICineDAO{
             }
         }
 
+
         $this->SaveData();
+
+        echo "<script> if(confirm('Cine eliminado correctamente'));";  
+        echo " </script>";
     }
 
     public function Add(Cine $newCine){

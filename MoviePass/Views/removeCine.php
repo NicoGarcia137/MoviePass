@@ -3,21 +3,39 @@
     include_once("navAdmin.php")
 ?>
 
-<div class="form">
+<div id="signupSlogan">
+    <div class="inside">
+        <h2>Eliminar<span>Cine</span></h2>
+        <p>Remover un cine de los actualmente cargados.</p>
+    </div>
+</div> 
 
-    <h1 class="log-h1" >Eliminar un nuevo cine</h1>
 
-    <form action="<?php echo FRONT_ROOT."Cine/RemoveCine" ?>" method="post">
+<div class="box">
+    <div class="border-right">
+        <div class="border-left">
+            <div class="inner">
 
-        <div class="field-wrap">
-            <label class="log-label" for="name">Nombre</label>
-            <input class="log-input" type="text" name="name" id="">
+                <div class="form">
+
+                    <form action="<?php echo FRONT_ROOT."Cine/RemoveCine" ?>" method="post">
+
+                        <div class="field-wrap">
+                            <label class="log-label" for="name">Nombre</label>
+                            <input class="log-input" type="text" name="name" id="">
+                        </div>
+                        
+
+                        <input type=submit class="button button-block" value="Elminar">
+
+                    </form>
+
+                </div>
+
+            </div>
         </div>
-        
+    </div>
+</div> 
 
-        <input type=submit class="button button-block" value="Elminar">
 
-    </form>
-
-</div>
 <?php include_once("footer.php") ?>

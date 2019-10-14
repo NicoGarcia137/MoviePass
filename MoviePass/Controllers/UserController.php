@@ -29,9 +29,9 @@
 
 
             $User->setPerfilUsuario($perfilUsuario);
-            $user->setPassword($password);
-            $user->setEmail($email);
-            $user->setRol($rol);
+            $User->setPassword($password);
+            $User->setEmail($email);
+            $User->setRol($rol);
 
 
             $this->UserDAO->Add($User);

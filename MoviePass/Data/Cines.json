@@ -1,9 +1,25 @@
 [
     {
-        "Name": "cine3",
-        "Address": "asd",
-        "Capacity": "13",
-        "Value": "12312",
+        "Name": "Paseo Aldrey",
+        "Address": "Sarmiento 2685",
+        "Capacity": "50",
+        "Value": "200",
+        "Funciones": null
+    },
+
+    {
+        "Name": "Cinemacenter",
+        "Address": "Diagonal Pueyrredón 3050",
+        "Capacity": "75",
+        "Value": "175",
+        "Funciones": null
+    },
+
+    {
+        "Name": "Ambassador",
+        "Address": "Siempreviva 123",
+        "Capacity": "60",
+        "Value": "190",
         "Funciones": null
     }
 ]
