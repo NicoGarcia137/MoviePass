@@ -2,7 +2,7 @@
 
 use DAO\ICineDAO as ICineDAO;
 use Models\Cine as Cine;
-
+use DAO\Connection as Connection;
 
 class CineDAO implements ICineDAO{
 
@@ -11,12 +11,39 @@ class CineDAO implements ICineDAO{
     private $tableName ="cines";
 
 
-    public function GetAll(){
-        $this->RetrieveData();
+    
+    public function GetAll()
+        {
+            try
+            {
+                $cineListPDO = array();
 
-        return $this->cineList;
+                $query = "SELECT * FROM ".$this->tableName;
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query);
+                
+                foreach ($resultSet as $row)
+                {                
+                    $student = new Cine();
+                    $student->setName($row["name_cine"]);
+                    $student->set($row["address_cine"]);
+                    $student->set($row[""]);
+                    $student->set($row[""]);
+                    
+
+                    array_push($cineList, $student);
+                }
+
+                return $cineListPDO;
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }
     }
-   
 
     public function GetByCineName($name){
         $this->RetrieveData();
