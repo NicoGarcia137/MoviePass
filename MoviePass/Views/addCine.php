@@ -21,22 +21,22 @@
 
                         <div class="field-wrap">
                             <label class="log-label" for="name">Nombre</label>
-                            <input class="log-input" type="text" name="name" id="">
+                            <input class="log-input" type="text" name="name">
                         </div>
                         
                         <div class="field-wrap">
                             <label class="log-label" for="adress">Direccion</label>
-                            <input class="log-input" type="text" name="adress" id="">
+                            <input class="log-input" type="text" name="adress">
                         </div>
 
                         <div class="field-wrap">
                             <label class="log-label" for="capacity">Capacidad</label>
-                            <input class="log-input" type="text" name="capacity" id="">
+                            <input class="log-input" type="text" name="capacity">
                         </div>
 
                         <div class="field-wrap">
                             <label class="log-label" for="value">Tarifa</label>
-                            <input class="log-input" type="text" name="value" id="">
+                            <input class="log-input" type="text" name="value">
                         </div>
 
                         <br><br>

@@ -6,15 +6,13 @@
         "Value": "200",
         "Funciones": null
     },
-
     {
         "Name": "Cinemacenter",
-        "Address": "Diagonal Pueyrredón 3050",
+        "Address": "Diagonal Pueyrred\u00f3n 3050",
         "Capacity": "75",
         "Value": "175",
         "Funciones": null
     },
-
     {
         "Name": "Ambassador",
         "Address": "Siempreviva 123",
