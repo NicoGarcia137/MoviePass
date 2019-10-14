@@ -4,9 +4,9 @@
         "firstName":"nicolas",
 		"lastName":"pafundi",
         "dni": "39256994",
-        "email": "asdsad@hotmail.com",
-        "password": "asd",
-        "descripcion": "asdasdasdasdasdas"
+        "email": "admin@moviepass.com",
+        "password": "admin",
+        "descripcion": "test"
     }
 ]   
 
