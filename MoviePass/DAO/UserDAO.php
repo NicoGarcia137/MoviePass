@@ -2,6 +2,8 @@
 
 use DAO\IUserDAO as IUserDAO;
 use Models\Usuario as User;
+use Models\PerfilUsuario as PerfilUsuario; 
+use Models\Rol as Rol; 
 
 class UserDAO implements IUserDAO{
 
@@ -13,13 +15,13 @@ class UserDAO implements IUserDAO{
         return $this->userList;
     }
 
-    public function GetUserLogin($name){
+    public function GetUserLogin($dni){
         $this->RetrieveData();
         $userFounded = null;
         
         if(!empty($this->userList)){
             foreach($this->userList as $user){
-                if($user->getEmail() == $Email){
+                if($user->getDni() == $dni){
                     $userFounded = $user;
                 }
             }
@@ -34,7 +36,7 @@ class UserDAO implements IUserDAO{
         if(!empty($this->userList)){
             foreach($this->userList as $user){
                 if($user->getEmail() == $Email){
-                    $userFounded = $user;
+                    $userFounded = $user; 
                 }
             }
         }
@@ -57,13 +59,20 @@ class UserDAO implements IUserDAO{
 
         foreach($this->userList as $user)
         {
+           $perfilUsuario=new PerfilUsuario();
+           $rol=new Rol();
+            
+           
+            $valuesArray["firstName"] = $perfilUsuario->setFirstName();
+            $valuesArray["lastName"] = $perfilUsuario->setLastName();
+            $valuesArray["dni"] =$perfilUsuario->setDni();
+            $valuesArray["email"] = $user->setEmail();
+            $valuesArray["password"] = $user->setPassword();
+            $valuesArray["descripcion"] = $rol->setDescripcion();
+            $user->setPerfilUsuario($perfilUsuario);
+            $user->setRol($rol);
 
-            $valuesArray["perfilUsuario"] =$user->getPerfilUsuario();
-            $valuesArray["firstName"] = $user->getFirstName();
-            $valuesArray["lastName"] = $user->getLastName();
-            $valuesArray["rol"] = $user->getRol();
-
-            array_push($arrayToEncode, $valuesArray);
+            array_push($arrayToEncode,$valuesArray);
         }
 
         $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
@@ -84,20 +93,20 @@ class UserDAO implements IUserDAO{
             foreach($arrayToDecode as $valuesArray)
             {
                 $user = new User();
-                $user->setFirstName($valuesArray["firstName"]);
-                $user->setLastName($valuesArray["lastName"]);
-
                 $usuario= new PerfilUsuario();
-                $usuario->set();
-                $usuario->
-                $user->setPerfilUsuario($valuesArray["perfilUsuario"]);
+                $rolUser=new Rol();
 
+                $usuario->setFirstName($valuesArray["firstName"]);
+                $usuario->setLastName($valuesArray["lastName"]);
+                $usuario->setDni($valuesArray["dni"]);
+                
+                $rolUser->setDescripcion($valuesArray["descripcion"])
 
-                $user->setRol($valuesArray["rol"]);
-
-
-
+                 
+                $user->setPerfilUsuario($usuario);
+                $user->setEmail($valuesArray["email"]);
                 $user->setPassword($valuesArray["password"]);
+                $user->setRol($rolUser);
 
                 array_push($this->userList, $user);
             }
