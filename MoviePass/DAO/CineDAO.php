@@ -39,7 +39,17 @@ class CineDAO implements ICineDAO{
                 unset($this->cineList[$key]);
             }
         }
+        
         array_push($this->cineList, $cine);
+
+        usort($this->cineList,function ($a, $b)
+        {
+            if ($a == $b) {
+                return 0;
+            }
+            return ($a < $b) ? -1 : 1;
+        });
+
 
         $this->SaveData();
     }

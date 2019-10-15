@@ -80,5 +80,8 @@
             $cines=$this->GetAllCines();
             require_once(VIEWS_PATH."listarCinesUsuario.php");
         }
+        public function ShowIndexView(){
+            require_once(VIEWS_PATH."index.php");
+        }
     }
 ?>
