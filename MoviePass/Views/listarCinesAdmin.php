@@ -25,6 +25,8 @@ include_once("navAdmin.php");
                     <div class="address">
 
                         <div class="fleft">
+                            
+                            <span>Id:</span> <?php echo $cine->getId() ?> <br>
                             <span>Nombre:</span> <?php echo $cine->getName() ?> <br>
                             <span>Direccion:</span> <?php echo $cine->getAddress() ?> <br>
                             <span>Capacidad:</span> <?php echo $cine->getCapacity() ?> <br>
@@ -38,7 +40,7 @@ include_once("navAdmin.php");
                             
                             <form action="<?php echo FRONT_ROOT."Cine/ShowModifyView" ?>">
                         
-                                <input type=submit class="optButton optButton-block" value="Modificar">
+                                <button class="optButton optButton-block" type="submit" name="id" value="<?php echo $cine->getId() ?>" >Modificar</button>
                         
                             </form>
 
@@ -46,7 +48,7 @@ include_once("navAdmin.php");
                             
                             <form action="<?php echo FRONT_ROOT."Cine/RemoveCine" ?>">
                         
-                                <button class="optButton optButton-block" type="submit" name="name" value="<?php echo $cine->getName() ?>" >Eliminar</button>
+                                <button class="optButton optButton-block" type="submit" name="id" value="<?php echo $cine->getId() ?>" >Eliminar</button>
                         
                             </form>
 

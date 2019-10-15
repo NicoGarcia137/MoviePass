@@ -8,6 +8,6 @@
     {
         function Add(Cine $newCine);
         function GetAll();
-        function GetByCineName($cineName);
+        function GetById($id);
     }
 ?>

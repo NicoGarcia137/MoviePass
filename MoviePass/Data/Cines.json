@@ -1,23 +1,10 @@
 [
     {
-        "Name": "Paseo Aldrey",
-        "Address": "Sarmiento 2685",
-        "Capacity": "50",
-        "Value": "200",
-        "Funciones": null
-    },
-    {
-        "Name": "Cinemacenter",
-        "Address": "Diagonal Pueyrred\u00f3n 3050",
-        "Capacity": "75",
-        "Value": "175",
-        "Funciones": null
-    },
-    {
-        "Name": "Ambassador",
-        "Address": "Siempreviva 123",
-        "Capacity": "60",
-        "Value": "190",
+        "Id": "1",
+        "Name": "qweeeeeeeeeeeeeeeeeeeasd",
+        "Address": "wqe",
+        "Capacity": "wqe",
+        "Value": "qewasddddddddddd",
         "Funciones": null
     }
 ]

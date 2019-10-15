@@ -1,6 +1,7 @@
 <?php
 namespace Models;
     class Cine{
+        private $id;
         private $Name;
         private $Address;
         private $Capacity;
@@ -8,7 +9,16 @@ namespace Models;
         private $Funciones;
 
         
+        public function getId()
+        {
+                return $this->id;
+        }
 
+
+        public function setId($id)
+        {
+                $this->id = $id;
+        }
 
         public function getName()
         {
