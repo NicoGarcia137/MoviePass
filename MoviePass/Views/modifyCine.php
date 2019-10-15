@@ -23,27 +23,27 @@ include_once("navAdmin.php");
                             
                                  <div class="field-wrap">
                                     <label class="log-label" for="name">Id</label>
-                                    <input class="log-input" type="text" name="id"  value="<?php echo $cine->getId(); ?>"readonly>
+                                    <input class="log-input" type="text" name="id"  value="<?php echo $cine->getId(); ?>" required readonly>
                                 </div>
 
                                 <div class="field-wrap">
                                     <label class="log-label" for="name">Nombre</label>
-                                    <input class="log-input" type="text" name="name"  value="<?php echo $cine->getName(); ?>">
+                                    <input class="log-input" type="text" name="name"  value="<?php echo $cine->getName(); ?>"required>
                                 </div>
 
                                 <div class="field-wrap">
                                     <label class="log-label" for="name">Direccion</label>
-                                    <input class="log-input" type="text" name="address" value="<?php echo $cine->getAddress(); ?>">
+                                    <input class="log-input" type="text" name="address" value="<?php echo $cine->getAddress(); ?>"required>
                                 </div>
 
                                 <div class="field-wrap">
                                     <label class="log-label" for="name">Capacidad</label>
-                                    <input class="log-input" type="number" name="capacity" value="<?php echo $cine->getCapacity(); ?>">
+                                    <input class="log-input" type="number" name="capacity" value="<?php echo $cine->getCapacity(); ?>"required>
                                 </div>
 
                                 <div class="field-wrap">
                                     <label class="log-label" for="name">Tarifa</label>
-                                    <input class="log-input" type="number" name="value" value="<?php echo $cine->getValue(); ?>">
+                                    <input class="log-input" type="number" name="value" value="<?php echo $cine->getValue(); ?>"required>
                                 </div>
 
                                 <input type=submit class="button button-block" value="Modificar">

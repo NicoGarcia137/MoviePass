@@ -21,8 +21,8 @@
                     <form action="<?php echo FRONT_ROOT."Cine/RemoveCine" ?>" method="post">
 
                         <div class="field-wrap">
-                            <label class="log-label" for="name">Nombre</label>
-                            <input class="log-input" type="text" name="name" required>
+                            <label class="log-label" for="name">Id Cine</label>
+                            <input class="log-input" type="number" name="name" required>
                         </div>
                         
 

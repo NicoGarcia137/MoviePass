@@ -20,13 +20,13 @@
             return $user;
         }
 
-        public function Add( $firstName,$lastName,$dni,$email, $password,$newRol)
+        public function Add( $firstName,$lastName,$dni,$email, $password)
         {
             if($this->getUserByEmail($email)==null){
                 $User = new User();
                 $perfilUsuario=new PerfilUsuario();
                 $rol = new Rol();
-                $rol->setDescripcion($newRol);
+                $rol->setDescripcion("user");
     
                 $perfilUsuario->setFirstName($firstName);
                 $perfilUsuario->setLastName($lastName);
