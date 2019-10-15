@@ -3,44 +3,51 @@
 
     use DAO\CineDAO as CineDAO;
     use Models\Cine as Cine;
+    use DAO\CineDAOPDO as CineDAOPDO;
 
     class CineController
     {
         private $CineDAO;
+        private $CineDAOPDO;
 
         public function __construct()
         {
             $this->CineDAO = new CineDAO();
+            $this->CineDAOPDO=new CineDAOPDO();
         }
 
 
         public function GetAllCines(){
-           return $this->CineDAO->GetAll();
+           return $this->CineDAOPDO->GetAll();
         }
 
         public function GetCine($id){
-            $cine= $this->CineDAO->GetById($id);
+            $cine= $this->CineDAOPDO->GetById($id);
             return $cine;
          }
 
-        public function Add($name, $address, $capacity,$value,$funciones=null)
-        {
-
-            $Cine = new Cine();
-            $Cine->setName($name);
-            $Cine->setAddress($address);
-            $Cine->setCapacity($capacity);
-            $Cine->setValue($value);
-            $Cine->setFunciones($funciones);
-
-            $this->CineDAO->Add($Cine);
-
-            $this->ShowAddView();
-        }
+        
+            public function Add($name, $address, $capacity,$value,$funciones=null)
+            {
+               
+                $Cine = new Cine();
+                $Cine->setName($name);
+                $Cine->setAddress($address);
+                $Cine->setCapacity($capacity);
+                $Cine->setValue($value);
+                $Cine->setFunciones($funciones);
+    
+                $this->CineDAOPDO->Add($Cine);
+    
+                $this->ShowAddView();
+         
+            }
+      
+      
         
         public function RemoveCine($id){
             $cine= $this->GetCine($id);
-            $this->CineDAO->RemoveCine($cine);
+            $this->CineDAOPDO->RemoveCine($cine);
             $this->ShowListCinesAdminView();
         }
 
@@ -52,9 +59,45 @@
             $Cine->setCapacity($capacity);
             $Cine->setValue($value);
 
-            $this->CineDAO->ModifyCine($Cine);
+            $this->CineDAOPDO->ModifyCine($Cine);
             $this->ShowListCinesAdminView();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
         public function ShowAddView()
         {
