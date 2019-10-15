@@ -15,32 +15,47 @@
             $this->UserDAO = new UserDAO();
         }
 
-        public function Add($dni, $password, $firstName,$lastName,$email,$rol="usuario")
+        public function getUserByEmail($email){
+            $user = $this->UserDAO->GetByEmail($email);
+            return $user;
+        }
+
+        public function Add( $firstName,$lastName,$dni,$email, $password,$newRol)
         {
-            $User = new User();
-            $perfilUsuario=new PerfilUsuario();
-            $rol = new Rol();
-            
-            $rol->setDescripcion($rol);
-
-            $perfilUsuario->setFirstName($firstName);
-            $perfilUsuario->setLastName($lastName);
-            $perfilUsuario->setDni($dni);
-
-
-            $User->setPerfilUsuario($perfilUsuario);
-            $User->setPassword($password);
-            $User->setEmail($email);
-            $User->setRol($rol);
-
-
-            $this->UserDAO->Add($User);
-            
-            $this->ShowIndexView();
+            if($this->getUserByEmail($email)==null){
+                $User = new User();
+                $perfilUsuario=new PerfilUsuario();
+                $rol = new Rol();
+                $rol->setDescripcion($newRol);
+    
+                $perfilUsuario->setFirstName($firstName);
+                $perfilUsuario->setLastName($lastName);
+                $perfilUsuario->setDni($dni);
+    
+    
+                $User->setPerfilUsuario($perfilUsuario);
+                $User->setPassword($password);
+                $User->setEmail($email);
+                $User->setRol($rol);
+    
+    
+                $this->UserDAO->Add($User);
+                
+                $this->ShowLoginView();
+            }else{
+                echo "<script> 
+                    if(confirm('Email ya existente en nuestra base de datos')){ 
+                    }
+                 </script>";
+                $this->ShowSignUpView();
+            }
+           
         }
 
 
-
+        public function ShowLoginView(){
+            require_once(VIEWS_PATH."login.php");
+        }
         public function ShowIndexView()
         {      
             require_once(VIEWS_PATH."index.php");

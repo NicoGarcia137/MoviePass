@@ -15,8 +15,6 @@ class LoginController
 
     public function Login($email, $password)
     {
-        $this->ShowAdminView();
-        /*
         $user = $this->UserDAO->GetByEmail($email);
 
         if(($user != null) && ($user->getPassword() === $password))
@@ -24,20 +22,26 @@ class LoginController
             $_SESSION["loggedUser"] = $user;
 
             
-            if($user->getRol()=="admin"){
+            if($user->getRol()->getDescripcion()==="admin"){
                 $this->ShowAdminView();
             }else{
                 $this->ShowUserView();
             }
         }
-        else
-            $this->Index("Usuario y/o Contraseña incorrectos");*/
+        else{
+            echo "<script> 
+            if(confirm('Usuario y/o Contraseña incorrectos')){ 
+            }
+            </script>";
+            $this->ShowLoginView();
+        }
+      
     }
 
     public function Logout()
     {
         session_destroy();
-        $this->Index();
+        $this->ShowUserView();
     }
 
     public function ShowLoginView(){
@@ -53,23 +57,7 @@ class LoginController
     }
 
 
-    public function CheckLoginUser(){
-         $check=false;
-        $user= $_SESSION["loggedUser"];
-         if($user->getRol()=="admin"){
-            $check=true;
-         }
-         return $check;
-     }
-
-     public function CheckLoginAdmin(){
-        $check=false;
-        $user= $_SESSION["loggedUser"];
-         if($user->getRol()=="admin"){
-            $check=true;
-         }
-         return $check;
-     }
+    
 
 }
 
