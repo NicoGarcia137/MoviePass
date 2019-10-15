@@ -3,11 +3,10 @@
 use DAO\ICineDAO as ICineDAO;
 use Models\Cine as Cine;
 use DAO\Connection as Connection;
-class CineDAO implements ICineDAO{
+class CineDAOPDO implements ICineDAO{
 
   
     private $connection;
-    private $tableName ="cines";
 
 
     
@@ -17,7 +16,7 @@ class CineDAO implements ICineDAO{
             {
                 $cineList = array();
 
-                $query = "SELECT * FROM ".$this->tableName;
+                $query = "SELECT * FROM "."cines;";
 
                 $this->connection = Connection::GetInstance();
 
@@ -26,10 +25,12 @@ class CineDAO implements ICineDAO{
                 foreach ($resultSet as $row)
                 {                
                     $cine = new Cine();
+                    
+                    $cine->setId($row["Id"]);
                     $cine->setName($row["name_cine"]);
-                    $cine->set($row["address_cine"]);
-                    $cine->set($row["capacity"]);
-                    $cine->set($row["value"]);
+                    $cine->setAddress($row["address_cine"]);
+                    $cine->setCapacity($row["capacity"]);
+                    $cine->setValue($row["value"]);
                     
 
                     array_push($cineList, $cine);
@@ -46,13 +47,13 @@ class CineDAO implements ICineDAO{
 
    
 
-    public function SearchByName(Cine $cine)
+    public function GetById($id)
     {
         try
         {
            
 
-            $query = "SELECT * FROM ".$this->tableName ."WHERE".$this->tableName .".name_cine =".$cine->getName().";";
+            $query = "SELECT * FROM cines WHERE cines.Id =".$id.";";
 
             $this->connection = Connection::GetInstance();
 
@@ -61,6 +62,7 @@ class CineDAO implements ICineDAO{
             foreach ($resultSet as $row)
             {                
                 $cineSearch = new Cine();
+                $cineSearch->setId($row['Id']);
                 $cineSearch->setName($row["name_cine"]);
                 $cineSearch->setAddress($row["address_cine"]);
                 $cineSearch->setCapacity($row["capacity"]);
@@ -78,14 +80,15 @@ class CineDAO implements ICineDAO{
         }
     }
     
-    public function ModifiyCine(Cine $cine)
+    public function ModifyCine($cine)
         {
             try
             {
-                $query = "UPDATE ".$this->tableName."SET"."name_cine=".$cine->getName().",address_cine=".$cine->getAddress().",capacity=".$cine->getCapacity().",value=".$cine->getValue()."WHERE name_cine=".$cine->getName().";";
+                $comilla="'";
+                $query = "UPDATE cines SET name_cine= "."'".$cine->getName()."'"." ,address_cine= "."'".$cine->getAddress()."'"." ,capacity= ".$cine->getCapacity()." ,value= ".$cine->getValue()." WHERE Id= ".$cine->getId().";";
 
                 $this->connection = Connection::GetInstance();
-
+                echo "<script>if(confirm('echo $query'));</script>";
                 $this->connection->ExecuteNonQuery($query);
             }
             catch(Exception $ex)
@@ -93,12 +96,12 @@ class CineDAO implements ICineDAO{
                 throw $ex;
             }
         }
-    public function RemoveCine(Cine $cine)
+    public function RemoveCine($cine)
     {
         try
         { //FIJARSE EL NOMBRE DE LA TABLA POR TABLENAME
             
-            $query = "DELETE FROM".$this->tableName."WHERE"."id_cine=".$cine->getIdCine()."LIMIT 1;";
+            $query = "DELETE FROM cines WHERE Id="."'".$cine->getId()."'".";";
 
             $this->connection = Connection::GetInstance();
 
@@ -110,24 +113,26 @@ class CineDAO implements ICineDAO{
         }
     }
   
-    public function Add(Cine $cine)
+    public function Add($cine)
         {
             try
             {
-                $query = "INSERT INTO ".$this->tableName." (name_cine, address_cine, capacity,value) VALUES (:name_cine, :address_cine, :capacity, :value);";
+               
+
+                $query = "INSERT INTO cines (name_cine, address_cine, capacity,value) VALUES (:name_cine, :address_cine, :capacity, :value);";
                 
                 $parameters["name_cine"] = $cine->getName();
                 $parameters["address_cine"] = $cine->getAddress();
                 $parameters["capacity"] = $cine->getCapacity();
                 $parameters["value"] = $cine->getValue();
-
-                $this->connection = Connection::GetInstance();
-
+               
+                $this->connection = Connection::GetInstance();                
                 $this->connection->ExecuteNonQuery($query, $parameters);
+                
             }
             catch(Exception $ex)
             {
-                throw $ex;
+                var_dump($ex);
             }
         }
  } 
