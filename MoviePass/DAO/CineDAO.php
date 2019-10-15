@@ -13,13 +13,13 @@ class CineDAO implements ICineDAO{
         return $this->cineList;
     }
 
-    public function GetByCineName($name){
+    public function GetById($id){
         $this->RetrieveData();
         $cineFounded = null;
         
         if(!empty($this->cineList)){
             foreach($this->cineList as $cine){
-                if($cine->getName() == $name){
+                if($cine->getId() == $id){
                     $cineFounded = $cine;
                 }
             }
@@ -28,9 +28,30 @@ class CineDAO implements ICineDAO{
         return $cineFounded;
     }
 
-    public function ModifyCine()
+    public function ModifyCine($cine)
     {
+        $this->RetrieveData();
+
+        foreach($this->cineList as $cineValue){
+
+            if($cineValue->getId() == $cine->getId()){
+                $key = array_search($cineValue, $this->cineList);
+                unset($this->cineList[$key]);
+            }
+        }
         
+        array_push($this->cineList, $cine);
+
+        usort($this->cineList,function ($a, $b)
+        {
+            if ($a == $b) {
+                return 0;
+            }
+            return ($a < $b) ? -1 : 1;
+        });
+
+
+        $this->SaveData();
     }
 
     public function RemoveCine($cine){
@@ -38,7 +59,7 @@ class CineDAO implements ICineDAO{
 
         foreach($this->cineList as $cineValue){
 
-            if($cineValue->GetName() == $cine->getName()){
+            if($cineValue->getId() == $cine->getId()){
                 $key = array_search($cineValue, $this->cineList);
                 unset($this->cineList[$key]);
             }
@@ -51,14 +72,24 @@ class CineDAO implements ICineDAO{
         echo " </script>";
     }
 
+
     public function Add(Cine $newCine){
         
         $this->RetrieveData();
-        
+        $id=0;
+        foreach($this->cineList as $cine){
+            if($id<=$cine->getId()){
+                $id=$cine->getId();
+                $id++;
+            }
+        }
+        $newCine->setId($id);
         array_push($this->cineList, $newCine);
 
         $this->SaveData();
     }
+
+    
 
     private function SaveData()
     {
@@ -66,6 +97,7 @@ class CineDAO implements ICineDAO{
 
         foreach($this->cineList as $cine)
         {
+            $valuesArray["Id"] = $cine->getId();
             $valuesArray["Name"] = $cine->getName();
             $valuesArray["Address"] = $cine->getAddress();
             $valuesArray["Capacity"] = $cine->getCapacity();
@@ -93,6 +125,7 @@ class CineDAO implements ICineDAO{
             foreach($arrayToDecode as $valuesArray)
             {
                 $cine = new Cine();
+                $cine->setId($valuesArray["Id"]);
                 $cine->setName($valuesArray["Name"]);
                 $cine->setAddress($valuesArray["Address"]);
                 $cine->setCapacity($valuesArray["Capacity"]);

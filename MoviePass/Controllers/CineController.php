@@ -18,8 +18,8 @@
            return $this->CineDAO->GetAll();
         }
 
-        public function GetCine($name){
-            $cine= $this->CineDAO->GetByCineName($name);
+        public function GetCine($id){
+            $cine= $this->CineDAO->GetById($id);
             return $cine;
          }
 
@@ -38,9 +38,21 @@
             $this->ShowAddView();
         }
         
-        public function RemoveCine($name){
-            $cine= $this->GetCine($name);
+        public function RemoveCine($id){
+            $cine= $this->GetCine($id);
             $this->CineDAO->RemoveCine($cine);
+            $this->ShowListCinesAdminView();
+        }
+
+        public function ModifyCine($id,$name, $address, $capacity,$value){
+            $Cine = new Cine();
+            $Cine->setId($id);
+            $Cine->setName($name);
+            $Cine->setAddress($address);
+            $Cine->setCapacity($capacity);
+            $Cine->setValue($value);
+
+            $this->CineDAO->ModifyCine($Cine);
             $this->ShowListCinesAdminView();
         }
         
@@ -49,8 +61,9 @@
             require_once(VIEWS_PATH."addCine.php");
         }
 
-        public function ShowModifyView()
+        public function ShowModifyView($id)
         {
+            $cine=$this->GetCine($id);
             require_once(VIEWS_PATH."modifyCine.php");
         }
 
@@ -66,6 +79,9 @@
         public function ShowListCinesView(){
             $cines=$this->GetAllCines();
             require_once(VIEWS_PATH."listarCinesUsuario.php");
+        }
+        public function ShowIndexView(){
+            require_once(VIEWS_PATH."index.php");
         }
     }
 ?>

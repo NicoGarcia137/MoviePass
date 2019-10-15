@@ -7,16 +7,10 @@ if($_SESSION){
   if($user->getRol()->getDescripcion()==="admin"){
 
   }else{
-    echo "<script> 
-    if(confirm('no tiene permisos suficientes para acceder')){ 
-    }
-    </script>";
+    header("location:../index.php");
   }
 }else{
-  echo "<script> 
-  if(confirm('debe loguearse para acceder')){ 
-  }
-  </script>";
+    header("location:../index.php");
 }
 
 
