@@ -1,12 +1,18 @@
 [
     {
-        
-        "firstName":"nicolas",
-		"lastName":"pafundi",
-        "dni": "39256994",
-        "email": "admin@moviepass.com",
-        "password": "admin",
-        "descripcion": "test"
+        "firstName": "nicolas",
+        "lastName": "Pafundi",
+        "dni": "123",
+        "email": "qweqwe@qwewqe",
+        "password": "213213",
+        "rol": "admin"
+    },
+    {
+        "firstName": "Nicol\u00e1s",
+        "lastName": "qwe",
+        "dni": "213",
+        "email": "niico.pafundi@hotmail.com",
+        "password": "123",
+        "rol": "admin"
     }
-]   
-
+]

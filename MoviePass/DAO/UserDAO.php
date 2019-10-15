@@ -58,35 +58,33 @@ class UserDAO implements IUserDAO{
         $arrayToEncode = array();
 
         foreach($this->userList as $user)
-        {
-           $perfilUsuario=new PerfilUsuario();
-           $rol=new Rol();
-            
+        {            
            
-            $valuesArray["firstName"] = $perfilUsuario->setFirstName();
-            $valuesArray["lastName"] = $perfilUsuario->setLastName();
-            $valuesArray["dni"] =$perfilUsuario->setDni();
-            $valuesArray["email"] = $user->setEmail();
-            $valuesArray["password"] = $user->setPassword();
-            $valuesArray["descripcion"] = $rol->setDescripcion();
-            $user->setPerfilUsuario($perfilUsuario);
-            $user->setRol($rol);
+            $perfilUsuario=$user->getPerfilUsuario();
+            $rol=$user->getRol();
+
+            $valuesArray["firstName"] = $perfilUsuario->getFirstName();
+            $valuesArray["lastName"] = $perfilUsuario->getLastName();
+            $valuesArray["dni"] =$perfilUsuario->getDni();
+            $valuesArray["email"] = $user->getEmail();
+            $valuesArray["password"] = $user->getPassword();
+            $valuesArray["rol"] = $rol->getDescripcion();
 
             array_push($arrayToEncode,$valuesArray);
         }
 
         $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
         
-        file_put_contents('../Data/users.json', $jsonContent);
+        file_put_contents('Data/users.json', $jsonContent);
     }
 
     private function RetrieveData()
     {
         $this->userList = array();
 
-        if(file_exists('../Data/users.json'))
+        if(file_exists('Data/users.json'))
         {
-            $jsonContent = file_get_contents('../Data/users.json');
+            $jsonContent = file_get_contents('Data/users.json');
 
             $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
 
@@ -100,7 +98,7 @@ class UserDAO implements IUserDAO{
                 $usuario->setLastName($valuesArray["lastName"]);
                 $usuario->setDni($valuesArray["dni"]);
                 
-                $rolUser->setDescripcion($valuesArray["descripcion"])
+                $rolUser->setDescripcion($valuesArray["rol"]);
 
                  
                 $user->setPerfilUsuario($usuario);
