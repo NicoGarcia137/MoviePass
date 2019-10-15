@@ -22,7 +22,7 @@
 
                         <div class="field-wrap">
                             <label class="log-label" for="name">Nombre</label>
-                            <input class="log-input" type="text" name="name" id="">
+                            <input class="log-input" type="text" name="name" required>
                         </div>
                         
 

@@ -4,11 +4,11 @@
 <title>Cinema World</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="<?php echo CSS_PATH; ?>style.css" rel="stylesheet" type="text/css" />
-<script src="<?php JS_PATH;?>jquery-1.4.2.min.js" type="text/javascript"></script>
-<script src="<?php JS_PATH;?>cufon-yui.js" type="text/javascript"></script>
-<script src="<?php JS_PATH;?>cufon-replace.js" type="text/javascript"></script>
-<script src="<?php JS_PATH;?>Gill_Sans_400.font.js" type="text/javascript"></script>
-<script src="<?php JS_PATH;?>script.js" type="text/javascript"></script>
+<script src="<?php echo JS_PATH;?>jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="<?php echo JS_PATH;?>cufon-yui.js" type="text/javascript"></script>
+<script src="<?php echo JS_PATH;?>cufon-replace.js" type="text/javascript"></script>
+<script src="<?php echo JS_PATH;?>Gill_Sans_400.font.js" type="text/javascript"></script>
+<script src="<?php echo JS_PATH;?>script.js" type="text/javascript"></script>
 <!--[if lt IE 7]>
 <script type="text/javascript" src="ie_png.js"></script>
 <script type="text/javascript">ie_png.fix('.png, .link1 span, .link1');</script>

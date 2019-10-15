@@ -38,12 +38,12 @@ include_once("navAdmin.php");
 
                                 <div class="field-wrap">
                                     <label class="log-label" for="name">Capacidad</label>
-                                    <input class="log-input" type="text" name="capacity" value="<?php echo $cine->getCapacity(); ?>">
+                                    <input class="log-input" type="number" name="capacity" value="<?php echo $cine->getCapacity(); ?>">
                                 </div>
 
                                 <div class="field-wrap">
                                     <label class="log-label" for="name">Tarifa</label>
-                                    <input class="log-input" type="text" name="value" value="<?php echo $cine->getValue(); ?>">
+                                    <input class="log-input" type="number" name="value" value="<?php echo $cine->getValue(); ?>">
                                 </div>
 
                                 <input type=submit class="button button-block" value="Modificar">
