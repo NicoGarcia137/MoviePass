@@ -1,26 +1,31 @@
 <?php
     namespace Controllers;
 
-    use DAO\CineDAO as CineDAO;
+    use DAO\CineDAO as CineDAOJSON;
     use Models\Cine as Cine;
     use DAO\CineDAOPDO as CineDAOPDO;
     use \Exception as Exception;
 
     class CineController
     {
-        private $CineDAO;
+        private $CineDAOJSON;
         private $CineDAOPDO;
+        private $DAO;
 
         public function __construct()
         {
-            $this->CineDAO = new CineDAO();
+            $this->CineDAOJSON = new CineDAOJSON();
             $this->CineDAOPDO=new CineDAOPDO();
+
+
+            $this->CineDAO=$this->CineDAOPDO;
         }
+
 
 
         public function GetAllCines(){
             try{
-                return $this->CineDAOPDO->GetAll();
+                return $this->CineDAO->GetAll();
              }catch(Exception $ex){
                 $message=$ex->getMessage();
                 echo "<script>if(confirm('$message'));</script>";
@@ -30,7 +35,7 @@
 
         public function GetCine($id){
             try{
-                $cine= $this->CineDAOPDO->GetById($id);
+                $cine= $this->CineDAO->GetById($id);
                 return $cine;
             }catch(Exception $ex){
                 $message=$ex->getMessage();
@@ -50,7 +55,7 @@
                 $Cine->setValue($value);
                 $Cine->setFunciones($funciones);
     
-                $this->CineDAOPDO->Add($Cine);
+                $this->CineDAO->Add($Cine);
     
                 $this->ShowAddView();
             }catch(Exception $ex){
@@ -66,7 +71,7 @@
                 $cine= $this->GetCine($id);
                 //echo "<script>if(confirm('Remove cine pero no catch : echo $cine'));</script>";
                 if($cine != null){
-                    $this->CineDAOPDO->RemoveCine($cine);
+                    $this->CineDAO->RemoveCine($cine);
                     $this->ShowListCinesAdminView();        
                 }else{
                     throw new Exception("Error, no se encuentra cine con esa Id en el sistema");
@@ -87,7 +92,7 @@
             $Cine->setCapacity($capacity);
             $Cine->setValue($value);
 
-            $this->CineDAOPDO->ModifyCine($Cine);
+            $this->CineDAO->ModifyCine($Cine);
             $this->ShowListCinesAdminView();
         }catch(Exception $ex){
             echo "<script>if(confirm('echo $ex'));</script>";

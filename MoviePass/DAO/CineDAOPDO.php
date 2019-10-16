@@ -38,6 +38,15 @@ class CineDAOPDO implements ICineDAO{
                     array_push($cineList, $cine);
                 }
 
+
+                usort($cineList,function ($a, $b){
+                    if($a == $b) {
+                        return 0;
+                    }
+                    return ($a < $b) ? -1 : 1;
+                });
+
+
                 return $cineList;
             }
             catch(Exception $ex)
