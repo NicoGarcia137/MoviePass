@@ -3,6 +3,8 @@
 use DAO\ICineDAO as ICineDAO;
 use Models\Cine as Cine;
 use DAO\Connection as Connection;
+use \Exception as Exception;
+
 class CineDAOPDO implements ICineDAO{
 
   
@@ -58,7 +60,7 @@ class CineDAOPDO implements ICineDAO{
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
-            
+            $cineSearch=null;
             foreach ($resultSet as $row)
             {                
                 $cineSearch = new Cine();
@@ -71,6 +73,7 @@ class CineDAOPDO implements ICineDAO{
 
                 
             }
+            
   
             return $cineSearch;
         }
@@ -84,7 +87,7 @@ class CineDAOPDO implements ICineDAO{
         {
             try
             {
-                $comilla="'";
+               
                 $query = "UPDATE cines SET name_cine= "."'".$cine->getName()."'"." ,address_cine= "."'".$cine->getAddress()."'"." ,capacity= ".$cine->getCapacity()." ,value= ".$cine->getValue()." WHERE Id= ".$cine->getId().";";
 
                 $this->connection = Connection::GetInstance();

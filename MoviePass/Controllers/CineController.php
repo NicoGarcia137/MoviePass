@@ -4,6 +4,7 @@
     use DAO\CineDAO as CineDAO;
     use Models\Cine as Cine;
     use DAO\CineDAOPDO as CineDAOPDO;
+    use \Exception as Exception;
 
     class CineController
     {
@@ -18,18 +19,30 @@
 
 
         public function GetAllCines(){
-           return $this->CineDAOPDO->GetAll();
+            try{
+                return $this->CineDAOPDO->GetAll();
+             }catch(Exception $ex){
+                $message=$ex->getMessage();
+                echo "<script>if(confirm('$message'));</script>";
+            }
+           
         }
 
         public function GetCine($id){
-            $cine= $this->CineDAOPDO->GetById($id);
-            return $cine;
+            try{
+                $cine= $this->CineDAOPDO->GetById($id);
+                return $cine;
+            }catch(Exception $ex){
+                $message=$ex->getMessage();
+                echo "<script>if(confirm('$message'));</script>";
+            }
+           
          }
 
         
             public function Add($name, $address, $capacity,$value,$funciones=null)
             {
-               
+               try{
                 $Cine = new Cine();
                 $Cine->setName($name);
                 $Cine->setAddress($address);
@@ -40,18 +53,33 @@
                 $this->CineDAOPDO->Add($Cine);
     
                 $this->ShowAddView();
-         
+            }catch(Exception $ex){
+                $message=$ex->getMessage();
+                echo "<script>if(confirm('$message'));</script>";
+            }
             }
       
       
         
         public function RemoveCine($id){
-            $cine= $this->GetCine($id);
-            $this->CineDAOPDO->RemoveCine($cine);
-            $this->ShowListCinesAdminView();
+            try{
+                $cine= $this->GetCine($id);
+                //echo "<script>if(confirm('Remove cine pero no catch : echo $cine'));</script>";
+                if($cine != null){
+                    $this->CineDAOPDO->RemoveCine($cine);
+                    $this->ShowListCinesAdminView();        
+                }else{
+                    throw new Exception("Error, no se encuentra cine con esa Id en el sistema");
+                }
+                }catch(Exception $ex){
+                $message=$ex->getMessage();
+                echo "<script>if(confirm('$message'));</script>";
+                $this->ShowListCinesAdminView(); 
+            }
         }
 
         public function ModifyCine($id,$name, $address, $capacity,$value){
+            try{
             $Cine = new Cine();
             $Cine->setId($id);
             $Cine->setName($name);
@@ -61,37 +89,10 @@
 
             $this->CineDAOPDO->ModifyCine($Cine);
             $this->ShowListCinesAdminView();
+        }catch(Exception $ex){
+            echo "<script>if(confirm('echo $ex'));</script>";
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }
 
 
 

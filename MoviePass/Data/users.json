@@ -14,5 +14,13 @@
         "email": "niico.pafundi@hotmail.com",
         "password": "123",
         "rol": "admin"
+    },
+    {
+        "firstName": "Nicol\u00e1s",
+        "lastName": "qwe",
+        "dni": "123",
+        "email": "a@a",
+        "password": "a",
+        "rol": "admin"
     }
 ]
