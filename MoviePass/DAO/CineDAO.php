@@ -9,6 +9,13 @@ class CineDAO implements ICineDAO{
 
     public function GetAll(){
         $this->RetrieveData();
+        usort($this->cineList,function ($a, $b)
+        {
+            if ($a == $b) {
+                return 0;
+            }
+            return ($a < $b) ? -1 : 1;
+        });
 
         return $this->cineList;
     }
@@ -68,8 +75,6 @@ class CineDAO implements ICineDAO{
 
         $this->SaveData();
 
-        echo "<script> if(confirm('Cine eliminado correctamente'));";  
-        echo " </script>";
     }
 
 
