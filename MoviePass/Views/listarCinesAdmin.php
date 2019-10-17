@@ -25,18 +25,23 @@ include_once("navAdmin.php");
                     <div class="address">
 
                         <div class="fleft">
-                            
-                            <span>Id:</span> <?php echo $cine->getId() ?> <br>
-                            <span>Nombre:</span> <?php echo $cine->getName() ?> <br>
-                            <span>Direccion:</span> <?php echo $cine->getAddress() ?> <br>
-                            <span>Capacidad:</span> <?php echo $cine->getCapacity() ?> <br>
-                            <span>Tarifa:</span> <?php echo "$" . $cine->getValue() ?>
+                            <br>
+                            <div class="cineText">
+                                <span>Id:</span> <?php echo $cine->getId() ?> <br>
+                                <span>Nombre:</span> <?php echo $cine->getName() ?> <br>
+                                <span>Direccion:</span> <?php echo $cine->getAddress() ?> <br>
+                                <span>Capacidad:</span> <?php echo $cine->getCapacity() ?> <br>
+                                <span>Tarifa:</span> <?php echo "$" . $cine->getValue() ?>
+                            </div>
 
-                            <br><br> FALTA AGREGAR LAS PELICULAS DE CADA CINE ( OPCIONAL )
-                            
+                            <br><br>
+                            <h3>Peliculas disponibles </span> </h3> 
+
                         </div>
 
                         <div class="fright">
+
+                            <br><br>
                             
                             <form action="<?php echo FRONT_ROOT."Cine/ShowModifyView" ?>">
                         
@@ -53,6 +58,8 @@ include_once("navAdmin.php");
                             </form>
 
                         </div>
+
+                        <?php include_once("movieCarousel.php"); ?>
                         
                     </div>
 
@@ -63,6 +70,8 @@ include_once("navAdmin.php");
     <br>
         
 <?php    }  ?>
+
+
 
 <?php
  include('footer.php') 
