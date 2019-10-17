@@ -1,11 +1,11 @@
 <?php namespace DAO;
 
-use DAO\ICineDAO as ICineDAO;
-use Models\Cine as Cine;
+use DAO\IBilldboardDAO as IBilldboardDAO;
+use Models\Billdboard as Billdboard;
 use DAO\Connection as Connection;
 use \Exception as Exception;
 
-class CineDAOPDO implements ICineDAO{
+class BilldboardDAOPDO implements IBilldboardDAO{
 
   
     private $connection;
@@ -16,9 +16,9 @@ class CineDAOPDO implements ICineDAO{
         {
             try
             {
-                $CineList = array();
+                $BilldboardList = array();
 
-                $query = "SELECT * FROM "."Cines;";
+                $query = "SELECT * FROM "."Billdboards;";
 
                 $this->connection = Connection::GetInstance();
 
@@ -26,20 +26,20 @@ class CineDAOPDO implements ICineDAO{
                 
                 foreach ($resultSet as $row)
                 {                
-                    $Cine = new Cine();
+                    $Billdboard = new Billdboard();
                     
-                    $Cine->setId($row["Id"]);
-                    $Cine->setName($row["name_Cine"]);
-                    $Cine->setAddress($row["address_Cine"]);
-                    $Cine->setCapacity($row["capacity"]);
-                    $Cine->setValue($row["value"]);
+                    $Billdboard->setId($row["Id"]);
+                    $Billdboard->setName($row["name_Billdboard"]);
+                    $Billdboard->setAddress($row["address_Billdboard"]);
+                    $Billdboard->setCapacity($row["capacity"]);
+                    $Billdboard->setValue($row["value"]);
                     
 
-                    array_push($CineList, $Cine);
+                    array_push($BilldboardList, $Billdboard);
                 }
 
 
-                usort($CineList,function ($a, $b){
+                usort($BilldboardList,function ($a, $b){
                     if($a == $b) {
                         return 0;
                     }
@@ -47,7 +47,7 @@ class CineDAOPDO implements ICineDAO{
                 });
 
 
-                return $CineList;
+                return $BilldboardList;
             }
             catch(Exception $ex)
             {
@@ -64,27 +64,27 @@ class CineDAOPDO implements ICineDAO{
         {
            
 
-            $query = "SELECT * FROM Cines WHERE Cines.Id =".$id.";";
+            $query = "SELECT * FROM Billdboards WHERE Billdboards.Id =".$id.";";
 
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
-            $CineSearch=null;
+            $BilldboardSearch=null;
             foreach ($resultSet as $row)
             {                
-                $CineSearch = new Cine();
-                $CineSearch->setId($row['Id']);
-                $CineSearch->setName($row["name_Cine"]);
-                $CineSearch->setAddress($row["address_Cine"]);
-                $CineSearch->setCapacity($row["capacity"]);
-                $CineSearch->setValue($row["value"]);
+                $BilldboardSearch = new Billdboard();
+                $BilldboardSearch->setId($row['Id']);
+                $BilldboardSearch->setName($row["name_Billdboard"]);
+                $BilldboardSearch->setAddress($row["address_Billdboard"]);
+                $BilldboardSearch->setCapacity($row["capacity"]);
+                $BilldboardSearch->setValue($row["value"]);
                 
 
                 
             }
             
   
-            return $CineSearch;
+            return $BilldboardSearch;
         }
         catch(Exception $ex)
         {
@@ -92,12 +92,12 @@ class CineDAOPDO implements ICineDAO{
         }
     }
     
-    public function ModifyCine($Cine)
+    public function ModifyBilldboard($Billdboard)
         {
             try
             {
                
-                $query = "UPDATE Cines SET name_Cine= "."'".$Cine->getName()."'"." ,address_Cine= "."'".$Cine->getAddress()."'"." ,capacity= ".$Cine->getCapacity()." ,value= ".$Cine->getValue()." WHERE Id= ".$Cine->getId().";";
+                $query = "UPDATE Billdboards SET name_Billdboard= "."'".$Billdboard->getName()."'"." ,address_Billdboard= "."'".$Billdboard->getAddress()."'"." ,capacity= ".$Billdboard->getCapacity()." ,value= ".$Billdboard->getValue()." WHERE Id= ".$Billdboard->getId().";";
 
                 $this->connection = Connection::GetInstance();
                 echo "<script>if(confirm('echo $query'));</script>";
@@ -108,12 +108,12 @@ class CineDAOPDO implements ICineDAO{
                 throw $ex;
             }
         }
-    public function RemoveCine($Cine)
+    public function RemoveBilldboard($Billdboard)
     {
         try
         { //FIJARSE EL NOMBRE DE LA TABLA POR TABLENAME
             
-            $query = "DELETE FROM Cines WHERE Id="."'".$Cine->getId()."'".";";
+            $query = "DELETE FROM Billdboards WHERE Id="."'".$Billdboard->getId()."'".";";
 
             $this->connection = Connection::GetInstance();
 
@@ -125,18 +125,18 @@ class CineDAOPDO implements ICineDAO{
         }
     }
   
-    public function Add($Cine)
+    public function Add($Billdboard)
         {
             try
             {
                
 
-                $query = "INSERT INTO Cines (name_Cine, address_Cine, capacity,value) VALUES (:name_Cine, :address_Cine, :capacity, :value);";
+                $query = "INSERT INTO Billdboards (name_Billdboard, address_Billdboard, capacity,value) VALUES (:name_Billdboard, :address_Billdboard, :capacity, :value);";
                 
-                $parameters["name_Cine"] = $Cine->getName();
-                $parameters["address_Cine"] = $Cine->getAddress();
-                $parameters["capacity"] = $Cine->getCapacity();
-                $parameters["value"] = $Cine->getValue();
+                $parameters["name_Billdboard"] = $Billdboard->getName();
+                $parameters["address_Billdboard"] = $Billdboard->getAddress();
+                $parameters["capacity"] = $Billdboard->getCapacity();
+                $parameters["value"] = $Billdboard->getValue();
                
                 $this->connection = Connection::GetInstance();                
                 $this->connection->ExecuteNonQuery($query, $parameters);

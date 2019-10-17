@@ -1,29 +1,29 @@
 create database MoviePass;
 USE MoviePass;
 
-create table cines (
+create table Cines (
 Id int auto_increment,
-name_cine varchar (50) not null ,
-address_cine varchar (100) not null ,
-capacity int not null , 
-value int not null,
+Name_Cine varchar (50) not null ,
+Address_Cine varchar (100) not null ,
+Capacity int not null , 
+Value int not null,
 constraint pk_IdCine primary key (Id)
 );
-create table funciones (
-    id_funcion int auto_increment ,
-    fecha datetime not null , 
-    peliculas int not null , 
-    entradas int not null  ,
-    cine varchar (50) not null ,
-    constraint pk_id_funcion primary key (id_funcion) ,
-    constraint fk_cine foreign key (cine) references cines (Id) 
+create table Funciones (
+    Id_funcion int auto_increment ,
+    Fecha datetime not null , 
+    Pelicula int not null , 
+    Entradas int not null  ,
+    Cine varchar (50) not null ,
+    constraint pk_Id_funcion primary key (Id_funcion) ,
+    constraint fk_Cine foreign key (Cine) references Cines (Id) 
 );
 
-create table peliculas 
+create table Pelicula 
 (
     Id int auto_increment;
-      name_pelicula varchar (60) not null ,
-      duracion int not null ,
+      Name_Pelicula varchar (60) not null ,
+      Duracion int not null ,
     language_pelicula varchar (50) not null ,
      imagen varchar (200) not null , 
      constraint pk_Id_Pelicula primary key (Id) 
@@ -31,25 +31,25 @@ create table peliculas
 
 create table generos 
 (
-    id_genero int auto_increment ,
+    Id_genero int auto_increment ,
     nombre_genero varchar (50) not null ,
-    constraint pk_id_genero primary key (id_genero) 
+    constraint pk_Id_genero primary key (Id_genero) 
 );
 
 create table generoxPelicula 
-(  name_pelicula varchar (60) not null,
-   id_genero int not null , 
-   constraint pk_id_genero_pelicula primary key (name_pelicula , id_genero),
-   constraint fk_name_pelicula foreign key (name_pelicula) references peliculas (Id), 
-   constraint fk_id_genero foreign key (id_genero) references generos (id_genero) 
+(  Name_Pelicula varchar (60) not null,
+   Id_genero int not null , 
+   constraint pk_Id_genero_pelicula primary key (Name_Pelicula , Id_genero),
+   constraint fk_Name_Pelicula foreign key (Name_Pelicula) references Pelicula (Id), 
+   constraint fk_Id_genero foreign key (Id_genero) references generos (Id_genero) 
 );
-create table peliculasxfunciones 
+create table PeliculaxFunciones 
 (
-    id_funcion int not null ,
-    name_pelicula varchar(60), 
-    constraint pk_id_funcion_name_pelicula primary key (name_pelicula, id_funcion),
-    constraint fk_name_pelicula foreign key (name_pelicula) references peliculas (Id),
-    constraint fk_id_funcion foreign key (id_funcion) references funciones (id_funcion)
+    Id_funcion int not null ,
+    Name_Pelicula varchar(60), 
+    constraint pk_Id_funcion_Name_Pelicula primary key (Name_Pelicula, Id_funcion),
+    constraint fk_Name_Pelicula foreign key (Name_Pelicula) references Pelicula (Id),
+    constraint fk_Id_funcion foreign key (Id_funcion) references Funciones (Id_funcion)
 );
 
 
