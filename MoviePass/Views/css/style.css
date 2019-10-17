@@ -211,6 +211,7 @@ p {
 }
 .address span {
 	color:#fff;
+	margin: 0 20px;
 }
 .address .fleft {
 	padding-right:43px !important;
@@ -218,7 +219,7 @@ p {
 }
 .address .fleft span {
 	float:left;
-	width:80px !important;
+	width:100px !important;
 	width:77px;
 }
 a {
@@ -716,3 +717,189 @@ a {
 .movieText {
 	font-size: 18px;
 }
+
+.cineText {
+	font-size: 18px;
+}
+
+/* ----------- Carousel ----------- */
+
+html .swiper-container, body .swiper-container{
+	position: relative;
+	height: 100%;
+}
+
+body .swiper-container{
+	background: rgb(0, 0, 0);
+	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	color:rgb(0, 0, 0);
+	margin: 0;
+	padding: 0;
+}
+.swiper-container {
+	width: 100%;
+	height: 100%;
+}
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	width: 100%;
+	height: 400px;
+	/* background: #161616; */
+	/* Center slide text vertically */
+	/* display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center; */
+}
+
+.swiper-slide .imgBox {
+	width: 100%;
+	height: 300px;
+	overflow: hidden;
+}
+
+.swiper-slide .imgBox img {
+	width: 80%;
+}
+
+.swiper-slide .details {
+	box-sizing: border-box;
+	padding: 20px;
+	text-align: center;
+}
+
+.swiper-slide .details h3 {
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+}
+
+/* -------------------------------- */
+
+/* ---------- Calendar table ------------ */
+
+/* Table 1 Style */
+table.calendarTable{
+	width:100%;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.4em;
+    font-style: normal;
+    border-collapse:separate;
+}
+.calendarTable thead th{
+    padding:15px;
+    color:#fff;
+    text-shadow:1px 1px 1px rgb(143, 35, 35);
+    border:1px solid rgb(206, 55, 55);
+    border-bottom:3px solid rgb(217, 41, 41);
+    background-color:rgb(217, 41, 41);
+    background:-webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.02, rgb(192, 67, 67)),
+        color-stop(0.51, rgb(198, 66, 66)),
+        color-stop(0.87, rgb(217, 41, 41))
+        );
+    background: -moz-linear-gradient(
+        center bottom,
+        rgb(192, 67, 67) 2%,
+        rgb(198, 66, 66) 51%,
+        rgb(217, 41, 41) 87%
+        );
+    -webkit-border-top-left-radius:5px;
+    -webkit-border-top-right-radius:5px;
+    border-radius:5px 5px 0px 0px;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+}
+.calendarTable thead th:empty{
+    background:transparent;
+    border:none;
+}
+.calendarTable tbody th{
+    color:#fff;
+    text-shadow:1px 1px 1px rgb(143, 35, 35);
+    background-color:rgb(217, 41, 41);
+    border:1px solid rgb(206, 55, 55);
+    border-right:3px solid rgb(217, 41, 41);
+    padding:0px 10px;
+    background:-webkit-gradient(
+        linear,
+        left bottom,
+        right top,
+        color-stop(0.02, rgb(217, 41, 41)),
+        color-stop(0.51, rgb(198, 66, 66)),
+        color-stop(0.87, rgb(192, 67, 67))
+        );
+    background: -moz-linear-gradient(
+        left bottom,
+        rgb(217, 41, 41) 2%,
+        rgb(198, 66, 66) 51%,
+        rgb(192, 67, 67) 87%
+        );
+    border-radius:5px 0px 0px 5px;
+    -webkit-border-top-left-radius:5px;
+    -webkit-border-bottom-left-radius:5px;
+    border-top-left-radius:5px;
+    border-bottom-left-radius:5px;
+}
+.calendarTable tfoot td{
+    color: rgb(208, 9, 9);
+    font-size:32px;
+    text-align:center;
+    padding:10px 0px;
+    text-shadow:1px 1px 1px #444;
+}
+.calendarTable tfoot th{
+    color:#666;
+}
+.calendarTable tbody td{
+    padding:5px;
+    text-align:center;
+    background-color:rgb(0, 0, 0);
+    border: 2px solid rgb(43, 43, 43);
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    color:#666;
+    text-shadow:1px 1px 1px #fff;
+}
+
+.calendarTable .imgBox {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.calendarTable .imgBox img {
+	width: 90px;
+	padding: 2px 0 0 0;
+	overflow: hidden;
+}
+
+.calendarTable .details {
+	box-sizing: border-box;
+	padding: 20px;
+	text-align: center;
+}
+
+.calendarTable .details h3 {
+	margin: 0;
+	padding: 0;
+	font-size: 18px;
+}
+
+/* -------------------------------------- */
