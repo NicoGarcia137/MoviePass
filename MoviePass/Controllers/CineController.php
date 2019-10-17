@@ -18,7 +18,7 @@
             $this->CineDAOPDO=new CineDAOPDO();
 
 
-            $this->CineDAO=$this->CineDAOPDO;
+            $this->CineDAO=$this->CineDAOJSON;
         }
 
 
@@ -97,6 +97,10 @@
         }catch(Exception $ex){
             echo "<script>if(confirm('echo $ex'));</script>";
         }
+        }
+
+        public function ShowBillboard(){
+
         }
 
 

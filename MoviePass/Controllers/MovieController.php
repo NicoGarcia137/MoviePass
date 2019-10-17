@@ -3,6 +3,7 @@
 
     use DAO\MovieDAO as MovieDAO;
     use Models\Movie as Movie;
+    use Models\Genero as Genre;
     define("KEY","659f1569858f26bfcf78a91dd24bec94");
 
     class MovieController
@@ -16,7 +17,7 @@
 
 
         public function GetMoviesFromApi(){
-            $url="https://api.themoviedb.org/3/movie/now_playing?api_key=659f1569858f26bfcf78a91dd24bec94";
+            $url="https://api.themoviedb.org/3/movie/now_playing?api_key=659f1569858f26bfcf78a91dd24bec94&page=1";
             $moviesJson=file_get_contents($url);
             $moviesInc=json_decode($moviesJson,true);
             $movies=[];
@@ -45,8 +46,9 @@
                 foreach($genresListApi as $resultg){
                     foreach ($resultg as $genreApi){
                         if($genre==$genreApi['id']){
-                            $genreString=$genreApi['name'];
-                            array_push($genreFinal,$genreString);
+                            $newGenre=new Genre();
+                            $newGenre->setDescripcion($genreApi['name']);
+                            array_push($genreFinal,$newGenre);
                         }
                     }
                   

@@ -4,7 +4,7 @@ include_once("navUser.php");
 
 
 ?>
-    
+
       <div id="content">
         <div id="slogan">
           <div class="image png"></div>
