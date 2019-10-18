@@ -18,7 +18,7 @@
             $this->CineDAOPDO=new CineDAOPDO();
 
 
-            $this->CineDAO=$this->CineDAOJSON;
+            $this->CineDAO=$this->CineDAOPDO;
         }
 
 

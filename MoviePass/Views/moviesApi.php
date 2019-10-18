@@ -13,7 +13,7 @@ $baseurl="https://image.tmdb.org/t/p/w500";
 </div>
 
 <?php 
-    foreach($movies as $movie)
+    foreach($Billboard as $movie)
     {
 ?>
 
@@ -33,12 +33,13 @@ $baseurl="https://image.tmdb.org/t/p/w500";
                             <span>Nombre:</span> <?php echo $movie->getName(); ?> <br>
                             <span>Duracion:</span> <?php echo $movie->getDuration(); ?> <br>
                             <span>Lenguage:</span> <?php echo $movie->getLanguage(); ?> <br>
-                            <span>Genero:</span> -  
+                            <span>Genero:</span>   
                             <?php 
-                                foreach($movie->getGenre() as $genre=>$g)
+                                foreach($movie->getGenre() as $genre)
                                 {
-                                    echo $g . " - ";
+                                    echo " -".$genre->getDescripcion();
                                 }   
+                               
                             ?>
 
                         </div>
@@ -52,7 +53,8 @@ $baseurl="https://image.tmdb.org/t/p/w500";
         </div>
     </div> 
     <br>
-<?php        
+<?php  
+          
     }
 ?>
 

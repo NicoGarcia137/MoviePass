@@ -1,87 +1,92 @@
 <?php
     namespace Controllers;
 
-    use DAO\BillboardDAO as BillboardDAOJSON;
-    use Models\Billboard as Billboard;
-    use DAO\BillboardDAOPDO as BillboardDAOPDO;
+   
     use Models\Movie as Movie;
-    use Models\
+    use DAO\BillboardDAOPDO as BillboardDAOPDO;
     use \Exception as Exception;
 
     class BillboardController
     {
-        private $BillboardDAOJSON;
+     
         private $BillboardDAOPDO;
-        private $DAO;
 
         public function __construct()
         {
-            $this->BillboardDAOJSON = new BillboardDAOJSON();
             $this->BillboardDAOPDO=new BillboardDAOPDO();
-
-
-            $this->BillboardDAO=$this->BillboardDAOPDO;
         }
 
 
         public function GetAllMovies(){
-            return $this->MovieDAO->GetAll();
+            return $this->BillboardDAOPDO->GetAll();
         }
  
-         public function GetMovie($name){
-             $Movie= $this->MovieDAO->GetByMovieName($name);
+         public function GetMovie($Id){
+             $Movie= $this->BillboardDAOPDO->GetMovieById($Id);
              return $Movie;
         }
  
-         public function AddMovie($name, $address, $capacity,$value,$function=null)
+         public function AddMovie($Movie)
         {
- 
-             $Movie = new Movie();
-             $Movie->setName($name);
-             $Movie->setAddress($address);
-             $Movie->setCapacity($capacity);
-             $Movie->setValue($value);
-             $Movie->setFunction($function);
- 
- 
- 
-             $this->MovieDAO->Add($Movie);
- 
-             $this->ShowAddView();
+             $this->BillboardDAOPDO->Add($Movie);
          }
          
-         public function RemoveMovie($name){
-             $Movie= $this->GetMovie($name);
-             $this->MovieDAO->RemoveMovie($Movie);
-             $this->ShowListMoviesAdminView();
+         public function RemoveMovie($Id){
+             $Movie= $this->GetMovie($Id);
+             if($Movie){
+             $this->BillboardDAOPDO->RemoveMovie($Movie);
+             }else{
+               return null;
+             }
          }
 
 
 
-
-
-
+      
          public function GetMoviesFromApi(){
             $url="https://api.themoviedb.org/3/movie/now_playing?api_key=659f1569858f26bfcf78a91dd24bec94&page=1";
             $moviesJson=file_get_contents($url);
-            $moviesInc=json_decode($moviesJson,true);
-            $movies=[];
-
-            $this->
-            
+            $moviesInc=json_decode($moviesJson,true);                   
+                
             
                 foreach($moviesInc['results'] as $movie){
-                    $newMovie=new Movie();  
-                    $newMovie->setId($movie['id']);         
-                    $newMovie->setName($movie['original_title']);
-                    $newMovie->setDuration($movie['popularity']);
-                    $newMovie->setLanguage($movie['original_language']);
-                    $newMovie->setImage($movie['poster_path']);
-                    $genres=$movie['genre_ids'];
-                    $newMovie->setGenre($this->GetMovieGenres($genres));
-                    array_push($movies,$newMovie);
+                    if($this->getMovie($movie['id'])==null)
+                    {
+                        $newMovie=new Movie();        
+                        $newMovie->setId($movie['id']);      
+                        $newMovie->setName($movie['original_title']);
+                        $newMovie->setDuration($movie['popularity']);
+                        $newMovie->setLanguage($movie['original_language']);
+                        $newMovie->setImage($movie['poster_path']);
+                        //$genres=$movie['genre_ids'];
+                        //$newMovie->setGenre($genres);//$this->GetMovieGenres($genres));
+    
+                        $this->AddMovie($newMovie);
+                    }
+                  
+                }
+                
+                $Billboard= $this->BillboardDAOPDO->GetAllMovies();
+
+                
+                $MovieIds=[];
+                $BillboardIds=[];
+
+                foreach($moviesInc['results'] as $Movie){
+                     array_push($MovieIds,$Movie['id']);
+                }
+                foreach($Billboard as $BMovie){
+                     array_push($BillboardIds,$BMovie->getId());
+                }
+
+                $new_array = array_diff($BillboardIds,$MovieIds);
+
+                foreach($new_array as $movieId){
+                    $this->RemoveMovie($movieId);
                 }
             
+                $Billboard= $this->BillboardDAOPDO->GetAllMovies();
+             
             require_once(VIEWS_PATH."moviesApi.php");
         }
 
@@ -107,37 +112,5 @@
         }
 
 
-
-
-
-
-        
-        public function ShowAddView()
-        {
-            require_once(VIEWS_PATH."addBillboard.php");
-        }
-
-        public function ShowModifyView($id)
-        {
-            $Billboard=$this->GetBillboard($id);
-            require_once(VIEWS_PATH."modifyBillboard.php");
-        }
-
-        public function ShowRemoveView()
-        {
-            require_once(VIEWS_PATH."removeBillboard.php");
-        }
-        
-        public function ShowListBillboardsAdminView(){
-            $Billboards=$this->GetAllBillboards();
-            require_once(VIEWS_PATH."listarBillboardsAdmin.php");
-        }
-        public function ShowListBillboardsView(){
-            $Billboards=$this->GetAllBillboards();
-            require_once(VIEWS_PATH."listarBillboardsUsuario.php");
-        }
-        public function ShowIndexView(){
-            require_once(VIEWS_PATH."index.php");
-        }
     }
 ?>

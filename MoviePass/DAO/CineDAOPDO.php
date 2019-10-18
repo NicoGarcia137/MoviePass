@@ -29,10 +29,10 @@ class CineDAOPDO implements ICineDAO{
                     $Cine = new Cine();
                     
                     $Cine->setId($row["Id"]);
-                    $Cine->setName($row["name_Cine"]);
-                    $Cine->setAddress($row["address_Cine"]);
-                    $Cine->setCapacity($row["capacity"]);
-                    $Cine->setValue($row["value"]);
+                    $Cine->setName($row["Name"]);
+                    $Cine->setAddress($row["Address"]);
+                    $Cine->setCapacity($row["Capacity"]);
+                    $Cine->setValue($row["Value"]);
                     
 
                     array_push($CineList, $Cine);
@@ -74,10 +74,10 @@ class CineDAOPDO implements ICineDAO{
             {                
                 $CineSearch = new Cine();
                 $CineSearch->setId($row['Id']);
-                $CineSearch->setName($row["name_Cine"]);
-                $CineSearch->setAddress($row["address_Cine"]);
-                $CineSearch->setCapacity($row["capacity"]);
-                $CineSearch->setValue($row["value"]);
+                $CineSearch->setName($row["Name"]);
+                $CineSearch->setAddress($row["Address"]);
+                $CineSearch->setCapacity($row["Capacity"]);
+                $CineSearch->setValue($row["Value"]);
                 
 
                 
@@ -97,7 +97,7 @@ class CineDAOPDO implements ICineDAO{
             try
             {
                
-                $query = "UPDATE Cines SET name_Cine= "."'".$Cine->getName()."'"." ,address_Cine= "."'".$Cine->getAddress()."'"." ,capacity= ".$Cine->getCapacity()." ,value= ".$Cine->getValue()." WHERE Id= ".$Cine->getId().";";
+                $query = "UPDATE Cines SET Name= "."'".$Cine->getName()."'"." ,Address= "."'".$Cine->getAddress()."'"." ,Capacity= ".$Cine->getCapacity()." ,Value= ".$Cine->getValue()." WHERE Id= ".$Cine->getId().";";
 
                 $this->connection = Connection::GetInstance();
                 echo "<script>if(confirm('echo $query'));</script>";
@@ -131,12 +131,12 @@ class CineDAOPDO implements ICineDAO{
             {
                
 
-                $query = "INSERT INTO Cines (name_Cine, address_Cine, capacity,value) VALUES (:name_Cine, :address_Cine, :capacity, :value);";
+                $query = "INSERT INTO Cines (Name, Address, Capacity,Value) ValueS (:Name, :Address, :Capacity, :Value);";
                 
-                $parameters["name_Cine"] = $Cine->getName();
-                $parameters["address_Cine"] = $Cine->getAddress();
-                $parameters["capacity"] = $Cine->getCapacity();
-                $parameters["value"] = $Cine->getValue();
+                $parameters["Name"] = $Cine->getName();
+                $parameters["Address"] = $Cine->getAddress();
+                $parameters["Capacity"] = $Cine->getCapacity();
+                $parameters["Value"] = $Cine->getValue();
                
                 $this->connection = Connection::GetInstance();                
                 $this->connection->ExecuteNonQuery($query, $parameters);

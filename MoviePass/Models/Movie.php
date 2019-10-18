@@ -1,6 +1,7 @@
 <?php
 namespace Models;
     class Movie{
+        private $Id;
         private $Name;
         private $Duration;
         private $Language;
@@ -8,7 +9,17 @@ namespace Models;
         private $Genre;
         
         
+        public function getId()
+        {
+                return $this->Id;
+        }
 
+
+        public function setId($Id)
+        {
+                $this->Id = $Id;
+
+        }
  
         public function getName()
         {
