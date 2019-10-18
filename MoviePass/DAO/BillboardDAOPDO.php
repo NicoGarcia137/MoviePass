@@ -113,14 +113,13 @@ class BillboardDAOPDO {
             {
                
 
-                $query = "INSERT INTO Movies (Id,Name, Duration, Language,Image/*,Genre*/) VALUES (:Id,:Name, :Duration, :Language, :Image /*, :Genre*/);";
+                $query = "INSERT INTO Movies (Id,Name, Duration, Language,Image) VALUES (:Id,:Name, :Duration, :Language, :Image);";
                 
                 $parameters["Id"] = $Movie->getId();
                 $parameters["Name"] = $Movie->getName();
                 $parameters["Duration"] = $Movie->getDuration();
                 $parameters["Language"] = $Movie->getLanguage();
                 $parameters["Image"] = $Movie->getImage();
-                //$parameters["Genre"] = $Movie->getGenre();
                 
                
                 $this->connection = Connection::GetInstance();                

@@ -103,8 +103,9 @@ class GenreDAOPDO implements IGenreDAO{
             {
                
 
-                $query = "INSERT INTO Genres (Description) VALUES (:Description);";
+                $query = "INSERT INTO Genres (Id,Description) VALUES (:Id,:Description);";
                  
+                $parameters["Id"] = $Genre->getId();
                 $parameters["Description"] = $Genre->getDescription();
                
                 $this->connection = Connection::GetInstance();                

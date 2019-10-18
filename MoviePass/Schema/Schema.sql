@@ -29,26 +29,27 @@ create table Movies (
      constraint pk_Id_Movie primary key (Id) 
 );
 
-create table generos 
+create table Genre 
 (
-    Id int auto_increment ,
+    Id int ,
     Name varchar (50) not null ,
     constraint pk_Id primary key (Id) 
 );
 
-create table generoxMovie 
-(  Name varchar (60) not null,
-   Id int not null , 
-   constraint pk_Id_Movie primary key (Name , Id),
-   constraint fk_Name foreign key (Name) references Movie (Id), 
-   constraint fk_Id foreign key (Id) references generos (Id) 
+create table MovieXGenre
+(  Id int auto_increment , 
+    Id_Movie int not null,
+    Id_Genre int not null,
+   constraint pk_Id_MovieXGenre primary key (Id),
+   constraint fk_Id_Movie foreign key (Id_Movie) references Movie (Id), 
+   constraint fk_Id foreign key (Id_Genre) references Genre (Id) 
 );
 create table MoviexFunciones 
 (
     Id int not null ,
     Name varchar(60), 
     constraint pk_Id_Name primary key (Name, Id),
-    constraint fk_Name foreign key (Name) references Movie (Id),
+    constraint fk_Id_Movie foreign key (Name) references Movie (Id),
     constraint fk_Id foreign key (Id) references Funciones (Id)
 );
 
