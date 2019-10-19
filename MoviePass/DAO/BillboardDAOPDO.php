@@ -32,7 +32,6 @@ class BillboardDAOPDO {
                     $Movie->setDuration($row["Duration"]);
                     $Movie->setLanguage($row["Language"]);
                     $Movie->setImage($row["Image"]);
-                    $Movie->setGenre($row["Genre"]);
                     
 
                     array_push($MovieList, $Movie);
@@ -78,7 +77,6 @@ class BillboardDAOPDO {
                 $MovieSearch->setDuration($row["Duration"]);
                 $MovieSearch->setLanguage($row["Language"]);
                 $MovieSearch->setImage($row["Image"]);
-                $MovieSearch->setGenre($row["Genre"]);
             }
             
   

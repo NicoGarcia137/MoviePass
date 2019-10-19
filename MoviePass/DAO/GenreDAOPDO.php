@@ -1,9 +1,8 @@
 <?php namespace DAO;
 
-use DAO\IGenreDAO as IGenreDAO;
 use Models\Genre as Genre;
 use DAO\Connection as Connection;
-class GenreDAOPDO implements IGenreDAO{
+class GenreDAOPDO {
 
   
     private $connection;
@@ -49,12 +48,13 @@ class GenreDAOPDO implements IGenreDAO{
 
             $resultSet = $this->connection->Execute($query);
             
+            $Genre=null;
             foreach ($resultSet as $row)
             {                
                 $Genre = new Genre();
                     
                 $Genre->setId($row["Id"]);
-                $Genre->setShows($row["Shows"]);
+                $Genre->setDescription($row["Description"]);
             }
   
             return $Genre;

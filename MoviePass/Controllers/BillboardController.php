@@ -8,7 +8,6 @@
     use DAO\BillboardDAOPDO as BillboardDAOPDO;
     use DAO\GenreDAOPDO as GenreDAOPDO;
     use DAO\MovieXGenreDAOPDO as MovieXGenreDAOPDO;
-    use \Exception as Exception;
 
     class BillboardController
     {
@@ -59,18 +58,15 @@
 
          public function PutGenresInMovies(){
             $MovieXGenreList=$this->MovieXGenreDAOPDO->GetAll();
-            $movies=[];
+            $Movies=$this->BillboardDAOPDO->GetAllMovies();
             foreach($MovieXGenreList as $MovieXGenre){
-                $movie=$this->BillboardDAOPDO->GetMovieById($MovieXGenre->getMovieId());
-                $movie->addGenre($this->GenreDAOPDO->GetGenreById($MovieXGenre->getGenreId()));
-
-                foreach($movies as $moviex){
-                    if($moviex->getId()==$movie->getId()){
-                        array_push($movies,$movie);
+                foreach($Movies as $movie){
+                    if($MovieXGenre->getMovieId()==$movie->getId()){
+                        $movie->addGenre($this->GenreDAOPDO->GetById($MovieXGenre->getGenreId()));
                     }
                 }
             }
-            return $movies;
+            return $Movies;
          }
 
       
@@ -96,9 +92,7 @@
                         foreach($movie['genre_ids'] as $genre){
                             $MovieXGenre=new MovieXGenre();
                             $MovieXGenre->setMovieId($movie['id']);
-                            $newGenre=new Genre();
-                            $newGenre->setId($genre['id']);
-                            $MovieXGenre->setGenreId($newGenre);
+                            $MovieXGenre->setGenreId($genre);
                             $this->MovieXGenreDAOPDO->Add($MovieXGenre);
                         }
                     }
@@ -125,17 +119,19 @@
         }
 
         public function GetMovieGenresFromApi(){
-            $url="https://api.themoviedb.org/3/genre/movie/list?api_key=659f1569858f26bfcf78a91dd24bec94";
-            $genresJson=file_get_contents($url);
+            $urlg="https://api.themoviedb.org/3/genre/movie/list?api_key=659f1569858f26bfcf78a91dd24bec94";
+            $genresJson=file_get_contents($urlg);
             $genresListApi=json_decode($genresJson,true);
+   
             
-           
                 foreach($genresListApi as $resultg){
                     foreach ($resultg as $genreApi){
+                        
                         if($this->GenreDAOPDO->GetById($genreApi['id'])==null){
                             $newGenre=new Genre();
                             $newGenre->setId($genreApi['id']);
                             $newGenre->setDescription($genreApi['name']);
+                            
                             $this->GenreDAOPDO->Add($newGenre);  /// LLAMAR DIRECTAMENTE?
                         }
                     }
