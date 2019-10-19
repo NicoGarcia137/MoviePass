@@ -32,7 +32,6 @@ class BillboardDAOPDO {
                     $Movie->setDuration($row["Duration"]);
                     $Movie->setLanguage($row["Language"]);
                     $Movie->setImage($row["Image"]);
-                    $Movie->setGenre($row["Genre"]);
                     
 
                     array_push($MovieList, $Movie);
@@ -78,7 +77,6 @@ class BillboardDAOPDO {
                 $MovieSearch->setDuration($row["Duration"]);
                 $MovieSearch->setLanguage($row["Language"]);
                 $MovieSearch->setImage($row["Image"]);
-                $MovieSearch->setGenre($row["Genre"]);
             }
             
   
@@ -113,14 +111,13 @@ class BillboardDAOPDO {
             {
                
 
-                $query = "INSERT INTO Movies (Id,Name, Duration, Language,Image/*,Genre*/) VALUES (:Id,:Name, :Duration, :Language, :Image /*, :Genre*/);";
+                $query = "INSERT INTO Movies (Id,Name, Duration, Language,Image) VALUES (:Id,:Name, :Duration, :Language, :Image);";
                 
                 $parameters["Id"] = $Movie->getId();
                 $parameters["Name"] = $Movie->getName();
                 $parameters["Duration"] = $Movie->getDuration();
                 $parameters["Language"] = $Movie->getLanguage();
                 $parameters["Image"] = $Movie->getImage();
-                //$parameters["Genre"] = $Movie->getGenre();
                 
                
                 $this->connection = Connection::GetInstance();                

@@ -35,9 +35,9 @@ $baseurl="https://image.tmdb.org/t/p/w500";
                             <span>Lenguage:</span> <?php echo $movie->getLanguage(); ?> <br>
                             <span>Genero:</span>   
                             <?php 
-                                foreach($movie->getGenre() as $genre)
+                                foreach($movie->getGenres() as $genre)
                                 {
-                                    echo " -".$genre->getDescripcion();
+                                    echo " -".$genre->getDescription();
                                 }   
                                
                             ?>

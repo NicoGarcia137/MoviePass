@@ -3,17 +3,24 @@
 
    
     use Models\Movie as Movie;
+    use Models\Genre as Genre;
+    use Models\MovieXGenre as MovieXGenre;
     use DAO\BillboardDAOPDO as BillboardDAOPDO;
-    use \Exception as Exception;
+    use DAO\GenreDAOPDO as GenreDAOPDO;
+    use DAO\MovieXGenreDAOPDO as MovieXGenreDAOPDO;
 
     class BillboardController
     {
      
         private $BillboardDAOPDO;
+        private $GenreDAOPDO;
+        private $MovieXGenreDAOPDO;
 
         public function __construct()
         {
+            $this->GenreDAOPDO=new GenreDAOPDO();
             $this->BillboardDAOPDO=new BillboardDAOPDO();
+            $this->MovieXGenreDAOPDO=new MovieXGenreDAOPDO();
         }
 
 
@@ -21,15 +28,16 @@
             return $this->BillboardDAOPDO->GetAll();
         }
  
-         public function GetMovie($Id){
+        public function GetMovie($Id){
              $Movie= $this->BillboardDAOPDO->GetMovieById($Id);
              return $Movie;
         }
  
          public function AddMovie($Movie)
-        {
+         {
              $this->BillboardDAOPDO->Add($Movie);
          }
+
          
          public function RemoveMovie($Id){
              $Movie= $this->GetMovie($Id);
@@ -40,13 +48,34 @@
              }
          }
 
+         public function ShowBillboard(){
+             $this->GetMoviesFromApi();
+             $this->GetMovieGenresFromApi();
 
+             $Billboard= $this->PutGenresInMovies();
+             require_once(VIEWS_PATH."moviesApi.php");
+         }
+
+         public function PutGenresInMovies(){
+            $MovieXGenreList=$this->MovieXGenreDAOPDO->GetAll();
+            $Movies=$this->BillboardDAOPDO->GetAllMovies();
+            foreach($MovieXGenreList as $MovieXGenre){
+                foreach($Movies as $movie){
+                    if($MovieXGenre->getMovieId()==$movie->getId()){
+                        $movie->addGenre($this->GenreDAOPDO->GetById($MovieXGenre->getGenreId()));
+                    }
+                }
+            }
+            return $Movies;
+         }
 
       
          public function GetMoviesFromApi(){
             $url="https://api.themoviedb.org/3/movie/now_playing?api_key=659f1569858f26bfcf78a91dd24bec94&page=1";
             $moviesJson=file_get_contents($url);
-            $moviesInc=json_decode($moviesJson,true);                   
+            $moviesInc=json_decode($moviesJson,true);   
+            
+            
                 
             
                 foreach($moviesInc['results'] as $movie){
@@ -58,12 +87,15 @@
                         $newMovie->setDuration($movie['popularity']);
                         $newMovie->setLanguage($movie['original_language']);
                         $newMovie->setImage($movie['poster_path']);
-                        //$genres=$movie['genre_ids'];
-                        //$newMovie->setGenre($genres);//$this->GetMovieGenres($genres));
-    
                         $this->AddMovie($newMovie);
+
+                        foreach($movie['genre_ids'] as $genre){
+                            $MovieXGenre=new MovieXGenre();
+                            $MovieXGenre->setMovieId($movie['id']);
+                            $MovieXGenre->setGenreId($genre);
+                            $this->MovieXGenreDAOPDO->Add($MovieXGenre);
+                        }
                     }
-                  
                 }
                 
                 $Billboard= $this->BillboardDAOPDO->GetAllMovies();
@@ -84,33 +116,26 @@
                 foreach($new_array as $movieId){
                     $this->RemoveMovie($movieId);
                 }
-            
-                $Billboard= $this->BillboardDAOPDO->GetAllMovies();
-             
-            require_once(VIEWS_PATH."moviesApi.php");
         }
 
-        public function GetMovieGenres($genres){
-            $url="https://api.themoviedb.org/3/genre/movie/list?api_key=659f1569858f26bfcf78a91dd24bec94";
-            $genresJson=file_get_contents($url);
+        public function GetMovieGenresFromApi(){
+            $urlg="https://api.themoviedb.org/3/genre/movie/list?api_key=659f1569858f26bfcf78a91dd24bec94";
+            $genresJson=file_get_contents($urlg);
             $genresListApi=json_decode($genresJson,true);
-            $genreFinal=[];
+   
             
-            foreach($genres as $genre){
                 foreach($genresListApi as $resultg){
                     foreach ($resultg as $genreApi){
-                        if($genre==$genreApi['id']){
+                        
+                        if($this->GenreDAOPDO->GetById($genreApi['id'])==null){
                             $newGenre=new Genre();
-                            $newGenre->setDescripcion($genreApi['name']);
-                            array_push($genreFinal,$newGenre);
+                            $newGenre->setId($genreApi['id']);
+                            $newGenre->setDescription($genreApi['name']);
+                            
+                            $this->GenreDAOPDO->Add($newGenre);  /// LLAMAR DIRECTAMENTE?
                         }
                     }
-                  
                 }
-            }
-            return $genreFinal;
         }
-
-
     }
 ?>
