@@ -6,7 +6,7 @@ namespace Models;
         private $Duration;
         private $Language;
         private $Image;
-        private $Genre;
+        private $Genre=[];
         
         
         public function getId()
@@ -76,6 +76,10 @@ namespace Models;
         {
                 $this->Genre = $Genre;
 
+        }
+
+        public function addGenre($genre){
+                array_push($this->genres,$genre);
         }
     }
 

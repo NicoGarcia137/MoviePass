@@ -2,7 +2,7 @@
 namespace Models;
     class Genre{
         private $Id;
-        private $Descripcion;
+        private $Description;
         
         public function getId()
         {
@@ -14,14 +14,14 @@ namespace Models;
             $this->Id = $Id;
         }
 
-        public function getDescripcion()
+        public function getDescription()
         {
-            return $this->Descripcion;
+            return $this->Description;
         }
  
-        public function setDescripcion($Descripcion)
+        public function setDescription($Description)
         {
-            $this->Descripcion = $Descripcion;
+            $this->Description = $Description;
 
         }
     }
