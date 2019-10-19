@@ -6,7 +6,7 @@ namespace Models;
         private $Address;
         private $Capacity;
         private $Value;
-        private $Funciones;
+        private $Rooms=[];
 
         
         public function getId()
@@ -63,16 +63,21 @@ namespace Models;
                 $this->Value = $value;
         }
 
-        public function getfunciones()
+        public function getRooms()
         {
-                return $this->Funciones;
+                return $this->Rooms;
         }
 
-        public function setfunciones($funciones)
+        public function setRooms($Rooms)
         {
-                $this->Funciones = $funciones;
+                $this->Rooms = $Rooms;
 
         }
+
+        public function addRoom($room){
+                array_push($this->Rooms,$room);
+        }
+
     }
 
 ?>

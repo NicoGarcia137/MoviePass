@@ -54,6 +54,14 @@ include_once("navAdmin.php");
                             <input type=submit class="button button-block" value="Modificar">
 
                         </form>
+                        <form action="<?php echo FRONT_ROOT."Room/Add" ?>" method="post">
+                            Capacidad
+                            <input class="log-input" type="number" name="Capacity" value=""required>
+                            Nombre
+                            <input class="log-input" type="text" name="Name" value=""required>
+                            <button class="optButton optButton-block" type="submit" name="CineId" value="<?php echo $cine->getId() ?>" >Agregar sala</button>
+                         
+                            </form>
                     </div>
 
                 </div>
@@ -63,7 +71,14 @@ include_once("navAdmin.php");
     </div>
 </div>
 
-        <!-- ESTO IRIA EN UN FOREACH DE SALAS -->
+   
+<?php 
+$rooms= $cine->getRooms();
+foreach($rooms as $room){
+
+
+?>
+<!-- ESTO IRIA EN UN FOREACH DE SALAS -->
 <br>
 <div class="box">
     <div class="border-right">
@@ -72,13 +87,15 @@ include_once("navAdmin.php");
                 <div class="address">
 
                     <div class="fleft">
-                        <h3>Sala 1</h3>
+                        <h3>Sala <?php echo $room->getId() ?></h3>
                     </div>
 
                     <div class="fright">
-                        <form action="<?php echo FRONT_ROOT."Cine/ShowModifySalaView" ?>">
+                        <form action="<?php echo FRONT_ROOT."Room/ShowModifyRoomView" ?>">
                             
-                            <button class="optButton optButton-block" type="submit" name="id" value="<?php echo $cine->getId() ?>" >Modificar</button>
+                            <button class="optButton optButton-block" type="submit" name="id" value="<?php echo $room->getId() ?>" >Modificar</button>
+
+
                     
                         </form>
                     </div>
@@ -90,38 +107,10 @@ include_once("navAdmin.php");
         </div>
     </div>
 </div> 
-    
-        <!-------------------------------------->
-
-        <!-- ESTO IRIA EN UN FOREACH DE SALAS -->
-<br>
-<div class="box">
-    <div class="border-right">
-        <div class="border-left">
-            <div class="inner">
-                <div class="address">
-                    
-                    <div class="fleft">
-                        <h3>Sala 2</h3>
-                    </div>
-
-                    <div class="fright">
-                        <form action="<?php echo FRONT_ROOT."Cine/ShowModifyView" ?>">
-                            
-                            <button class="optButton optButton-block" type="submit" name="id" value="<?php echo $cine->getId() ?>" >Modificar</button>
-                    
-                        </form>
-                    </div>
-
-                    <?php include("movieCarousel.php"); ?>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div> 
-    
-        <!-------------------------------------->
+<?php 
+    }
+?>   
+      
 
       
 

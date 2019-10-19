@@ -1,20 +1,22 @@
 <?php namespace DAO;
 
-use DAO\IShowDAO as IShowDAO;
 use Models\Show as Show;
 use DAO\Connection as Connection;
-class ShowDAOPDO implements IShowDAO{
+class ShowDAOPDO {
 
   
     private $connection;
     
-    public function GetAll()
+    public function GetAllByRoom($idRoom)
         {
             try
             {
                 $ShowList = array();
 
-                $query = "SELECT * FROM "."Shows;";
+                $query = 
+                "SELECT * 
+                FROM Shows as S
+                where S.RoomId=".$idRoom.";";
 
                 $this->connection = Connection::GetInstance();
 
@@ -26,8 +28,9 @@ class ShowDAOPDO implements IShowDAO{
                     
                     $Show->setId($row["Id"]);
                     $Show->setDateTime($row["DateTime"]);
-                    $Show->setPeliculas($row["Peliculas"]);
+                    $Show->setMovie($row["MovieId"]);
                     $Show->setTickets($row["Tickets"]);
+                    $Show->setRoomId($row["RoomId"]);
 
                     array_push($ShowList, $Show);
                 }
@@ -58,8 +61,9 @@ class ShowDAOPDO implements IShowDAO{
                     
                 $Show->setId($row["Id"]);
                 $Show->setDateTime($row["DateTime"]);
-                $Show->setPeliculas($row["Peliculas"]);
+                $Show->setMovie($row["MovieId"]);
                 $Show->setTickets($row["Tickets"]);
+                $Show->setRoomId($row["RoomId"]);
             }
   
             return $Show;
@@ -75,7 +79,7 @@ class ShowDAOPDO implements IShowDAO{
             try
             {
                 $comilla="'";
-                $query = "UPDATE Shows SET DateTime= "."'".$Show->getDateTime()."'"." ,Peliculas= "."'".$Show->getPeliculas()."'"." ,Tickets= ".$Show->getTickets()." WHERE Id= ".$Show->getId().";";
+                $query = "UPDATE Shows SET DateTime= "."'".$Show->getDateTime()."'"." ,MovieId= "."'".$Show->getMovie()."'"." ,Tickets= ".$Show->getTickets()." WHERE Id= ".$Show->getId().";";
 
                 $this->connection = Connection::GetInstance();
                 echo "<script>if(confirm('echo $query'));</script>";
@@ -109,11 +113,12 @@ class ShowDAOPDO implements IShowDAO{
             {
                
 
-                $query = "INSERT INTO Shows (Date Time, Peliculas, Tickets) VALUES (:DateTime, :Peliculas, :Tickets);";
+                $query = "INSERT INTO Shows (DateTime, MovieId, Tickets,RoomId) VALUES (:DateTime, :MovieId, :Tickets, :RoomId);";
                 
                 $parameters["DateTime"] = $Show->getDateTime();
-                $parameters["Peliculas"] = $Show->getPeliculas();
+                $parameters["MovieId"] = $Show->getMovie();
                 $parameters["Tickets"] = $Show->getTickets();
+                $parameters["RoomId"] = $Show->getRoomId();
                
                 $this->connection = Connection::GetInstance();                
                 $this->connection->ExecuteNonQuery($query, $parameters);

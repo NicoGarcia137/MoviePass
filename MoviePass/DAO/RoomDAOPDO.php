@@ -1,9 +1,8 @@
 <?php namespace DAO;
 
-use DAO\IRoomDAO as IRoomDAO;
 use Models\Room as Room;
 use DAO\Connection as Connection;
-class RoomDAOPDO implements IRoomDAO{
+class RoomDAOPDO {
 
   
     private $connection;
@@ -25,13 +24,32 @@ class RoomDAOPDO implements IRoomDAO{
                     $Room = new Room();
                     
                     $Room->setId($row["Id"]);
-                    $Room->setShows($row["Shows"]);
+                    $Room->setName($row["Name"]);
                     $Room->setCapacity($row["Capacity"]);
+                    $Room->setCineId($row["CineId"]);
                     
                     array_push($RoomList, $Room);
                 }
 
                 return $RoomList;
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+
+        public function getRoomIdByName($Name){
+            try
+            {
+
+                $query = "SELECT R.Id FROM Rooms as R where R.Name="."'".$Name."'".";";
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query);
+               
+                return $resultSet[0][0];
             }
             catch(Exception $ex)
             {
@@ -55,8 +73,9 @@ class RoomDAOPDO implements IRoomDAO{
                 $Room = new Room();
                     
                 $Room->setId($row["Id"]);
-                $Room->setShows($row["Shows"]);
+                $Room->setName($row["Name"]);
                 $Room->setCapacity($row["Capacity"]);
+                $Room->setCineId($row["CineId"]);
             }
   
             return $Room;
@@ -85,7 +104,7 @@ class RoomDAOPDO implements IRoomDAO{
     public function RemoveRoom($Room)
     {
         try
-        { //FIJARSE EL NOMBRE DE LA TABLA POR TABLENAME
+        {
             
             $query = "DELETE FROM Rooms WHERE Id="."'".$Room->getId()."'".";";
 
@@ -105,10 +124,11 @@ class RoomDAOPDO implements IRoomDAO{
             {
                
 
-                $query = "INSERT INTO Rooms (Capacity, Shows) VALUES (:Capacity, :Shows);";
+                $query = "INSERT INTO Rooms (Capacity, Name,CineId) VALUES (:Capacity, :Name, :CineId);";
                  
                 $parameters["Capacity"] = $Room->getCapacity();
-                $parameters["Shows"] = $Room->getShows();
+                $parameters["Name"] = $Room->getName();
+                $parameters["CineId"] = $Room->getCineId();
                
                 $this->connection = Connection::GetInstance();                
                 $this->connection->ExecuteNonQuery($query, $parameters);
@@ -116,7 +136,7 @@ class RoomDAOPDO implements IRoomDAO{
             }
             catch(Exception $ex)
             {
-                var_dump($ex);
+                throw $ex;
             }
         }
  } 

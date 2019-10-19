@@ -4,19 +4,22 @@
     use DAO\CineDAO as CineDAOJSON;
     use Models\Cine as Cine;
     use DAO\CineDAOPDO as CineDAOPDO;
+    use DAO\RoomDAOPDO as RoomDAOPDO;
     use \Exception as Exception;
 
     class CineController
     {
         private $CineDAOJSON;
         private $CineDAOPDO;
+        private $RoomDAOPDO;
         private $DAO;
 
         public function __construct()
         {
             $this->CineDAOJSON = new CineDAOJSON();
             $this->CineDAOPDO=new CineDAOPDO();
-
+            $this->RoomDAOPDO=new RoomDAOPDO();
+            
 
             $this->CineDAO=$this->CineDAOPDO;
         }
@@ -36,6 +39,12 @@
         public function GetCine($id){
             try{
                 $cine= $this->CineDAO->GetById($id);
+                $rooms=$this->RoomDAOPDO->GetAll();
+                foreach($rooms as $room){
+                    if($room->getCineId()==$cine->getId())
+                        $cine->addRoom($room);
+                }
+
                 return $cine;
             }catch(Exception $ex){
                 $message=$ex->getMessage();
@@ -45,7 +54,7 @@
          }
 
         
-            public function Add($name, $address, $capacity,$value,$funciones=null)
+            public function Add($name, $address, $capacity,$value,$Rooms=null)
             {
                try{
                 $Cine = new Cine();
@@ -53,7 +62,7 @@
                 $Cine->setAddress($address);
                 $Cine->setCapacity($capacity);
                 $Cine->setValue($value);
-                $Cine->setFunciones($funciones);
+                $Cine->setRooms($Rooms);
     
                 $this->CineDAO->Add($Cine);
     
@@ -69,7 +78,7 @@
         public function RemoveCine($id){
             try{
                 $cine= $this->GetCine($id);
-                //echo "<script>if(confirm('Remove cine pero no catch : echo $cine'));</script>";
+                
                 if($cine != null){
                     $this->CineDAO->RemoveCine($cine);
                     $this->ShowListCinesAdminView();        
@@ -98,11 +107,6 @@
             echo "<script>if(confirm('echo $ex'));</script>";
         }
         }
-
-        public function ShowBillboard(){
-
-        }
-
 
 
 

@@ -3,8 +3,9 @@ namespace Models;
     class Show{
         private $Id;
         private $DateTime;
-        private $Peliculas;
+        private $Movie;
         private $Tickets;
+        private $RoomId;
 
         
         public function getId()
@@ -27,14 +28,14 @@ namespace Models;
                 $this->DateTime = $DateTime;
         }
 
-        public function getPeliculas()
+        public function getMovie()
         {
-                return $this->Peliculas;
+                return $this->Movie;
         }
 
-        public function setPeliculas($Peliculas)
+        public function setMovie($Movie)
         {
-                $this->Peliculas = $Peliculas;
+                $this->Movie = $Movie;
         }
 
         public function getEntradas()
@@ -55,6 +56,17 @@ namespace Models;
         public function setTickets($Tickets)
         {
                 $this->Tickets = $Tickets;
+        }
+
+       
+        public function getRoomId()
+        {
+                return $this->RoomId;
+        }
+
+        public function setRoomId($RoomId)
+        {
+                $this->RoomId = $RoomId;
         }
 }
 
