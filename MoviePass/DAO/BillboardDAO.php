@@ -92,22 +92,7 @@ class BilldboardDAOPDO implements IBilldboardDAO{
         }
     }
     
-    public function ModifyBilldboard($Billdboard)
-        {
-            try
-            {
-               
-                $query = "UPDATE Billdboards SET name_Billdboard= "."'".$Billdboard->getName()."'"." ,address_Billdboard= "."'".$Billdboard->getAddress()."'"." ,capacity= ".$Billdboard->getCapacity()." ,value= ".$Billdboard->getValue()." WHERE Id= ".$Billdboard->getId().";";
-
-                $this->connection = Connection::GetInstance();
-                echo "<script>if(confirm('echo $query'));</script>";
-                $this->connection->ExecuteNonQuery($query);
-            }
-            catch(Exception $ex)
-            {
-                throw $ex;
-            }
-        }
+   
     public function RemoveBilldboard($Billdboard)
     {
         try

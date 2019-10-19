@@ -2,8 +2,10 @@
 namespace Models;
     class Room{
         private $Id;
-        private $Shows;
+        private $Shows=[];
         private $Capacity;
+        private $Name;
+        private $CineId;
         
         public function getId()
         {
@@ -25,6 +27,8 @@ namespace Models;
             $this->Shows = $Shows;
         }
 
+    
+
         public function getCapacity()
         {
             return $this->Capacity;
@@ -35,5 +39,26 @@ namespace Models;
             $this->Capacity = $Capacity;
         }
 
+
+        public function getCineId()
+        {
+                return $this->CineId;
+        }
+
+       
+        public function setCineId($CineId)
+        {
+                $this->CineId = $CineId;
+        }
+
+        public function getName()
+        {
+                return $this->Name;
+        }
+
+        public function setName($Name)
+        {
+                $this->Name = $Name;
+        }
     }
 ?>
