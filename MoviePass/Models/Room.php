@@ -5,7 +5,7 @@ namespace Models;
         private $Shows=[];
         private $Capacity;
         private $Name;
-        private $CineId;
+        private $Cine;
         
         public function getId()
         {
@@ -40,15 +40,15 @@ namespace Models;
         }
 
 
-        public function getCineId()
+        public function getCine()
         {
-                return $this->CineId;
+                return $this->Cine;
         }
 
        
-        public function setCineId($CineId)
+        public function setCine($Cine)
         {
-                $this->CineId = $CineId;
+                $this->Cine = $Cine;
         }
 
         public function getName()

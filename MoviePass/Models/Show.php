@@ -5,7 +5,7 @@ namespace Models;
         private $DateTime;
         private $Movie;
         private $Tickets;
-        private $RoomId;
+        private $Room;
 
         
         public function getId()
@@ -59,14 +59,14 @@ namespace Models;
         }
 
        
-        public function getRoomId()
+        public function getRoom()
         {
-                return $this->RoomId;
+                return $this->Room;
         }
 
-        public function setRoomId($RoomId)
+        public function setRoom($Room)
         {
-                $this->RoomId = $RoomId;
+                $this->Room = $Room;
         }
 }
 

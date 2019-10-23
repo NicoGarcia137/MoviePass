@@ -34,9 +34,9 @@ namespace Models;
 
         }
 
-        public function getLenguage()
+        public function getLanguage()
         {
-                return $this->Lenguage;
+                return $this->Language;
         }
 
         public function setLenguage($Language)

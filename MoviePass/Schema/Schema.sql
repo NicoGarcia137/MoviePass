@@ -49,7 +49,8 @@ create table Genres
 );
 
 create table MovieXGenres
-(  Id int auto_increment , 
+(  
+    Id int auto_increment , 
     MovieId int not null,
     GenreId int not null,
    constraint pk_MovieIdXGenre primary key (Id),
