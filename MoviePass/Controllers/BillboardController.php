@@ -25,7 +25,7 @@
 
 
         public function GetAllMovies(){
-            return $this->BillboardDAOPDO->GetAll();
+            return $this->BillboardDAOPDO->GetAllMovies();
         }
  
         public function GetMovie($Id){
@@ -49,14 +49,15 @@
          }
 
          public function ShowBillboard(){
-             $this->GetMoviesFromApi();
-             $this->GetMovieGenresFromApi();
+            $this->GetMoviesFromApi();
+            $this->GetMovieGenresFromApi();
 
-             $Billboard= $this->PutGenresInMovies();
+             //$Billboard= $this->PutGenresInMovies();
+            $Billboard= $this->GetAllMovies();
              require_once(VIEWS_PATH."moviesApi.php");
          }
 
-         public function PutGenresInMovies(){
+        /* public function PutGenresInMovies(){
             $MovieXGenreList=$this->MovieXGenreDAOPDO->GetAll();
             $Movies=$this->BillboardDAOPDO->GetAllMovies();
             foreach($MovieXGenreList as $MovieXGenre){
@@ -67,7 +68,7 @@
                 }
             }
             return $Movies;
-         }
+         }*/
 
       
          public function GetMoviesFromApi(){
@@ -99,7 +100,7 @@
                 }
                 
                 $Billboard= $this->BillboardDAOPDO->GetAllMovies();
-
+                
                 
                 $MovieIds=[];
                 $BillboardIds=[];
@@ -112,30 +113,30 @@
                 }
 
                 $new_array = array_diff($BillboardIds,$MovieIds);
-
-                foreach($new_array as $movieId){
-                    $this->RemoveMovie($movieId);
-                }
+               
+                    foreach($new_array as $movieId){
+                        if($movieId){
+                        $this->RemoveMovie($movieId);
+                        }
+                    }
+                
         }
 
         public function GetMovieGenresFromApi(){
             $urlg="https://api.themoviedb.org/3/genre/movie/list?api_key=659f1569858f26bfcf78a91dd24bec94";
             $genresJson=file_get_contents($urlg);
             $genresListApi=json_decode($genresJson,true);
-   
             
-                foreach($genresListApi as $resultg){
-                    foreach ($resultg as $genreApi){
+                    foreach ($genresListApi['genres'] as $genreApi){
                         
                         if($this->GenreDAOPDO->GetById($genreApi['id'])==null){
                             $newGenre=new Genre();
                             $newGenre->setId($genreApi['id']);
                             $newGenre->setDescription($genreApi['name']);
-                            
                             $this->GenreDAOPDO->Add($newGenre);  /// LLAMAR DIRECTAMENTE?
                         }
                     }
-                }
+                
         }
     }
 ?>

@@ -1,5 +1,6 @@
 <?php namespace DAO;
 
+use Models\Genre as Genre;
 use Models\Movie as Movie;
 use DAO\Connection as Connection;
 use \Exception as Exception;
@@ -17,34 +18,53 @@ class BillboardDAOPDO {
             {
                 $MovieList = array();
 
-                $query = "SELECT * FROM "."Movies;";
+                $query = 
+                "Select 
+                m.Id as MovieId,
+                m.Name,
+                m.Duration,
+                m.Language,
+                m.Image,
+                mg.Id,
+                g.Id as GenreId,
+                g.Description
+                from moviexgenres as mg
+                Join movies as m 
+                on m.Id=mg.MovieId
+                join genres as g
+                on g.Id=mg.GenreId
+                order by m.Id desc;";
 
                 $this->connection = Connection::GetInstance();
 
                 $resultSet = $this->connection->Execute($query);
                 
-                foreach ($resultSet as $row)
-                {                
-                    $Movie = new Movie();
-                    
-                    $Movie->setId($row["Id"]);
-                    $Movie->setName($row["Name"]);
-                    $Movie->setDuration($row["Duration"]);
-                    $Movie->setLanguage($row["Language"]);
-                    $Movie->setImage($row["Image"]);
-                    
 
-                    array_push($MovieList, $Movie);
-                }
-
-
-                usort($MovieList,function ($a, $b){
-                    if($a == $b) {
-                        return 0;
+                $MovieList=[];
+                $y=count($resultSet);
+                if($y!=0)
+                    for ($x=0;$x<=$y;$x++)
+                    {  
+                        $Movie = new Movie();
+                        $Movie->setId($resultSet[$x]["MovieId"]);
+                        $Movie->setName($resultSet[$x]["Name"]);
+                        $Movie->setDuration($resultSet[$x]["Duration"]);
+                        $Movie->setLanguage($resultSet[$x]["Language"]);
+                        $Movie->setImage($resultSet[$x]["Image"]);
+    
+                        while($x<$y&&$Movie->getId()==$resultSet[$x]["MovieId"]){
+                            $genre= new Genre();
+                            $genre->setId($resultSet[$x]["GenreId"]);
+                            $genre->setDescription($resultSet[$x]["Description"]);
+            
+                            $Movie->addGenre($genre);
+                            $x++;
+                        }
+                        array_push($MovieList,$Movie);
                     }
-                    return ($a < $b) ? -1 : 1;
-                });
-
+                
+                
+                
 
                 return $MovieList;
             }
@@ -119,7 +139,7 @@ class BillboardDAOPDO {
                 $parameters["Language"] = $Movie->getLanguage();
                 $parameters["Image"] = $Movie->getImage();
                 
-               
+                
                 $this->connection = Connection::GetInstance();                
                 $this->connection->ExecuteNonQuery($query, $parameters);
                 
