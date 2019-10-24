@@ -23,6 +23,19 @@
            return $this->ShowDAOPDO->GetAllByRoom($RoomId);
         }
 
+        public function GetShow($id){
+            try{
+                $Show= $this->ShowDAOPDO->GetById($id);
+                
+                return $Show;
+                
+            }catch(Exception $ex){
+                $message=$ex->getMessage();
+                echo "<script>if(confirm('$message'));</script>";
+            }
+           
+         }
+
 
         public function GetShowsCompleteByRoom($RoomId){
             $Shows = $this->GetAllByRoom($RoomId);
@@ -40,19 +53,19 @@
          }
 
         
-            public function Add($DateTime, $Peliculas, $Tickets,$RoomId)
-            {
-               
-                $Show = new Show();
-                $Show->setDateTime($DateTime);
-                $Show->setPeliculas($Peliculas);
-                $Show->setTickets($Tickets);
-                $Show->setRoomId($RoomId);
-    
-                $this->ShowDAOPDO->Add($Show);
-    
-                $this->ShowAddView();
-            }
+        public function Add($DateTime, $Peliculas, $Tickets,$RoomId)
+        {
+            
+            $Show = new Show();
+            $Show->setDateTime($DateTime);
+            $Show->setPeliculas($Peliculas);
+            $Show->setTickets($Tickets);
+            $Show->setRoomId($RoomId);
+
+            $this->ShowDAOPDO->Add($Show);
+
+            $this->ShowAddView();
+        }
               
         public function RemoveShow($Id){
             $Show= $this->GetShow($Id);
@@ -78,7 +91,7 @@
 
         public function ShowModifyView($id){
             $show=$this->GetShow($id);
-            require_once(VIEWS_PATH."ModifyShow.php");
+            require_once(VIEWS_PATH."modifyShow.php");
         }
         
     }

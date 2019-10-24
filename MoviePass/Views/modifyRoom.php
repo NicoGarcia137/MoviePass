@@ -38,8 +38,15 @@ include_once("navAdmin.php");
                             if($show->getDateTime()==="10:00"){ ?>
                         <td>
                             <div class="imgBox">
-                                <img src="<?php echo $show->getMovie()->getImage(); ?>" alt="">
-                            </div>  
+
+                                <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
+                                <input type="submit" name="show" value="<?php echo $show->getId();?>" ><img src="<?php echo $show->getMovie()->getImage(); ?>" alt="">
+
+                                </form>
+
+                                <!-- <img src="<?php echo $show->getMovie()->getImage(); ?>" alt=""> -->
+
+                            </div>
                             <div class="details">
                                 <h3><?php echo $show->getMovie()->getName(); ?></h3>
                             </div>
