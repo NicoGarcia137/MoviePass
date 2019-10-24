@@ -35,6 +35,8 @@
                             <br>
                             
                             <input type="submit" class="button button-block" value="Log In">
+                            <input type="submit" >
+
                         
                         </form>
                         
@@ -48,7 +50,5 @@
         </div>
     </div>
 </div>
-
-<br><br><br><br>
 
 <?php include_once("footer.php") ?>
