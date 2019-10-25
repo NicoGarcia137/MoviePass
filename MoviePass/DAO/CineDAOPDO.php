@@ -2,49 +2,116 @@
 
 use DAO\ICineDAO as ICineDAO;
 use Models\Cine as Cine;
+use Models\Room as Room;
+use Models\Show as Show;
+use Models\Movie as Movie;
+use Models\Genre as Genre;
 use DAO\Connection as Connection;
 use \Exception as Exception;
+use DAO\Helper as Helper;
 
-class CineDAOPDO implements ICineDAO{
+class CineDAOPDO extends Helper implements ICineDAO{
 
   
     private $connection;
-
-
-    
     public function GetAll()
         {
             try
             {
                 $CineList = array();
 
-                $query = "SELECT * FROM "."Cines;";
+                $query = "Select 
+                c.Id as CineId,
+                c.Name as CineName,
+                c.Address,
+                c.Capacity as CineCapacity,
+                c.Value,
+                r.Id as RoomId,
+                r.Capacity as RoomCapacity,
+                r.Name as RoomName,
+                s.Id as ShowId,
+                s.DateTime,
+                s.Tickets,
+                m.Id as MovieId,
+                m.Name as MovieName,
+                m.Duration,
+                m.Language,
+                m.Image,
+                g.Description as Genre,
+                g.Id as GenreId
+                from Cines as c
+                left join Rooms as r
+                on r.CineId=c.Id
+                left join Shows as s
+                on s.RoomId=r.Id
+                left join Movies as m
+                on s.MovieId=m.Id
+                left join MovieXGenres as mg
+                on mg.MovieId=m.Id
+                left join Genres as g
+                on mg.GenreId = g.Id
+                order by c.Id ,r.Id,s.Id,m.Id,g.Id;";
 
                 $this->connection = Connection::GetInstance();
 
                 $resultSet = $this->connection->Execute($query);
-                
-                foreach ($resultSet as $row)
-                {                
-                    $Cine = new Cine();
-                    
-                    $Cine->setId($row["Id"]);
-                    $Cine->setName($row["Name"]);
-                    $Cine->setAddress($row["Address"]);
-                    $Cine->setCapacity($row["Capacity"]);
-                    $Cine->setValue($row["Value"]);
-                    
-
-                    array_push($CineList, $Cine);
-                }
+                $CineList=[];
+                $y=count($resultSet);
 
 
-                usort($CineList,function ($a, $b){
-                    if($a == $b) {
-                        return 0;
+               
+
+                $x=0;
+                while($x<$y){
+                    $cine=$this->CreateCine($resultSet[$x],array());
+
+                    while($x<$y && $resultSet[$x]['CineId']==$cine->getId()){
+                        if($resultSet[$x]['RoomId']!=null){
+                            $room=$this->CreateRoom($resultSet[$x],array());
+
+                            while($x<$y && $resultSet[$x]['RoomId']==$room->getId() && $resultSet[$x]['CineId']==$cine->getId()){
+                                if($resultSet[$x]['ShowId']!=null){
+                                    $show=$this->CreateShow($resultSet[$x],array());
+
+                                    while($x<$y && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId() && $resultSet[$x]['CineId']==$cine->getId()){
+                                        if($resultSet[$x]['MovieId']!=null){
+                                            $movie=$this->CreateMovie($resultSet[$x],array());
+                                            
+                                            while($x<$y&& $movie->getId()==$resultSet[$x]["MovieId"] && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId()  && $resultSet[$x]['CineId']==$cine->getId())
+                                            {
+                                                if($resultSet[$x]['GenreId']!=null)
+                                                {
+                                                    $genre=$this->CreateGenre($resultSet[$x]);
+                                                    $movie->addGenre($genre);
+                                                    $x++;
+                                                }else{
+                                                    $x++;
+                                                }
+                                            }
+                                            $show->setMovie($movie);
+                                            
+                                        }else{
+                                            $x++;
+                                        }
+                                    }
+                                   $room->addShow($show);
+                                }else{
+                                    $x++;
+                                }
+                            }
+                            $cine->addRoom($room);
+                        }else{
+                            $x++;
+                        }
                     }
-                    return ($a < $b) ? -1 : 1;
-                });
+                        
+                        array_push($CineList, $cine);
+                }
+           
+
+
+     
+                var_dump($CineList);
 
 
                 return $CineList;
@@ -70,14 +137,14 @@ class CineDAOPDO implements ICineDAO{
 
             $resultSet = $this->connection->Execute($query);
             $CineSearch=null;
-            foreach ($resultSet as $row)
+            foreach ($resultSet as $resultSet)
             {                
                 $CineSearch = new Cine();
-                $CineSearch->setId($row['Id']);
-                $CineSearch->setName($row["Name"]);
-                $CineSearch->setAddress($row["Address"]);
-                $CineSearch->setCapacity($row["Capacity"]);
-                $CineSearch->setValue($row["Value"]);
+                $CineSearch->setId($resultSet['Id']);
+                $CineSearch->setName($resultSet["Name"]);
+                $CineSearch->setAddress($resultSet["Address"]);
+                $CineSearch->setCapacity($resultSet["Capacity"]);
+                $CineSearch->setValue($resultSet["Value"]);
                 
 
                 

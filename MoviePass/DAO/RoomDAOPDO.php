@@ -26,7 +26,7 @@ class RoomDAOPDO {
                     $Room->setId($row["Id"]);
                     $Room->setName($row["Name"]);
                     $Room->setCapacity($row["Capacity"]);
-                    $Room->setCine($row["Cine"]);
+                    $Room->setCine($row["CineId"]);
                     
                     array_push($RoomList, $Room);
                 }
@@ -75,7 +75,7 @@ class RoomDAOPDO {
                 $Room->setId($row["Id"]);
                 $Room->setName($row["Name"]);
                 $Room->setCapacity($row["Capacity"]);
-                $Room->setCine($row["Cine"]);
+                $Room->setCine($row["CineId"]);
             }
   
             return $Room;
@@ -122,13 +122,11 @@ class RoomDAOPDO {
         {
             try
             {
-               
-
-                $query = "INSERT INTO Rooms (Capacity, Name,Cine) VALUES (:Capacity, :Name, :Cine);";
+                $query = "INSERT INTO Rooms (Capacity, Name,CineId) VALUES (:Capacity, :Name, :CineId);";
                  
                 $parameters["Capacity"] = $Room->getCapacity();
                 $parameters["Name"] = $Room->getName();
-                $parameters["Cine"] = $Room->getCine();
+                $parameters["CineId"] = $Room->getCine();
                
                 $this->connection = Connection::GetInstance();                
                 $this->connection->ExecuteNonQuery($query, $parameters);

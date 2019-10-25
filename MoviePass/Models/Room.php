@@ -60,5 +60,9 @@ namespace Models;
         {
                 $this->Name = $Name;
         }
+
+        public function addShow($Show){
+                array_push($this->Shows,$Show);
+        }
     }
 ?>

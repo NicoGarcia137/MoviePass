@@ -41,7 +41,7 @@
                 $cine= $this->CineDAO->GetById($id);
                 $rooms=$this->RoomDAOPDO->GetAll();
                 foreach($rooms as $room){
-                    if($room->getCineId()==$cine->getId())
+                    if($room->getCine()==$cine->getId())
                         $cine->addRoom($room);
                 }
 

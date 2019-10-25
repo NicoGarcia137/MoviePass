@@ -52,23 +52,10 @@
             $this->GetMoviesFromApi();
             $this->GetMovieGenresFromApi();
 
-             //$Billboard= $this->PutGenresInMovies();
             $Billboard= $this->GetAllMovies();
              require_once(VIEWS_PATH."moviesApi.php");
          }
 
-        /* public function PutGenresInMovies(){
-            $MovieXGenreList=$this->MovieXGenreDAOPDO->GetAll();
-            $Movies=$this->BillboardDAOPDO->GetAllMovies();
-            foreach($MovieXGenreList as $MovieXGenre){
-                foreach($Movies as $movie){
-                    if($MovieXGenre->getMovieId()==$movie->getId()){
-                        $movie->addGenre($this->GenreDAOPDO->GetById($MovieXGenre->getGenreId()));
-                    }
-                }
-            }
-            return $Movies;
-         }*/
 
       
          public function GetMoviesFromApi(){
@@ -88,14 +75,8 @@
                         $newMovie->setDuration($movie['popularity']);
                         $newMovie->setLanguage($movie['original_language']);
                         $newMovie->setImage($movie['poster_path']);
+                        $newMovie->setGenre($movie['genre_ids']);
                         $this->AddMovie($newMovie);
-
-                        foreach($movie['genre_ids'] as $genre){
-                            $MovieXGenre=new MovieXGenre();
-                            $MovieXGenre->setMovieId($movie['id']);
-                            $MovieXGenre->setGenreId($genre);
-                            $this->MovieXGenreDAOPDO->Add($MovieXGenre);
-                        }
                     }
                 }
                 
@@ -119,7 +100,6 @@
                         $this->RemoveMovie($movieId);
                         }
                     }
-                
         }
 
         public function GetMovieGenresFromApi(){
