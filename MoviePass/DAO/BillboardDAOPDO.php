@@ -25,7 +25,6 @@ class BillboardDAOPDO {
                 m.Duration,
                 m.Language,
                 m.Image,
-                mg.Id,
                 g.Id as GenreId,
                 g.Description
                 from moviexgenres as mg
@@ -139,16 +138,26 @@ class BillboardDAOPDO {
                 $parameters["Language"] = $Movie->getLanguage();
                 $parameters["Image"] = $Movie->getImage();
                 
-                
                 $this->connection = Connection::GetInstance();                
                 $this->connection->ExecuteNonQuery($query, $parameters);
-                
+               
+                foreach($Movie->getGenres() as $genre){
+
+                    $query2 = "INSERT INTO MovieXGenres (MovieId,GenreId) VALUES (:MovieId, :GenreId);";
+                    
+                    $parameters2["MovieId"]= $Movie->getId();
+                    $parameters2["GenreId"]= $genre;
+                    
+                    $this->connection = Connection::GetInstance();                
+                    $this->connection->ExecuteNonQuery($query2, $parameters2);
+                }
             }
             catch(Exception $ex)
             {
                 var_dump($ex);
             }
         }
+       
  } 
 
 ?>

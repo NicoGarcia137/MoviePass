@@ -10,7 +10,6 @@
 
     class RoomController
     {
-
         private $RoomDAOPDO;
         private $ShowDAOPDO;
         private $ShowController;
@@ -32,14 +31,13 @@
          }
 
         
-            public function Add($Capacity,$Name,$CineId)
+            public function Add($Capacity,$Name,$Cine)
             {
-               
                try{
                 $Room = new Room();
                
                 $Room->setCapacity($Capacity);
-                $Room->setCineId($CineId);
+                $Room->setCine($Cine);
                 $Room->setName($Name);
                 $this->RoomDAOPDO->Add($Room);
 
@@ -59,12 +57,12 @@
             $this->RoomListRoomsAdminView();
         }
 
-        public function ModifyRoom($Id, $Shows, $Capacity,$CineId){
+        public function ModifyRoom($Id, $Shows, $Capacity,$Cine){
             $Room = new Room();
             $Room->setId($Id);
             $Room->setShows($Shows);
             $Room->setCapacity($Capacity);
-            $Room->setCineId($CineId);
+            $Room->setCine($Cine);
 
             $this->RoomDAOPDO->ModifyRoom($Room);
             $this->RoomListRoomsAdminView();
@@ -73,15 +71,13 @@
         public function ShowModifyRoomView($id){
             $room=$this->GetRoom($id);
             $showsRoom=$this->ShowController->GetShowsCompleteByRoom($id);
-            
-
 
             if($showsRoom==null){
                 $shows=[];
                 
                 for($x=0;$x<21;$x++){
                     $show=new Show();
-                    $show->setRoomId($id);
+                    $show->setRoom($id);
                     $show->setMovie(null);
                     $show->setTickets(null);
                     if($x<7){

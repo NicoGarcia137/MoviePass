@@ -30,8 +30,6 @@ create table Shows (
     constraint fk_RoomId foreign key (RoomId) references Room (Id)    
 );
 
-
-
 create table Movies (
      Id int DEFAULT '0',
      Name varchar (60) not null ,

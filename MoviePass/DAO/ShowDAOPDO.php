@@ -16,7 +16,7 @@ class ShowDAOPDO {
                 $query = 
                 "SELECT * 
                 FROM Shows as S
-                where S.Room=".$Room.";";
+                where S.RoomId=".$Room.";";
 
                 $this->connection = Connection::GetInstance();
 
@@ -30,7 +30,7 @@ class ShowDAOPDO {
                     $Show->setDateTime($row["DateTime"]);
                     $Show->setMovie($row["MovieId"]);
                     $Show->setTickets($row["Tickets"]);
-                    $Show->setRoom($row["Room"]);
+                    $Show->setRoom($row["RoomId"]);
 
                     array_push($ShowList, $Show);
                 }
@@ -63,7 +63,7 @@ class ShowDAOPDO {
                 $Show->setDateTime($row["DateTime"]);
                 $Show->setMovie($row["MovieId"]);
                 $Show->setTickets($row["Tickets"]);
-                $Show->setRoom($row["Room"]);
+                $Show->setRoom($row["RoomId"]);
             }
   
             return $Show;
@@ -113,12 +113,12 @@ class ShowDAOPDO {
             {
                
 
-                $query = "INSERT INTO Shows (DateTime, MovieId, Tickets,Room) VALUES (:DateTime, :MovieId, :Tickets, :Room);";
+                $query = "INSERT INTO Shows (DateTime, MovieId, Tickets,RoomId) VALUES (:DateTime, :MovieId, :Tickets, :RoomId);";
                 
                 $parameters["DateTime"] = $Show->getDateTime();
                 $parameters["MovieId"] = $Show->getMovie();
                 $parameters["Tickets"] = $Show->getTickets();
-                $parameters["Room"] = $Show->getRoom();
+                $parameters["RoomId"] = $Show->getRoom();
                
                 $this->connection = Connection::GetInstance();                
                 $this->connection->ExecuteNonQuery($query, $parameters);
