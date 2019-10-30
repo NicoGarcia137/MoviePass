@@ -54,8 +54,8 @@ include_once("navAdmin.php");
                             <input type=submit class="button button-block" value="Modificar">
 
                         </form>
-                        <br><br>
-                        <form action="<?php echo FRONT_ROOT."Room/Add" ?>" method="post">
+
+                        <form action="<?php echo FRONT_ROOT."Cine/AddRoom" ?>" method="post">
                             <div class="field-wrap">
                                 <label class="log-label" for="name">Capacidad</label>
                                 <input class="log-input" type="number" name="Capacity" value=""required>    
@@ -65,7 +65,7 @@ include_once("navAdmin.php");
                                 <label class="log-label" for="name">Nombre</label>
                                 <input class="log-input" type="text" name="Name" value=""required>
                             </div>
-                            
+                          
                             <button class="button button-block" type="submit" name="CineId" value="<?php echo $cine->getId() ?>" >Agregar sala</button>
                          
                             </form>

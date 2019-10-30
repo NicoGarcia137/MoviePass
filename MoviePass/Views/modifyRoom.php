@@ -40,15 +40,23 @@ include_once("navAdmin.php");
                             <div class="imgBox">
 
                                 <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
-                                <input type="submit" name="show" value="<?php echo $show->getId();?>" ><img src="<?php echo $show->getMovie()->getImage(); ?>" alt="">
+                                <input type="submit" name="show" value="<?php echo $show->getId();?>" ><img src="<?php if($show->getMovie() != null)
+                                                                                                                        {echo $show->getMovie()->getImage();
+                                                                                                                        }else{  
+                                                                                                                            echo "https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_200_200/0?e=2159024400&v=beta&t=qdZJ4JLDc4N_esDRR0m2L6_qz27N2KKhi9yP5-LtAFA";
+                                                                                                                            }  ?>" alt="">
 
                                 </form>
 
-                                <!-- <img src="<?php echo $show->getMovie()->getImage(); ?>" alt=""> -->
+                            
 
                             </div>
                             <div class="details">
-                                <h3><?php echo $show->getMovie()->getName(); ?></h3>
+                                <h3><?php if($show->getMovie() != null)
+                                            {echo $show->getMovie()->getName();
+                                            }else{  
+                                                echo "No Asignado";
+                                                } ?></h3>
                             </div>
                         </td>
                             <?php }} ?>
@@ -59,10 +67,21 @@ include_once("navAdmin.php");
                             if($show->getDateTime()==="15:00"){ ?>
                         <td>
                             <div class="imgBox">
-                                <img src="<?php echo $show->getMovie()->getImage(); ?>" alt="">
+                            <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
+                                <input type="submit" name="show" value="<?php echo $show->getId();?>" ><img src="<?php if($show->getMovie() != null)
+                                                                                                                        {echo $show->getMovie()->getImage();
+                                                                                                                        }else{  
+                                                                                                                            echo "https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_200_200/0?e=2159024400&v=beta&t=qdZJ4JLDc4N_esDRR0m2L6_qz27N2KKhi9yP5-LtAFA";
+                                                                                                                            }  ?>" alt="">
+
+                                </form>
                             </div>  
                             <div class="details">
-                                <h3><?php echo $show->getMovie()->getName(); ?></h3>
+                                <h3><?php if($show->getMovie() != null)
+                                            {echo $show->getMovie()->getName();
+                                            }else{  
+                                                echo "No Asignado";
+                                                }  ?></h3>
                             </div>
                         </td>    
                         <?php }} ?>                 
@@ -73,10 +92,21 @@ include_once("navAdmin.php");
                             if($show->getDateTime()==="20:00"){ ?>
                         <td>
                             <div class="imgBox">
-                                <img src="<?php echo $show->getMovie()->getImage(); ?>" alt="">
+                            <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
+                                <input type="submit" name="show" value="<?php echo $show->getId();?>" ><img src="<?php if($show->getMovie() != null)
+                                                                                                                        {echo $show->getMovie()->getImage();
+                                                                                                                        }else{  
+                                                                                                                            echo "https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_200_200/0?e=2159024400&v=beta&t=qdZJ4JLDc4N_esDRR0m2L6_qz27N2KKhi9yP5-LtAFA";
+                                                                                                                            }  ?>" alt="">
+
+                                </form>
                             </div>  
                             <div class="details">
-                                <h3><?php echo $show->getMovie()->getName(); ?></h3>
+                                <h3><?php if($show->getMovie() != null)
+                                            {echo $show->getMovie()->getName();
+                                            }else{  
+                                                echo "No Asignado";
+                                                }  ?></h3>
                             </div>
                         </td>     
                         <?php }} ?>                

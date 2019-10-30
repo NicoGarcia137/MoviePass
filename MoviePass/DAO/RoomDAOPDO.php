@@ -2,83 +2,114 @@
 
 use Models\Room as Room;
 use DAO\Connection as Connection;
-class RoomDAOPDO {
+use DAO\Helper as Helper;
+class RoomDAOPDO extends Helper{
 
   
     private $connection;
     
-    public function GetAll()
-        {
-            try
-            {
-                $RoomList = array();
 
-                $query = "SELECT * FROM "."Rooms;";
-
-                $this->connection = Connection::GetInstance();
-
-                $resultSet = $this->connection->Execute($query);
-                
-                foreach ($resultSet as $row)
-                {                
-                    $Room = new Room();
-                    
-                    $Room->setId($row["Id"]);
-                    $Room->setName($row["Name"]);
-                    $Room->setCapacity($row["Capacity"]);
-                    $Room->setCine($row["CineId"]);
-                    
-                    array_push($RoomList, $Room);
-                }
-
-                return $RoomList;
-            }
-            catch(Exception $ex)
-            {
-                throw $ex;
-            }
-        }
-
-        public function getRoomIdByName($Name){
-            try
-            {
-
-                $query = "SELECT R.Id FROM Rooms as R where R.Name="."'".$Name."'".";";
-
-                $this->connection = Connection::GetInstance();
-
-                $resultSet = $this->connection->Execute($query);
-               
-                return $resultSet[0][0];
-            }
-            catch(Exception $ex)
-            {
-                throw $ex;
-            }
-        }
-    
     public function GetById($Id)
     {
         try
         {         
 
-            $query = "SELECT * FROM Rooms WHERE Rooms.Id =".$Id.";";
+            $query = "select
+            r.Id as RoomId,
+            r.Capacity as RoomCapacity,
+            r.Name as RoomName,
+            s.Id as ShowId,
+            s.DateTime,
+            s.Tickets,
+            m.Id as MovieId,
+            m.Name as MovieName,
+            m.Duration,
+            m.Language,
+            m.Image,
+            g.Description as Genre,
+            g.Id as GenreId
+            from Rooms as r
+            left join Shows as s
+            on s.RoomId=r.Id
+            left join Movies as m
+            on s.MovieId=m.Id
+            left join MovieXGenres as mg
+            on mg.MovieId=m.Id
+            left join Genres as g
+            on mg.GenreId = g.Id
+            where r.Id = ".$Id."
+            order by r.Id,s.Id,m.Id,g.Id;";
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query);
+            $room=null;
+            $y=count($resultSet);
+
+
+           
+
+            $x=0;
+            while($x<$y){
+                $room=$this->CreateRoom($resultSet[$x],array());
+
+                while($x<$y && $resultSet[$x]['RoomId']==$room->getId()){
+                    if($resultSet[$x]['ShowId']!=null){
+                        $show=$this->CreateShow($resultSet[$x],array());
+
+                        while($x<$y && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId()){
+                            if($resultSet[$x]['MovieId']!=null){
+                                $movie=$this->CreateMovie($resultSet[$x],array());
+                                
+                                while($x<$y&& $movie->getId()==$resultSet[$x]["MovieId"] && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId())
+                                {
+                                    if($resultSet[$x]['GenreId']!=null)
+                                    {
+                                        $genre=$this->CreateGenre($resultSet[$x]);
+                                        $movie->addGenre($genre);
+                                        $x++;
+                                    }else{
+                                        $x++;
+                                    }
+                                }
+                                $show->setMovie($movie);
+                                
+                            }else{
+                                $x++;
+                            }
+                        }
+                        $room->addShow($show);
+                    }else{
+                        $x++;
+                    }
+                }
+            }
+        
+  
+            return $room;
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
+
+    public function GetLastId(){
+        try
+        {         
+
+            $query = "select max(r.Id) as LastId from Rooms as r;";
 
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
             
-            foreach ($resultSet as $row)
-            {                
-                $Room = new Room();
-                    
-                $Room->setId($row["Id"]);
-                $Room->setName($row["Name"]);
-                $Room->setCapacity($row["Capacity"]);
-                $Room->setCine($row["CineId"]);
+            $LastId=0;
+            if($resultSet[0]["LastId"]!=null){
+                $LastId= $resultSet[0]["LastId"];
             }
   
-            return $Room;
+            return $LastId;
         }
         catch(Exception $ex)
         {
@@ -90,7 +121,7 @@ class RoomDAOPDO {
         {
             try
             {
-                $query = "UPDATE Rooms SET Shows= "."'".$Room->getShows()."'"." ,Capacity= "."'".$Room->getCapacity()."'"." WHERE Id= ".$Room->getId().";";
+                $query = "UPDATE Rooms SET Capacity= "."'".$Room->getCapacity()."'"." WHERE Id= ".$Room->getId().";";
 
                 $this->connection = Connection::GetInstance();
                 echo "<script>if(confirm('echo $query'));</script>";
@@ -126,7 +157,7 @@ class RoomDAOPDO {
                  
                 $parameters["Capacity"] = $Room->getCapacity();
                 $parameters["Name"] = $Room->getName();
-                $parameters["CineId"] = $Room->getCine();
+                $parameters["CineId"] = $Room->getCine()->getId();
                
                 $this->connection = Connection::GetInstance();                
                 $this->connection->ExecuteNonQuery($query, $parameters);
