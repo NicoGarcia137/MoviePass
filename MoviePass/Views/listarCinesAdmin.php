@@ -50,7 +50,7 @@ include_once("navAdmin.php");
                             </form>
 
                             <br>
-                            
+                        
                             <form action="<?php echo FRONT_ROOT."Cine/RemoveCine" ?>">
                         
                                 <button class="optButton optButton-block" type="submit" name="id" value="<?php echo $cine->getId() ?>" >Eliminar</button>

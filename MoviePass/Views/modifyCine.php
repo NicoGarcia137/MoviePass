@@ -54,7 +54,7 @@ include_once("navAdmin.php");
                             <input type=submit class="button button-block" value="Modificar">
 
                         </form>
-
+                        <br><br>
                         <form action="<?php echo FRONT_ROOT."Cine/AddRoom" ?>" method="post">
                             <div class="field-wrap">
                                 <label class="log-label" for="name">Capacidad</label>
