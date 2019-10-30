@@ -37,7 +37,7 @@
         public function ModifyShow($Id,$MovieId, $Tickets){
             $Show=$this->GetShow($Id);
 
-            $MovieId=$this->BillboardDAOPDO->GetMovieById($Id);
+            $Movie=$this->BillboardDAOPDO->GetMovieById($MovieId);
             $Show->setMovie($Movie);
             $Show->setTickets($Tickets);
 
@@ -52,7 +52,7 @@
         public function ShowModifyView($id){
             $show=$this->GetShow($id);
             $billboard=$this->BillboardDAOPDO->GetAllMovies();
-            require_once(VIEWS_PATH."ModifyShow.php");
+            require_once(VIEWS_PATH."modifyShow.php");
         }
         
     }

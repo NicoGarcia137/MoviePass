@@ -53,6 +53,7 @@ $baseurl="https://image.tmdb.org/t/p/w500";
         </div>
     </div> 
     <br>
+    
 <?php  
           
     }
