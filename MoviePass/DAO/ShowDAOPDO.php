@@ -85,11 +85,11 @@ class ShowDAOPDO extends Helper{
         {
             try
             {
-                $comilla="'";
-                $query = "UPDATE Shows SET DateTime= "."'".$Show->getDateTime()."'"." ,MovieId= "."'".$Show->getMovie()."'"." ,Tickets= ".$Show->getTickets()." WHERE Id= ".$Show->getId().";";
+                //$query = "UPDATE Shows SET DateTime= "."'".$Show->getDateTime()."'"." ,MovieId= "."'".$Show->getMovie()."'"." ,Tickets= ".$Show->getTickets()." WHERE Id= ".$Show->getId().";";
+                $query = "UPDATE Shows SET MovieId=". $Show->getMovie()->getId()." WHERE Shows.Id = ". $Show->getId().";";
 
                 $this->connection = Connection::GetInstance();
-                echo "<script>if(confirm('echo $query'));</script>";
+                
                 $this->connection->ExecuteNonQuery($query);
             }
             catch(Exception $ex)

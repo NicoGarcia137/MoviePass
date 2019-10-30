@@ -6,6 +6,7 @@ use Models\Show as Show;
 use Models\Movie as Movie;
 use Models\Genre as Genre;
 
+
 abstract class Helper{
 
     public function CreateCine($cine,$rooms){
@@ -25,6 +26,7 @@ abstract class Helper{
         $newRoom= new Room();
         $newRoom->setId($room['RoomId']);
         $newRoom->setCapacity($room['RoomCapacity']);
+        $newRoom->setName($room['RoomName']);
         $newRoom->setName($room['RoomName']);
         foreach($shows as $show){
             $newRoom->addShow($show);

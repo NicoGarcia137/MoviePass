@@ -38,20 +38,22 @@
                             {
                                 echo " -".$genre->getDescription();
                             }   
-                            
                         ?>
-
                     </div>
 
-                        
+                    <div class="fright">
+                        <form action="<?php echo FRONT_ROOT."Show/ModifyShow" ?>" method="post">
+                            
+                            <input value="<?php echo $show->getId(); ?>" name="Id" >
+                            <input name="MovieId" value="<?php echo $movie->getId() ?>">
+                            <input value="100" name="Tickets">
+                            <button class="optButton optButton-block" type="submit"  >Seleccionar</button>
 
+                        </form>
+                    </div>
                 </div>
 
-                <form action="Show/ModifyShow" method="post">
-
                 
-
-                </form>
 
             </div>
         </div>

@@ -107,12 +107,6 @@ class CineDAOPDO extends Helper implements ICineDAO{
                         
                         array_push($CineList, $cine);
                 }
-           
-
-
-     
-                var_dump($CineList);
-
 
                 return $CineList;
             }

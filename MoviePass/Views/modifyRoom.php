@@ -16,7 +16,7 @@ include_once("navAdmin.php");
         <div class="border-left">
             <div class="inner">
 
-            <h3>Sala <?php echo $room->getId() ?></h3>
+            <h3>Sala : <span><?php echo $room->getName() ?></span></h3>
 
             <table class="calendarTable">
                 <thead>
