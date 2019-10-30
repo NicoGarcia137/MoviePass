@@ -3,8 +3,11 @@
 
     use DAO\CineDAO as CineDAOJSON;
     use Models\Cine as Cine;
+    use Models\Room as Room;
+    use Models\Show as Show;
     use DAO\CineDAOPDO as CineDAOPDO;
     use DAO\RoomDAOPDO as RoomDAOPDO;
+    use DAO\ShowDAOPDO as ShowDAOPDO;
     use \Exception as Exception;
 
     class CineController
@@ -19,6 +22,7 @@
             $this->CineDAOJSON = new CineDAOJSON();
             $this->CineDAOPDO=new CineDAOPDO();
             $this->RoomDAOPDO=new RoomDAOPDO();
+            $this->ShowDAOPDO=new ShowDAOPDO();
             
 
             $this->CineDAO=$this->CineDAOPDO;
@@ -33,24 +37,16 @@
                 $message=$ex->getMessage();
                 echo "<script>if(confirm('$message'));</script>";
             }
-           
         }
 
         public function GetCine($id){
             try{
                 $cine= $this->CineDAO->GetById($id);
-                $rooms=$this->RoomDAOPDO->GetAll();
-                foreach($rooms as $room){
-                    if($room->getCine()==$cine->getId())
-                        $cine->addRoom($room);
-                }
-
                 return $cine;
             }catch(Exception $ex){
                 $message=$ex->getMessage();
                 echo "<script>if(confirm('$message'));</script>";
             }
-           
          }
 
         
@@ -63,6 +59,7 @@
                 $Cine->setCapacity($capacity);
                 $Cine->setValue($value);
                 $Cine->setRooms($Rooms);
+
     
                 $this->CineDAO->Add($Cine);
     
@@ -71,6 +68,42 @@
                 $message=$ex->getMessage();
                 echo "<script>if(confirm('$message'));</script>";
             }
+            }
+
+            public function AddRoom($Capacity,$Name,$CineId)
+            {
+               try{
+                $Room = new Room();
+                $Cine = $this->GetCine($CineId);
+                $Room->setCapacity($Capacity);
+                $Room->setCine($Cine);
+                $Room->setName($Name);
+                $id=$this->RoomDAOPDO->GetLastId()+1;
+                
+                for($x=0;$x<21;$x++){
+                    $show=new Show();
+                    $show->setRoom($id);
+                    $show->setMovie(null);
+                    $show->setTickets(null);
+                    if($x<7){
+                        $show->setDateTime("10:00");
+                        $this->ShowDAOPDO->Add($show);
+                    }
+                    else if ($x>=7 && $x<14){
+                        $show->setDateTime("15:00");
+                        $this->ShowDAOPDO->Add($show);
+                    }
+                    else if ($x<21){
+                        $show->setDateTime("20:00");
+                        $this->ShowDAOPDO->Add($show);
+                    }
+                }
+                $this->RoomDAOPDO->Add($Room);
+
+                $this->ShowModifyView($CineId);
+               }catch(Exception $ex){
+                require_once(VIEWS_PATH."IndexAdmin.php");
+               }
             }
       
       

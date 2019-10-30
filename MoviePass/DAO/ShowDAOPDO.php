@@ -2,46 +2,12 @@
 
 use Models\Show as Show;
 use DAO\Connection as Connection;
-class ShowDAOPDO {
+use DAO\Helper as Helper;
+class ShowDAOPDO extends Helper{
 
   
     private $connection;
     
-    public function GetAllByRoom($Room)
-        {
-            try
-            {
-                $ShowList = array();
-
-                $query = 
-                "SELECT * 
-                FROM Shows as S
-                where S.RoomId=".$Room.";";
-
-                $this->connection = Connection::GetInstance();
-
-                $resultSet = $this->connection->Execute($query);
-                
-                foreach ($resultSet as $row)
-                {                
-                    $Show = new Show();
-                    
-                    $Show->setId($row["Id"]);
-                    $Show->setDateTime($row["DateTime"]);
-                    $Show->setMovie($row["MovieId"]);
-                    $Show->setTickets($row["Tickets"]);
-                    $Show->setRoom($row["RoomId"]);
-
-                    array_push($ShowList, $Show);
-                }
-
-                return $ShowList;
-            }
-            catch(Exception $ex)
-            {
-                throw $ex;
-            }
-        }
     
     public function GetById($Id)
     {
@@ -49,24 +15,65 @@ class ShowDAOPDO {
         {
            
 
-            $query = "SELECT * FROM Shows WHERE Shows.Id =".$Id.";";
+            $query = "select
+            s.Id as ShowId,
+            s.DateTime,
+            s.Tickets,
+            m.Id as MovieId,
+            m.Name as MovieName,
+            m.Duration,
+            m.Language,
+            m.Image,
+            g.Description as Genre,
+            g.Id as GenreId
+            from Shows as s
+            left join Movies as m
+            on s.MovieId=m.Id
+            left join MovieXGenres as mg
+            on mg.MovieId=m.Id
+            left join Genres as g
+            on mg.GenreId = g.Id
+            where s.Id =".$Id."
+            order by s.Id,m.Id,g.Id;";
 
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
-            
-            foreach ($resultSet as $row)
-            {                
-                $Show = new Show();
-                    
-                $Show->setId($row["Id"]);
-                $Show->setDateTime($row["DateTime"]);
-                $Show->setMovie($row["MovieId"]);
-                $Show->setTickets($row["Tickets"]);
-                $Show->setRoom($row["RoomId"]);
+            $show=null;
+            $y=count($resultSet);
+
+
+           
+
+            $x=0;
+            while($x<$y){
+                $show=$this->CreateShow($resultSet[$x],array());
+
+                while($x<$y && $resultSet[$x]['ShowId']==$show->getId()){
+                    if($resultSet[$x]['MovieId']!=null){
+                        $movie=$this->CreateMovie($resultSet[$x],array());
+                        
+                        while($x<$y&& $movie->getId()==$resultSet[$x]["MovieId"] && $resultSet[$x]['ShowId']==$show->getId())
+                        {
+                            if($resultSet[$x]['GenreId']!=null)
+                            {
+                                $genre=$this->CreateGenre($resultSet[$x]);
+                                $movie->addGenre($genre);
+                                $x++;
+                            }else{
+                                $x++;
+                            }
+                        }
+                        $show->setMovie($movie);
+                        
+                    }else{
+                        $x++;
+                    }
+                }
             }
+        
   
-            return $Show;
+            return $show;
         }
         catch(Exception $ex)
         {
@@ -111,7 +118,6 @@ class ShowDAOPDO {
         {
             try
             {
-               
 
                 $query = "INSERT INTO Shows (DateTime, MovieId, Tickets,RoomId) VALUES (:DateTime, :MovieId, :Tickets, :RoomId);";
                 

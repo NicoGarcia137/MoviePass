@@ -30,39 +30,15 @@
             return $Room;
          }
 
-        
-            public function Add($Capacity,$Name,$Cine)
-            {
-               try{
-                $Room = new Room();
-               
-                $Room->setCapacity($Capacity);
-                $Room->setCine($Cine);
-                $Room->setName($Name);
-                $this->RoomDAOPDO->Add($Room);
-
-                $RoomId=$this->RoomDAOPDO->getRoomIdByName($Name);
-
-                $this->ShowModifyRoomView($RoomId);
-               }catch(Exception $ex){
-               
-                require_once(VIEWS_PATH."IndexAdmin.php");
-               }
-              
-            }
-              
         public function RemoveRoom($Id){
             $Room= $this->GetRoom($Id);
             $this->RoomDAOPDO->RemoveRoom($Room);
             $this->RoomListRoomsAdminView();
         }
 
-        public function ModifyRoom($Id, $Shows, $Capacity,$Cine){
-            $Room = new Room();
-            $Room->setId($Id);
-            $Room->setShows($Shows);
+        public function ModifyRoom($Id, $Capacity){
+            $Room= $this->GetRoom($Id);
             $Room->setCapacity($Capacity);
-            $Room->setCine($Cine);
 
             $this->RoomDAOPDO->ModifyRoom($Room);
             $this->RoomListRoomsAdminView();
@@ -70,37 +46,7 @@
         
         public function ShowModifyRoomView($id){
             $room=$this->GetRoom($id);
-            $showsRoom=$this->ShowController->GetShowsCompleteByRoom($id);
-
-            if($showsRoom==null){
-                $shows=[];
-                
-                for($x=0;$x<21;$x++){
-                    $show=new Show();
-                    $show->setRoom($id);
-                    $show->setMovie(null);
-                    $show->setTickets(null);
-                    if($x<7){
-                        $show->setDateTime("10:00");
-                        $this->ShowDAOPDO->Add($show);
-                    }
-                    else if ($x>=7 && $x<14){
-                        $show->setDateTime("15:00");
-                        $this->ShowDAOPDO->Add($show);
-                    }
-                    else if ($x<21){
-                        $show->setDateTime("20:00");
-                        $this->ShowDAOPDO->Add($show);
-                    }
-                }
-                $showsRoom=$this->ShowController->GetShowsCompleteByRoom($id);
-                
-            }
-
-            if($showsRoom!=null){
-               
-                $room->setShows($showsRoom);
-               }
+            
             require_once(VIEWS_PATH."ModifyRoom.php");
         }
 
