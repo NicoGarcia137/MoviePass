@@ -34,8 +34,7 @@
                             <br>
                             <br>
                             
-                            <input type="submit" class="button button-block" value="Log In">
-                            <input type="submit" >
+                            <input type="submit" class="button button-block" value="Log In">                            
 
                         
                         </form>
