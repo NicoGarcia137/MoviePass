@@ -102,8 +102,6 @@ foreach($rooms as $room){
                             
                             <button class="optButton optButton-block" type="submit" name="id" value="<?php echo $room->getId() ?>" >Modificar</button>
 
-
-                    
                         </form>
                     </div>
 
@@ -114,6 +112,7 @@ foreach($rooms as $room){
         </div>
     </div>
 </div> 
+
 <?php 
     }
 ?>   

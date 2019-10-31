@@ -38,18 +38,22 @@ include_once("navUser.php");
         <div class="border-right">
             <div class="border-left">
                 <div class="inner">
-
+                    
+                <h3><span><?php echo $cine->getName() ?></span></h3>
+                
                     <div class="address">
+
                         <div class="fleft">
-                            
-                            <span>Nombre:</span> <?php echo $cine->getName() ?> <br>
+                
                             <span>Direccion:</span> <?php echo $cine->getAddress() ?> <br>
                             <span>Capacidad:</span> <?php echo $cine->getCapacity() ?> <br>
-                            <span>Tarifa:</span> <?php echo "$" . $cine->getValue() ?>
-
-                            <br><br> FALTA AGREGAR LAS PELICULAS DE CADA CINE ( OPCIONAL )
+                            <span>Tarifa:</span> <?php echo "$" . $cine->getValue() ?> <br><br>
+                            <h3><span>Cartelera</span></h3>
 
                         </div>
+
+                        <?php include("movieCarousel.php");?>
+
                     </div>
 
                 </div>

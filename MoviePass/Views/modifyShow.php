@@ -53,6 +53,8 @@
                     </div>
                 </div>
 
+                <!-- Crear un formulario similar al del boton, pero con el value de MovieId en null para el 'eliminar' -->
+
                 
 
             </div>
