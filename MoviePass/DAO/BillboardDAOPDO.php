@@ -42,9 +42,11 @@ class BillboardDAOPDO extends Helper{
 
                 $MovieList=[];
                 $y=count($resultSet);
-                if($y!=0)
-                    for ($x=0;$x<=$y;$x++)
+                $x=0;
+                if($y>$x){
+                    while($x<$y)
                     {  
+                        
                         $Movie=$this->CreateMovie($resultSet[$x],array());
                         
                         while($x<$y&&$Movie->getId()==$resultSet[$x]["MovieId"]){
@@ -53,7 +55,10 @@ class BillboardDAOPDO extends Helper{
                             $x++;
                         }
                         array_push($MovieList,$Movie);
+                        
+                        
                     }
+                }
                 return $MovieList;
             }
             catch(Exception $ex)
@@ -112,13 +117,43 @@ class BillboardDAOPDO extends Helper{
                 throw $ex;
             }
     }
+
+
+    public function GetAllMoviesInshows(){
+        try
+            {
+                $MovieList = array();
+
+                $query = 
+                "select distinct
+                s.MovieId
+                from Shows as s
+                where s.MovieId is not null;";
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query);
+                
+                $MovieIds=[];
+                foreach($resultSet as $movieId){
+                    array_push($MovieIds,$movieId['MovieId']);
+                }
+                
+                return $MovieIds;
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+    }
+
  
     public function RemoveMovie($Movie)
     {
         try
         { //FIJARSE EL NOMBRE DE LA TABLA POR TABLENAME
             
-            $query = "DELETE FROM Movies WHERE Id="."'".$Movie->getId()."'".";";
+            $query = "Delete from Movies where Id=".$Movie->getId().";";
 
             $this->connection = Connection::GetInstance();
 

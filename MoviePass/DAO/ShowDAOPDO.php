@@ -19,6 +19,7 @@ class ShowDAOPDO extends Helper{
             s.Id as ShowId,
             s.DateTime,
             s.Tickets,
+            s.RoomId,
             m.Id as MovieId,
             m.Name as MovieName,
             m.Duration,

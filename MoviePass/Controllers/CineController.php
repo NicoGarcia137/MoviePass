@@ -142,6 +142,12 @@
         }
 
 
+        public function GetCinesAndShowsByMovieId($movieId){
+            $cines= $this->ShowDAOPDO->GetCinesAndShowsByMovieId($movieId);
+            return $cines;
+        }
+
+
 
 
 

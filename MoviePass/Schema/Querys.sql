@@ -155,6 +155,36 @@ on mg.GenreId = g.Id
 where s.Id = 1
 order by s.Id,m.Id,g.Id;
 
+select distinct
+s.MovieId
+from Shows as s
+where s.MovieId is not null;
+
+
+select distinct
+m.Id as MovieId,
+m.Name as MovieName,
+m.Duration,
+m.Language,
+m.Image,
+g.Description as Genre,
+g.Id as GenreId
+from Shows as s
+join Movies as m
+on s.MovieId=m.Id
+join MovieXGenres as mg
+on mg.MovieId=m.Id
+join Genres as g
+on mg.GenreId = g.Id
+where s.MovieId is not null
+order by s.Id,m.Id,g.Id;
+
+
+select
+c.Id as CineId,
+s.MovieId
+
+
 update Shows set MovieId=475557;
 
 

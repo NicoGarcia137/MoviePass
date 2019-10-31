@@ -27,7 +27,6 @@ abstract class Helper{
         $newRoom->setId($room['RoomId']);
         $newRoom->setCapacity($room['RoomCapacity']);
         $newRoom->setName($room['RoomName']);
-        $newRoom->setName($room['RoomName']);
         foreach($shows as $show){
             $newRoom->addShow($show);
         }
@@ -41,6 +40,7 @@ abstract class Helper{
         $newShow->setDateTime($show['DateTime']);
         $newShow->setTickets($show['Tickets']);
         $newShow->setMovie($movie);
+        $newShow->setRoom($show['RoomId']);
         return $newShow;
     }
 
