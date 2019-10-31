@@ -56,6 +56,16 @@
              require_once(VIEWS_PATH."moviesApi.php");
          }
 
+         public function GetAllMoviesInshows(){
+            $movies=[];
+            $movieIds= $this->BillboardDAOPDO->GetAllMoviesInshows();
+            foreach($movieIds as $id){
+                $movie=$this->GetMovie($id);
+                array_push($movie,$movies);
+            }
+            return $movies;
+         }
+
 
       
          public function GetMoviesFromApi(){
@@ -94,12 +104,14 @@
                 }
 
                 $new_array = array_diff($BillboardIds,$MovieIds);
-               
-                    foreach($new_array as $movieId){
-                        if($movieId){
-                        $this->RemoveMovie($movieId);
-                        }
+
+                $MoviesIdsInShows=$this->BillboardDAOPDO->GetAllMoviesInshows();
+
+                foreach($new_array as $movieId){
+                    if(!in_array($movieId->getId(),$MoviesIdsInShows)){
+                    $this->RemoveMovie($movieId->getId());
                     }
+                }
         }
 
         public function GetMovieGenresFromApi(){
@@ -113,7 +125,7 @@
                             $newGenre=new Genre();
                             $newGenre->setId($genreApi['id']);
                             $newGenre->setDescription($genreApi['name']);
-                            $this->GenreDAOPDO->Add($newGenre);  /// LLAMAR DIRECTAMENTE?
+                            $this->GenreDAOPDO->Add($newGenre);  
                         }
                     }
                 

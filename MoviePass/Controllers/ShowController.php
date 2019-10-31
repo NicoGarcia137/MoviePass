@@ -39,16 +39,14 @@
 
         public function ModifyShow($Id,$MovieId, $Tickets){
             $Show=$this->GetShow($Id);
-            var_dump($MovieId);
             $Movie=$this->BillboardDAOPDO->GetMovieById($MovieId);
             $Show->setMovie($Movie);
             $Show->setTickets($Tickets);
 
             $this->ShowDAOPDO->ModifyShow($Show);
+            $roomId =$Show->getRoom();
+            $room = $this->RoomDAOPDO->GetById($roomId);
             
-            $room = $Show->getRoom();
-            
-            var_dump($room);
             require_once(VIEWS_PATH."modifyRoom.php");
         }
         
