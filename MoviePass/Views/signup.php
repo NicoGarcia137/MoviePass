@@ -21,8 +21,6 @@
         
                     <div class="tab-content">
                         <div id="signup">   
-                            <!-- <h1 class="log-h1" >Sign Up for Free</h1>
-                            <br><br> -->
                         
                             <form action="<?php echo FRONT_ROOT."User/Add" ?>" method="post">
                             

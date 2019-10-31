@@ -22,5 +22,13 @@
         "email": "a@a",
         "password": "a",
         "rol": "admin"
+    },
+    {
+        "firstName": "Julian",
+        "lastName": "Lafratta",
+        "dni": "41307551",
+        "email": "julian.lafratta@gmail.com",
+        "password": "asd123",
+        "rol": "user"
     }
 ]

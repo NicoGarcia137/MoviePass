@@ -1,7 +1,8 @@
 <?php 
 include_once("header.php");
 include_once("navAdmin.php");
-
+$baseurl="https://image.tmdb.org/t/p/w500";
+$emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_200_200/0?e=2159024400&v=beta&t=qdZJ4JLDc4N_esDRR0m2L6_qz27N2KKhi9yP5-LtAFA";
 ?>
 
 <div id="signupSlogan">
@@ -35,17 +36,28 @@ include_once("navAdmin.php");
                     if($show->getDateTime()==="10:00"){ ?>
                 <td>
                     <div class="imgBox">
+                        
 
-                        <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
-                        <input type="submit" name="show" value="<?php echo $show->getId();?>" ><img src="<?php if($show->getMovie() != null)
-                                                                                                                {echo $show->getMovie()->getImage();
-                                                                                                                }else{  
-                                                                                                                    echo "https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_200_200/0?e=2159024400&v=beta&t=qdZJ4JLDc4N_esDRR0m2L6_qz27N2KKhi9yP5-LtAFA";
-                                                                                                                    }  ?>" alt="">
+                        <form action="<?php echo FRONT_ROOT."Show/RemoveShow"?>" method="post">
+
+                            <button type="submit" name="Id" class="button button-block" value="<?php echo $show->getId();?>">X</button>
 
                         </form>
 
-                    
+                        <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
+                        
+                            <button type="submit" name="show" value="<?php echo $show->getId();?>">
+                                <a href="">
+                                    <img src="<?php if($show->getMovie() != null)
+                                                    {
+                                                        echo $baseurl . $show->getMovie()->getImage();
+                                                    }else{  
+                                                        echo $emptyImg;
+                                                    }  ?>" alt="">
+                                </a>
+                            </button>
+
+                        </form>
 
                     </div>
                     <div class="details">
@@ -53,7 +65,7 @@ include_once("navAdmin.php");
                                     {echo $show->getMovie()->getName();
                                     }else{  
                                         echo "No Asignado";
-                                        } ?></h3>
+                                    } ?></h3>
                     </div>
                 </td>
                     <?php }} ?>
@@ -63,50 +75,66 @@ include_once("navAdmin.php");
                 <?php foreach($room->getShows() as $show){ 
                     if($show->getDateTime()==="15:00"){ ?>
                 <td>
-                    <div class="imgBox">
-                    <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
-                        <input type="submit" name="show" value="<?php echo $show->getId();?>" ><img src="<?php if($show->getMovie() != null)
-                                                                                                                {echo $show->getMovie()->getImage();
-                                                                                                                }else{  
-                                                                                                                    echo "https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_200_200/0?e=2159024400&v=beta&t=qdZJ4JLDc4N_esDRR0m2L6_qz27N2KKhi9yP5-LtAFA";
-                                                                                                                    }  ?>" alt="">
+                <div class="imgBox">
 
-                        </form>
-                    </div>  
-                    <div class="details">
-                        <h3><?php if($show->getMovie() != null)
-                                    {echo $show->getMovie()->getName();
-                                    }else{  
-                                        echo "No Asignado";
-                                        }  ?></h3>
-                    </div>
-                </td>    
-                <?php }} ?>                 
+                    <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
+                        
+                        <button type="submit" name="show" value="<?php echo $show->getId();?>">
+                            <a href="">
+                                <img src="<?php if($show->getMovie() != null)
+                                                {
+                                                    echo $baseurl . $show->getMovie()->getImage();
+                                                }else{  
+                                                    echo $emptyImg;
+                                                }  ?>" alt="">
+                            </a>
+                        </button>
+
+                    </form>
+
+                </div>
+                <div class="details">
+                    <h3><?php if($show->getMovie() != null)
+                                {echo $show->getMovie()->getName();
+                                }else{  
+                                    echo "No Asignado";
+                                } ?></h3>
+                </div>
+            </td>
+                <?php }} ?>              
             </tr>
             <tr>
                 <th scope="row">20:00</th>
                 <?php foreach($room->getShows() as $show){ 
                     if($show->getDateTime()==="20:00"){ ?>
                 <td>
-                    <div class="imgBox">
-                    <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
-                        <input type="submit" name="show" value="<?php echo $show->getId();?>" ><img src="<?php if($show->getMovie() != null)
-                                                                                                                {echo $show->getMovie()->getImage();
-                                                                                                                }else{  
-                                                                                                                    echo "https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_200_200/0?e=2159024400&v=beta&t=qdZJ4JLDc4N_esDRR0m2L6_qz27N2KKhi9yP5-LtAFA";
-                                                                                                                    }  ?>" alt="">
+                <div class="imgBox">
 
-                        </form>
-                    </div>  
-                    <div class="details">
-                        <h3><?php if($show->getMovie() != null)
-                                    {echo $show->getMovie()->getName();
-                                    }else{  
-                                        echo "No Asignado";
-                                        }  ?></h3>
-                    </div>
-                </td>     
-                <?php }} ?>                
+                    <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
+                        
+                        <button type="submit" name="show" value="<?php echo $show->getId();?>">
+                            <a href="">
+                                <img src="<?php if($show->getMovie() != null)
+                                                {
+                                                    echo $baseurl . $show->getMovie()->getImage();
+                                                }else{  
+                                                    echo $emptyImg;
+                                                }  ?>" alt="">
+                            </a>
+                        </button>
+
+                    </form>
+
+                </div>
+                <div class="details">
+                    <h3><?php if($show->getMovie() != null)
+                                {echo $show->getMovie()->getName();
+                                }else{  
+                                    echo "No Asignado";
+                                } ?></h3>
+                </div>
+            </td>
+                <?php }} ?>             
             </tr>
             
         </tbody>
