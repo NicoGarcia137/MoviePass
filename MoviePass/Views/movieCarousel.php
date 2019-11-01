@@ -10,7 +10,7 @@
         <div class="swiper-slide">
 
             <div class="imgBox">
-                <img src="https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg" alt="">
+                <a href=""><img src="https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg" alt=""></a>
             </div>  
             <div class="details">
                 <h3>Joker</h3>
