@@ -39,7 +39,10 @@
 
         public function ModifyShow($Id,$MovieId, $Tickets){
             $Show=$this->GetShow($Id);
-            $Movie=$this->BillboardDAOPDO->GetMovieById($MovieId);
+            $Movie=null;
+            if($MovieId!=null){
+                $Movie=$this->BillboardDAOPDO->GetMovieById($MovieId);
+            }
             $Show->setMovie($Movie);
             $Show->setTickets($Tickets);
 

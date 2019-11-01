@@ -87,8 +87,12 @@ class ShowDAOPDO extends Helper{
             try
             {
                 //$query = "UPDATE Shows SET DateTime= "."'".$Show->getDateTime()."'"." ,MovieId= "."'".$Show->getMovie()."'"." ,Tickets= ".$Show->getTickets()." WHERE Id= ".$Show->getId().";";
-                $query = "UPDATE Shows SET MovieId=". $Show->getMovie()->getId()." WHERE Shows.Id = ". $Show->getId().";";
-
+                
+                if($Show->GetMovie()==null){
+                    $query = "UPDATE Shows SET MovieId= null WHERE Shows.Id =".$Show->getId().";";
+                }else{
+                    $query = "UPDATE Shows SET MovieId= ".$Show->getMovie()->getId()." WHERE Shows.Id =".$Show->getId().";";
+                }
                 $this->connection = Connection::GetInstance();
                 
                 $this->connection->ExecuteNonQuery($query);
@@ -116,26 +120,28 @@ class ShowDAOPDO extends Helper{
     }
   
     public function Add($Show)
+    {
+        try
         {
-            try
-            {
 
-                $query = "INSERT INTO Shows (DateTime, MovieId, Tickets,RoomId) VALUES (:DateTime, :MovieId, :Tickets, :RoomId);";
-                
-                $parameters["DateTime"] = $Show->getDateTime();
-                $parameters["MovieId"] = $Show->getMovie();
-                $parameters["Tickets"] = $Show->getTickets();
-                $parameters["RoomId"] = $Show->getRoom();
-               
-                $this->connection = Connection::GetInstance();                
-                $this->connection->ExecuteNonQuery($query, $parameters);
-                
-            }
-            catch(Exception $ex)
-            {
-                var_dump($ex);
-            }
+            $query = "INSERT INTO Shows (DateTime, MovieId, Tickets,RoomId) VALUES (:DateTime, :MovieId, :Tickets, :RoomId);";
+            
+            $parameters["DateTime"] = $Show->getDateTime();
+            $parameters["MovieId"] = $Show->getMovie();
+            $parameters["Tickets"] = $Show->getTickets();
+            $parameters["RoomId"] = $Show->getRoom();
+            
+            $this->connection = Connection::GetInstance();                
+            $this->connection->ExecuteNonQuery($query, $parameters);
+            
         }
+        catch(Exception $ex)
+        {
+            var_dump($ex);
+        }
+    }
+
+
  } 
 
 ?>

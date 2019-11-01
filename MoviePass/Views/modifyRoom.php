@@ -33,14 +33,18 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
             <tr>
                 <th scope="row">10:00</th>
                 <?php foreach($room->getShows() as $show){ 
-                    if($show->getDateTime()==="10:00"){ ?>
+                    //if($show->getDateTime()==="10:00"){
+                         ?>
                 <td>
                     <div class="imgBox">
                         
 
-                        <form action="<?php echo FRONT_ROOT."Show/RemoveShow"?>" method="post">
-
-                            <button type="submit" name="Id" class="button button-block" value="<?php echo $show->getId();?>">X</button>
+                    <form action="<?php echo FRONT_ROOT."Show/ModifyShow" ?>" method="post">
+                            
+                            <input value="<?php echo $show->getId(); ?>" name="Id" >
+                            <input name="MovieId" value="<?php echo null ?>">
+                            <input value="100" name="Tickets">
+                            <button class="optButton optButton-block" type="submit"  >X</button>
 
                         </form>
 
@@ -68,12 +72,13 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                                     } ?></h3>
                     </div>
                 </td>
-                    <?php }} ?>
+                    <?php }//} ?>
             </tr>
             <tr>
                 <th scope="row">15:00</th>
                 <?php foreach($room->getShows() as $show){ 
-                    if($show->getDateTime()==="15:00"){ ?>
+                  //  if($show->getDateTime()==="15:00"){ 
+                        ?>
                 <td>
                 <div class="imgBox">
 
@@ -101,12 +106,12 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                                 } ?></h3>
                 </div>
             </td>
-                <?php }} ?>              
+                <?php }//} ?>              
             </tr>
             <tr>
                 <th scope="row">20:00</th>
                 <?php foreach($room->getShows() as $show){ 
-                    if($show->getDateTime()==="20:00"){ ?>
+                  //  if($show->getDateTime()==="20:00"){ ?>
                 <td>
                 <div class="imgBox">
 
@@ -134,7 +139,7 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                                 } ?></h3>
                 </div>
             </td>
-                <?php }} ?>             
+                <?php }//} ?>             
             </tr>
             
         </tbody>

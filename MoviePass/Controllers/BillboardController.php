@@ -61,10 +61,17 @@
             $movieIds= $this->BillboardDAOPDO->GetAllMoviesInshows();
             foreach($movieIds as $id){
                 $movie=$this->GetMovie($id);
-                array_push($movie,$movies);
+                array_push($movies,$movie);
             }
             return $movies;
          }
+
+         public function ShowMoviesInShows(){
+            
+             $Billboard= $this->GetAllMoviesInshows();
+             require_once(VIEWS_PATH."showBillboard.php");
+         }
+
 
 
       

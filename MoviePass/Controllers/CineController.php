@@ -5,9 +5,11 @@
     use Models\Cine as Cine;
     use Models\Room as Room;
     use Models\Show as Show;
+    use Models\Movie as Movie;
     use DAO\CineDAOPDO as CineDAOPDO;
     use DAO\RoomDAOPDO as RoomDAOPDO;
     use DAO\ShowDAOPDO as ShowDAOPDO;
+    use DAO\BillboardDAOPDO as BillboardDAOPDO;
     use \Exception as Exception;
 
     class CineController
@@ -15,6 +17,7 @@
         private $CineDAOJSON;
         private $CineDAOPDO;
         private $RoomDAOPDO;
+        private $BillboardDAOPDO;
         private $DAO;
 
         public function __construct()
@@ -23,6 +26,7 @@
             $this->CineDAOPDO=new CineDAOPDO();
             $this->RoomDAOPDO=new RoomDAOPDO();
             $this->ShowDAOPDO=new ShowDAOPDO();
+            $this->BillboardDAOPDO=new BillboardDAOPDO();
             
 
             $this->CineDAO=$this->CineDAOPDO;
@@ -79,24 +83,30 @@
                 $Room->setCine($Cine);
                 $Room->setName($Name);
                 $id=$this->RoomDAOPDO->GetLastId()+1;
-                
+                $day=1;
                 for($x=0;$x<21;$x++){
                     $show=new Show();
                     $show->setRoom($id);
                     $show->setMovie(null);
                     $show->setTickets(null);
                     if($x<7){
-                        $show->setDateTime("10:00");
+                        $show->setDateTime("10:00"." day : ".$day);
                         $this->ShowDAOPDO->Add($show);
                     }
                     else if ($x>=7 && $x<14){
-                        $show->setDateTime("15:00");
+                        $show->setDateTime("15:00"." day : ".$day);
                         $this->ShowDAOPDO->Add($show);
                     }
                     else if ($x<21){
-                        $show->setDateTime("20:00");
+                        $show->setDateTime("20:00"." day : ".$day);
                         $this->ShowDAOPDO->Add($show);
                     }
+                    if($day==7){
+                        $day=1;
+                    }else{
+                        $day++;
+                    }
+                    
                 }
                 $this->RoomDAOPDO->Add($Room);
 
@@ -142,8 +152,8 @@
         }
 
 
-        public function GetCinesAndShowsByMovieId($movieId){
-            $cines= $this->ShowDAOPDO->GetCinesAndShowsByMovieId($movieId);
+        public function GetCinesAndShowsByMovie($movie){
+            $cines= $this->CineDAOPDO->GetCinesAndShowsByMovie($movie);
             return $cines;
         }
 
@@ -167,6 +177,14 @@
         {
             require_once(VIEWS_PATH."removeCine.php");
         }
+
+        public function ShowCinesAndShowsByMovie($id)
+        {
+            $Movie=$this->BillboardDAOPDO->GetMovieById($id);
+            $cinesAndShows=$this->GetCinesAndShowsByMovie($Movie);
+            require_once(VIEWS_PATH."showCinesAndShowsByMovie.php");
+        }
+
         
         public function ShowListCinesAdminView(){
             $cines=$this->GetAllCines();

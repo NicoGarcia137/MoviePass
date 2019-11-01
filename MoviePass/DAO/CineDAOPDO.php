@@ -116,10 +116,11 @@ class CineDAOPDO extends Helper implements ICineDAO{
             }
         }
     
-        public function GetCinesAndShowsByMovieId($id)
+        public function GetCinesAndShowsByMovie($movie)
         {
             try
             {
+                $id=$movie->getId();
                 $CineList = array();
 
                 $query = "Select 
