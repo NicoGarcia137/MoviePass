@@ -55,6 +55,14 @@
                                 <button class="button button-block">Create account</button>
                             
                             </form>
+                            <br>
+                            
+                            <form action="<?php echo FRONT_ROOT."User/FacebookAdd" ?>">
+
+                                <input type="submit" class="button button-block" value="Sign up with facebook">  
+
+                            </form>
+
                         </div>
                     </div><!-- tab-content -->
                 </div> <!-- /form -->

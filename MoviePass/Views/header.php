@@ -33,7 +33,7 @@
               <?php if(!$_SESSION){ ?>
               <li><a href="<?php echo FRONT_ROOT."Login/ShowLoginView"?>">LogIn</a></li>
               <li><a href="<?php echo FRONT_ROOT."User/ShowSignUpView"?>">SignUp</a></li>
-              <?php }else{  ?>
+              <?php }else{ ?>
                 <li><a href="<?php echo FRONT_ROOT."Login/Logout"?>">LogOut</a></li>
               <?php } ?>
               <!-- CAMBIAR TODO ESTO DE LOS HREF POR LOS CONTROLADORES QUE CORRESPONDA -->

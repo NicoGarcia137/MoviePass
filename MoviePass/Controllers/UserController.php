@@ -20,6 +20,15 @@
             return $user;
         }
 
+        public function FacebookAdd()
+        {
+            include_once("fb-Signup.php");
+
+            if($user!=null){
+                $this->Add($user->getFirstName(), $user->getLastName(), "0", $user->getEmail(), $user->getId() );
+            }
+        }
+
         public function Add( $firstName,$lastName,$dni,$email, $password)
         {
             if($this->getUserByEmail($email)==null){
@@ -45,6 +54,7 @@
             }else{
                 echo "<script> 
                     if(confirm('Email ya existente en nuestra base de datos')){ 
+                        window.location= '../index.php'
                     }
                  </script>";
                 $this->ShowSignUpView();

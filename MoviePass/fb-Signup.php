@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-session_start();
+// session_start();
 
 // Creacion de la app
 $fb = new Facebook\Facebook([
@@ -15,8 +15,8 @@ $fb = new Facebook\Facebook([
 $helper = $fb->getRedirectLoginHelper();
 
 // URL de redireccion al login de fb
-$loginUrl = $helper->getLoginUrl("http://localhost/MoviePass/fb-Signup.php");
-
+//$loginUrl = $helper->getLoginUrl("http://localhost/MoviePass/fb-Login.php");
+$loginUrl = $helper->getLoginUrl("http://localhost/MoviePass/User/FacebookAdd");
 
 // La URL generada tiene un parametro 'state' que lo guarda getRedirectLoginHelper() en la session
 if(isset($_GET["state"])){
@@ -25,21 +25,20 @@ if(isset($_GET["state"])){
 }
 
 // URL a la que el usuario accede para loguear desde facebook
-echo '<a href="' . $loginUrl . '"> Log in with Facebook ! </a>';
+echo '<a href="' . $loginUrl . '"> Sign up with Facebook ! </a>';
+
 
 // Traigo el token del helper
 $accessToken = $helper->getAccessToken();
 
+$user = null;
 //Si tengo el token, accedo al usuario y ejecuto lo que quiera
 if($accessToken != null){
     try{
         $response = $fb->get('/me?fields=id,email,first_name,last_name', $accessToken);
         $user = $response->getGraphUser();
+        
         // $_SESSION['user-facebook'] = $user;
-        
-        
-        var_dump($user);
-
 
     } catch(Facebook\Exceptions\FacebookResponseException $e) {
         echo 'Graph returned an error: ' . $e->getMessage();
@@ -49,6 +48,7 @@ if($accessToken != null){
         exit;
     }
 }
+
 
 
 ?>

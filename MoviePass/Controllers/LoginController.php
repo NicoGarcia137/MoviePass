@@ -13,10 +13,18 @@ class LoginController
             $this->UserDAO = new UserDAO();
         }
 
+    public function FacebookLogin()
+    {
+        include_once("fb-Login.php");
+        if($user!=null)
+        {
+            $this->Login($user->getEmail(), $user->getId());
+        }
+    }
+
     public function Login($email, $password)
     {
         $user = $this->UserDAO->GetByEmail($email);
-
         if(($user != null) && ($user->getPassword() === $password))
         {
             $_SESSION["loggedUser"] = $user;
@@ -49,7 +57,7 @@ class LoginController
     }
 
     public function ShowUserView(){
-        require_once(VIEWS_PATH."index.php");
+        header("location:../index.php");
     }
 
     public function ShowAdminView(){

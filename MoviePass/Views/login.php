@@ -38,6 +38,15 @@
 
                         
                         </form>
+                        <br>
+                        <a href="https://www.facebook.com/v5.0/dialog/oauth?client_id=3079459188747276&state=b54f269fbc3714657425ac781e56e574&response_type=code&sdk=php-sdk-5.7.0&redirect_uri=http%3A%2F%2Flocalhost%2FMoviePass%2FUser%2FFacebookAdd%3F&scope=">
+                            <img src="<?php echo FRONT_ROOT?>Views/images/fblogin.png" ></a>
+
+                        <!-- <form action="<?php echo FRONT_ROOT."Login/FacebookLogin" ?>">
+
+                            <input type="submit" class="button button-block" value="Log in with facebook">  
+
+                        </form> -->
 
                         
                         
