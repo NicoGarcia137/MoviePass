@@ -59,7 +59,7 @@ include_once("navAdmin.php");
 
                         </div>
 
-                        <?php include_once("movieCarousel.php"); ?>
+                        <?php include("movieCarousel.php"); ?>
                         
                     </div>
 
@@ -67,6 +67,8 @@ include_once("navAdmin.php");
             </div>
         </div>
     </div>
+
+
     <br>
         
 <?php    }  ?>

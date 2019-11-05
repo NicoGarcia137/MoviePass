@@ -100,7 +100,6 @@ class UserDAO implements IUserDAO{
                 
                 $rolUser->setDescripcion($valuesArray["rol"]);
 
-                 
                 $user->setPerfilUsuario($usuario);
                 $user->setEmail($valuesArray["email"]);
                 $user->setPassword($valuesArray["password"]);
