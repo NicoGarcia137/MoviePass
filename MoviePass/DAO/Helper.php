@@ -5,6 +5,7 @@ use Models\Room as Room;
 use Models\Show as Show;
 use Models\Movie as Movie;
 use Models\Genre as Genre;
+use \DateTime as DateTime;
 
 
 abstract class Helper{
@@ -37,7 +38,8 @@ abstract class Helper{
     public function CreateShow($show,$movie){
         $newShow= new Show();
         $newShow->setId($show['ShowId']);
-        $newShow->setDateTime($show['DateTime']);
+        $date= new DateTime($show['DateTime']);
+        $newShow->setDateTime($date);
         $newShow->setTickets($show['Tickets']);
         $newShow->setMovie($movie);
         $newShow->setRoom($show['RoomId']);

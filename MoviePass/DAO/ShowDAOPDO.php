@@ -123,10 +123,10 @@ class ShowDAOPDO extends Helper{
     {
         try
         {
-
             $query = "INSERT INTO Shows (DateTime, MovieId, Tickets,RoomId) VALUES (:DateTime, :MovieId, :Tickets, :RoomId);";
             
-            $parameters["DateTime"] = $Show->getDateTime();
+            $date=$Show->getDateTime();
+            $parameters["DateTime"] =$date->format('Y-m-d H:i:s');
             $parameters["MovieId"] = $Show->getMovie();
             $parameters["Tickets"] = $Show->getTickets();
             $parameters["RoomId"] = $Show->getRoom();

@@ -11,6 +11,7 @@
     use DAO\ShowDAOPDO as ShowDAOPDO;
     use DAO\BillboardDAOPDO as BillboardDAOPDO;
     use \Exception as Exception;
+    use \DateTime as DateTime;
 
     class CineController
     {
@@ -82,31 +83,28 @@
                 $Room->setCapacity($Capacity);
                 $Room->setCine($Cine);
                 $Room->setName($Name);
-                $id=$this->RoomDAOPDO->GetLastId()+1;
-                $day=1;
-                for($x=0;$x<21;$x++){
+                $id=$this->RoomDAOPDO->GetLastId();
+              
+                $date=new DateTime();
+                for($x=0;$x<7;$x++){
                     $show=new Show();
                     $show->setRoom($id);
                     $show->setMovie(null);
                     $show->setTickets(null);
-                    if($x<7){
-                        $show->setDateTime("10:00"." day : ".$day);
-                        $this->ShowDAOPDO->Add($show);
-                    }
-                    else if ($x>=7 && $x<14){
-                        $show->setDateTime("15:00"." day : ".$day);
-                        $this->ShowDAOPDO->Add($show);
-                    }
-                    else if ($x<21){
-                        $show->setDateTime("20:00"." day : ".$day);
-                        $this->ShowDAOPDO->Add($show);
-                    }
-                    if($day==7){
-                        $day=1;
-                    }else{
-                        $day++;
-                    }
-                    
+                   
+                    date_time_set($date, 10, 00, 00);
+                    $show->setDateTime($date);
+                    $this->ShowDAOPDO->Add($show);
+                
+                    date_time_set($date, 15, 00, 00);
+                    $show->setDateTime($date);
+                    $this->ShowDAOPDO->Add($show);
+
+                    date_time_set($date, 20, 00, 00);
+                    $show->setDateTime($date);
+                    $this->ShowDAOPDO->Add($show);
+                
+                    $date->modify('+1 day');
                 }
                 $this->RoomDAOPDO->Add($Room);
 
@@ -115,7 +113,43 @@
                 require_once(VIEWS_PATH."IndexAdmin.php");
                }
             }
-      
+
+            public function RemoveRoom($cineId,$id){
+                try{
+                    $Room=$this->RoomDAOPDO->GetById($id);
+                    var_dump($Room);
+                    if($Room != null){
+                        if($this->CheckShowsByRoom($Room)){
+                            $this->RoomDAOPDO->RemoveRoom($Room);
+                            $this->ShowModifyView($cineId);   
+                        }else{
+                            throw new Exception("Error, Asegurarse de que la sala no tenga funciones con peliculas asignadas");
+                        }
+                    }else{
+                        throw new Exception("Error, no se encuentra sala con esa Id en el sistema");
+                    }
+                    }catch(Exception $ex){
+                    $message=$ex->getMessage();
+                    echo "<script>if(confirm('$message'));</script>";
+                    var_dump($Room);
+                    $this->ShowModifyView($cineId);
+                }
+            }
+    
+    
+    
+            public function CheckShowsByRoom(Room $room){
+                $result=true;
+                foreach($room->getShows() as $show){
+                    if($show->getMovie()!=null){
+                        $result=false;
+                    }
+                }
+                return $result;
+            }
+
+
+
       
         
         public function RemoveCine($id){
@@ -123,8 +157,12 @@
                 $cine= $this->GetCine($id);
                 
                 if($cine != null){
-                    $this->CineDAO->RemoveCine($cine);
-                    $this->ShowListCinesAdminView();        
+                    if(empty($cine->getRooms())){
+                        $this->CineDAO->RemoveCine($cine);
+                        $this->ShowListCinesAdminView();   
+                    }else{
+                        throw new Exception("Error, Asegurarse de que el cine no tenga salas");
+                    }
                 }else{
                     throw new Exception("Error, no se encuentra cine con esa Id en el sistema");
                 }

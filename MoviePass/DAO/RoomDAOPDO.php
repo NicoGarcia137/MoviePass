@@ -98,16 +98,14 @@ class RoomDAOPDO extends Helper{
         try
         {         
 
-            $query = "select max(r.Id) as LastId from Rooms as r;";
+            $query = "select auto_increment from information_schema.TABLES where table_schema = 'moviepass' and table_name = 'rooms' ;";
 
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
             
-            $LastId=0;
-            if($resultSet[0]["LastId"]!=null){
-                $LastId= $resultSet[0]["LastId"];
-            }
+            $LastId=$resultSet[0]["auto_increment"];
+
   
             return $LastId;
         }

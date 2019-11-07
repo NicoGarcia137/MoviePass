@@ -19,17 +19,6 @@ create table Rooms (
     constraint fk_CineId foreign key (CineId) references Cines (Id) 
 );
 
-create table Shows (
-    Id int auto_increment ,
-    DateTime varchar(20) not null , 
-    MovieId int , 
-    Tickets int,
-    RoomId int not null,
-    constraint pk_Id primary key (Id) ,
-    constraint fk_MovieId foreign key (MovieId) references Movies (Id),
-    constraint fk_RoomId foreign key (RoomId) references Room (Id)    
-);
-
 create table Movies (
      Id int DEFAULT '0',
      Name varchar (60) not null ,
@@ -38,6 +27,18 @@ create table Movies (
      Image varchar (200) not null , 
      constraint pk_MovieId primary key (Id) 
 );
+
+
+create table Shows (
+    Id int auto_increment ,
+    DateTime DateTime not null , 
+    MovieId int , 
+    Tickets int,
+    RoomId int not null,
+    constraint pk_Id primary key (Id) ,
+    constraint fk_MovieId foreign key (MovieId) references Movies (Id),
+    constraint fk_RoomId foreign key (RoomId) references Rooms (Id) ON DELETE CASCADE 
+) ;
 
 create table Genres 
 (
@@ -52,8 +53,8 @@ create table MovieXGenres
     MovieId int not null,
     GenreId int not null,
    constraint pk_MovieIdXGenre primary key (Id),
-   constraint fk_MovieId foreign key (MovieId) references Movie (Id), 
-   constraint fk_GenreId foreign key (GenreId) references Genre (Id) 
+   constraint fk_MovieXGenre_MovieId foreign key (MovieId) references Movies (Id), 
+   constraint fk_MovieXGenre_GenreId foreign key (GenreId) references Genres (Id) 
 );
 
 

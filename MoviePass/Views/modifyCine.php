@@ -103,6 +103,12 @@ foreach($rooms as $room){
                             <button class="optButton optButton-block" type="submit" name="id" value="<?php echo $room->getId() ?>" >Modificar</button>
 
                         </form>
+
+                        <form action="<?php echo FRONT_ROOT."Cine/RemoveRoom" ?>">
+                            <input type="hidden" name="cineid" value="<?php echo $cine->getId(); ?>">
+                            <button class="optButton optButton-block" type="submit" name="id" value="<?php echo $room->getId() ?>" >Eliminar</button>
+
+                        </form>
                     </div>
 
                     <?php include("movieCarousel.php"); ?>

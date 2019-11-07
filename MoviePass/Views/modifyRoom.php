@@ -33,7 +33,8 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
             <tr>
                 <th scope="row">10:00</th>
                 <?php foreach($room->getShows() as $show){ 
-                    //if($show->getDateTime()==="10:00"){
+                    $date=$show->getDateTime();
+                    if($date->format('H:i')==="10:00"){
                          ?>
                 <td>
                     <div class="imgBox">
@@ -72,12 +73,13 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                                     } ?></h3>
                     </div>
                 </td>
-                    <?php }//} ?>
+                    <?php }} ?>
             </tr>
             <tr>
                 <th scope="row">15:00</th>
                 <?php foreach($room->getShows() as $show){ 
-                  //  if($show->getDateTime()==="15:00"){ 
+                    $date=$show->getDateTime();
+                    if($date->format('H:i')==="15:00"){ 
                         ?>
                 <td>
                 <div class="imgBox">
@@ -106,12 +108,13 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                                 } ?></h3>
                 </div>
             </td>
-                <?php }//} ?>              
+                <?php }} ?>              
             </tr>
             <tr>
                 <th scope="row">20:00</th>
                 <?php foreach($room->getShows() as $show){ 
-                  //  if($show->getDateTime()==="20:00"){ ?>
+                    $date=$show->getDateTime();
+                    if($date->format('H:i')==="20:00"){ ?>
                 <td>
                 <div class="imgBox">
 
@@ -139,7 +142,7 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                                 } ?></h3>
                 </div>
             </td>
-                <?php }//} ?>             
+                <?php }} ?>             
             </tr>
             
         </tbody>

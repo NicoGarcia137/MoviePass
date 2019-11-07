@@ -7,6 +7,7 @@
     use DAO\ShowDAOPDO as ShowDAOPDO;
     use \Exception as Exception;
     use Controllers\ShowController as ShowController;
+    use \DateTime as DateTime;
 
     class RoomController
     {
@@ -30,24 +31,26 @@
             return $Room;
          }
 
-        public function RemoveRoom($Id){
-            $Room= $this->GetRoom($Id);
-            $this->RoomDAOPDO->RemoveRoom($Room);
-            $this->RoomListRoomsAdminView();
-        }
+        
 
         public function ModifyRoom($Id, $Capacity){
             $Room= $this->GetRoom($Id);
             $Room->setCapacity($Capacity);
 
             $this->RoomDAOPDO->ModifyRoom($Room);
-            $this->RoomListRoomsAdminView();
+            $this->ShowModifyCineView($Room->getCine()->getId());
         }
         
         public function ShowModifyRoomView($id){
             $room=$this->GetRoom($id);
             
             require_once(VIEWS_PATH."ModifyRoom.php");
+        }
+
+        public function ShowModifyCineView($id)
+        {
+            $cine=$this->GetCine($id);
+            require_once(VIEWS_PATH."modifyCine.php");
         }
 
 
