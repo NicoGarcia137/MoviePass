@@ -12,6 +12,7 @@
 </div>
 
     <?php 
+    
         foreach($cinesAndShows as $Cine)
         {
         ?>
@@ -19,10 +20,10 @@
                 <div class="border-right">
                     <div class="border-left">
                         <div class="inner">
-
                             <h2>Cine <span><?php echo $Cine->getName(); ?></span></h2><br>
 
                             <?php 
+                            
                                 foreach($Cine->getRooms() as $room){
                             ?>
                             
@@ -31,10 +32,12 @@
                             <span><h4> Horarios </h4></span>|
                             
                             <?php 
+                            
                                 foreach($room->GetShows() as $show){
+                                    
                             ?>
 
-                            <span><?php echo $show->getDateTime() ?> | </span>
+                            <span><?php echo $show->getDateTime()->format('H:i')?> | </span>
 
                         
                             <?php     

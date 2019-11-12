@@ -18,6 +18,7 @@ class RoomDAOPDO extends Helper{
             r.Id as RoomId,
             r.Capacity as RoomCapacity,
             r.Name as RoomName,
+            r.CineId as CineIdRoom,
             s.Id as ShowId,
             s.DateTime,
             s.Tickets,
@@ -41,52 +42,10 @@ class RoomDAOPDO extends Helper{
             order by r.Id,s.Id,m.Id,g.Id;";
 
             $this->connection = Connection::GetInstance();
-
             $resultSet = $this->connection->Execute($query);
-            $room=null;
-            $y=count($resultSet);
-
-
-           
-
-            $x=0;
-            while($x<$y){
-                $room=$this->CreateRoom($resultSet[$x],array());
-
-                while($x<$y && $resultSet[$x]['RoomId']==$room->getId()){
-                    if($resultSet[$x]['ShowId']!=null){
-                        $show=$this->CreateShow($resultSet[$x],array());
-
-                        while($x<$y && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId()){
-                            if($resultSet[$x]['MovieId']!=null){
-                                $movie=$this->CreateMovie($resultSet[$x],array());
-                                
-                                while($x<$y&& $movie->getId()==$resultSet[$x]["MovieId"] && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId())
-                                {
-                                    if($resultSet[$x]['GenreId']!=null)
-                                    {
-                                        $genre=$this->CreateGenre($resultSet[$x]);
-                                        $movie->addGenre($genre);
-                                        $x++;
-                                    }else{
-                                        $x++;
-                                    }
-                                }
-                                $show->setMovie($movie);
-                                
-                            }else{
-                                $x++;
-                            }
-                        }
-                        $room->addShow($show);
-                    }else{
-                        $x++;
-                    }
-                }
-            }
-        
+            $room=$this->GenerateClass($resultSet);
   
-            return $room;
+            return $room[0];
         }
         catch(Exception $ex)
         {
