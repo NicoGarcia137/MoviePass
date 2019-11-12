@@ -47,8 +47,8 @@
             $Show->setTickets($Tickets);
 
             $this->ShowDAOPDO->ModifyShow($Show);
-            $roomId =$Show->getRoom();
-            $room = $this->RoomDAOPDO->GetById($roomId);
+            $room =$Show->getRoom();
+            $room = $this->RoomDAOPDO->GetById($room->getId());
             
             require_once(VIEWS_PATH."modifyRoom.php");
         }

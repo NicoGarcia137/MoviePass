@@ -55,58 +55,7 @@ class CineDAOPDO extends Helper implements ICineDAO{
                 $this->connection = Connection::GetInstance();
 
                 $resultSet = $this->connection->Execute($query);
-                $CineList=[];
-                $y=count($resultSet);
-
-
-               
-
-                $x=0;
-                while($x<$y){
-                    $cine=$this->CreateCine($resultSet[$x],array());
-
-                    while($x<$y && $resultSet[$x]['CineId']==$cine->getId()){
-                        if($resultSet[$x]['RoomId']!=null){
-                            $room=$this->CreateRoom($resultSet[$x],array());
-
-                            while($x<$y && $resultSet[$x]['RoomId']==$room->getId() && $resultSet[$x]['CineId']==$cine->getId()){
-                                if($resultSet[$x]['ShowId']!=null){
-                                    $show=$this->CreateShow($resultSet[$x],array());
-
-                                    while($x<$y && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId() && $resultSet[$x]['CineId']==$cine->getId()){
-                                        if($resultSet[$x]['MovieId']!=null){
-                                            $movie=$this->CreateMovie($resultSet[$x],array());
-                                            
-                                            while($x<$y&& $movie->getId()==$resultSet[$x]["MovieId"] && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId()  && $resultSet[$x]['CineId']==$cine->getId())
-                                            {
-                                                if($resultSet[$x]['GenreId']!=null)
-                                                {
-                                                    $genre=$this->CreateGenre($resultSet[$x]);
-                                                    $movie->addGenre($genre);
-                                                    $x++;
-                                                }else{
-                                                    $x++;
-                                                }
-                                            }
-                                            $show->setMovie($movie);
-                                            
-                                        }else{
-                                            $x++;
-                                        }
-                                    }
-                                   $room->addShow($show);
-                                }else{
-                                    $x++;
-                                }
-                            }
-                            $cine->addRoom($room);
-                        }else{
-                            $x++;
-                        }
-                    }
-                        
-                        array_push($CineList, $cine);
-                }
+                $CineList=$this->GenerateClass($resultSet);
 
                 return $CineList;
             }
@@ -159,58 +108,7 @@ class CineDAOPDO extends Helper implements ICineDAO{
                 $this->connection = Connection::GetInstance();
 
                 $resultSet = $this->connection->Execute($query);
-                $CineList=[];
-                $y=count($resultSet);
-
-
-               
-
-                $x=0;
-                while($x<$y){
-                    $cine=$this->CreateCine($resultSet[$x],array());
-
-                    while($x<$y && $resultSet[$x]['CineId']==$cine->getId()){
-                        if($resultSet[$x]['RoomId']!=null){
-                            $room=$this->CreateRoom($resultSet[$x],array());
-
-                            while($x<$y && $resultSet[$x]['RoomId']==$room->getId() && $resultSet[$x]['CineId']==$cine->getId()){
-                                if($resultSet[$x]['ShowId']!=null){
-                                    $show=$this->CreateShow($resultSet[$x],array());
-
-                                    while($x<$y && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId() && $resultSet[$x]['CineId']==$cine->getId()){
-                                        if($resultSet[$x]['MovieId']!=null){
-                                            $movie=$this->CreateMovie($resultSet[$x],array());
-                                            
-                                            while($x<$y&& $movie->getId()==$resultSet[$x]["MovieId"] && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId()  && $resultSet[$x]['CineId']==$cine->getId())
-                                            {
-                                                if($resultSet[$x]['GenreId']!=null)
-                                                {
-                                                    $genre=$this->CreateGenre($resultSet[$x]);
-                                                    $movie->addGenre($genre);
-                                                    $x++;
-                                                }else{
-                                                    $x++;
-                                                }
-                                            }
-                                            $show->setMovie($movie);
-                                            
-                                        }else{
-                                            $x++;
-                                        }
-                                    }
-                                   $room->addShow($show);
-                                }else{
-                                    $x++;
-                                }
-                            }
-                            $cine->addRoom($room);
-                        }else{
-                            $x++;
-                        }
-                    }
-                        
-                        array_push($CineList, $cine);
-                }
+                $CineList=$this->GenerateClass($resultSet);
 
                 return $CineList;
             }
@@ -262,59 +160,9 @@ class CineDAOPDO extends Helper implements ICineDAO{
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
-            $cine=null;
-            $y=count($resultSet);
-
-
-           
-
-            $x=0;
-            while($x<$y){
-                $cine=$this->CreateCine($resultSet[$x],array());
-
-                while($x<$y && $resultSet[$x]['CineId']==$cine->getId()){
-                    if($resultSet[$x]['RoomId']!=null){
-                        $room=$this->CreateRoom($resultSet[$x],array());
-
-                        while($x<$y && $resultSet[$x]['RoomId']==$room->getId() && $resultSet[$x]['CineId']==$cine->getId()){
-                            if($resultSet[$x]['ShowId']!=null){
-                                $show=$this->CreateShow($resultSet[$x],array());
-
-                                while($x<$y && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId() && $resultSet[$x]['CineId']==$cine->getId()){
-                                    if($resultSet[$x]['MovieId']!=null){
-                                        $movie=$this->CreateMovie($resultSet[$x],array());
-                                        
-                                        while($x<$y&& $movie->getId()==$resultSet[$x]["MovieId"] && $resultSet[$x]['ShowId']==$show->getId()&& $resultSet[$x]['RoomId']==$room->getId()  && $resultSet[$x]['CineId']==$cine->getId())
-                                        {
-                                            if($resultSet[$x]['GenreId']!=null)
-                                            {
-                                                $genre=$this->CreateGenre($resultSet[$x]);
-                                                $movie->addGenre($genre);
-                                                $x++;
-                                            }else{
-                                                $x++;
-                                            }
-                                        }
-                                        $show->setMovie($movie);
-                                        
-                                    }else{
-                                        $x++;
-                                    }
-                                }
-                               $room->addShow($show);
-                            }else{
-                                $x++;
-                            }
-                        }
-                        $cine->addRoom($room);
-                    }else{
-                        $x++;
-                    }
-                }
-            }
-            
+            $cine=$this->GenerateClass($resultSet);
   
-            return $cine;
+            return $cine[0];
         }
         catch(Exception $ex)
         {
