@@ -36,8 +36,12 @@
                                 foreach($room->GetShows() as $show){
                                     
                             ?>
+                                <form action="<?php echo FRONT_ROOT."Purchase/ShowPurchaseView" ?>" method="post">
+                                <input value="<?php echo $show->getId(); ?>" name="showId" >
+                                <button class="optButton optButton-block" type="submit"  ><?php echo $show->getDateTime()->format('H:i')?></button>
 
-                            <span><?php echo $show->getDateTime()->format('H:i')?> | </span>
+                                
+                                </form>
 
                         
                             <?php     
