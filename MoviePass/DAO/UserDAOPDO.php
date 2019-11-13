@@ -7,9 +7,9 @@ use Models\Rol as Rol;
 use DAO\Connection as Connection;
 use DAO\Helper as Helper;
 use \Exception as Exception;
-use DAO\IUserDAO as IUserDAO;
 
-class UserDAOPDO extends Helper implements IUserDAO{
+
+class UserDAOPDO extends Helper {
 
     private $connection;  
     
