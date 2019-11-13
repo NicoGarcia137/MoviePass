@@ -117,7 +117,6 @@
             public function RemoveRoom($cineId,$id){
                 try{
                     $Room=$this->RoomDAOPDO->GetById($id);
-                    var_dump($Room);
                     if($Room != null){
                         if($this->CheckShowsByRoom($Room)){
                             $this->RoomDAOPDO->RemoveRoom($Room);
@@ -131,7 +130,6 @@
                     }catch(Exception $ex){
                     $message=$ex->getMessage();
                     echo "<script>if(confirm('$message'));</script>";
-                    var_dump($Room);
                     $this->ShowModifyView($cineId);
                 }
             }
@@ -223,7 +221,6 @@
             require_once(VIEWS_PATH."showCinesAndShowsByMovie.php");
         }
 
-        
         public function ShowListCinesAdminView(){
             $cines=$this->GetAllCines();
             require_once(VIEWS_PATH."listarCinesAdmin.php");

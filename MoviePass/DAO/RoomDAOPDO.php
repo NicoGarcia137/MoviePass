@@ -45,7 +45,7 @@ class RoomDAOPDO extends Helper{
             $resultSet = $this->connection->Execute($query);
             $room=$this->GenerateClass($resultSet);
   
-            return $room[0];
+            return array_shift($room);
         }
         catch(Exception $ex)
         {

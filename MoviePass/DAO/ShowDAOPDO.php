@@ -13,8 +13,6 @@ class ShowDAOPDO extends Helper{
     {
         try
         {
-           
-
             $query = "select
             s.Id as ShowId,
             s.DateTime,
@@ -43,7 +41,7 @@ class ShowDAOPDO extends Helper{
             $show=$this->GenerateClass($resultSet);
         
   
-            return $show[0];
+            return array_shift($show);
         }
         catch(Exception $ex)
         {
@@ -94,7 +92,7 @@ class ShowDAOPDO extends Helper{
             $cine=$this->GenerateClass($resultSet);
             
   
-            return $cine[0];
+            return array_shift($cine);
         }
         catch(Exception $ex)
         {

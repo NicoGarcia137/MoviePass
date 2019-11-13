@@ -162,7 +162,7 @@ class CineDAOPDO extends Helper implements ICineDAO{
             $resultSet = $this->connection->Execute($query);
             $cine=$this->GenerateClass($resultSet);
   
-            return $cine[0];
+            return array_shift($cine);
         }
         catch(Exception $ex)
         {

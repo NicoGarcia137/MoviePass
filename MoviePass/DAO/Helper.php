@@ -5,6 +5,9 @@ use Models\Room as Room;
 use Models\Show as Show;
 use Models\Movie as Movie;
 use Models\Genre as Genre;
+use Models\Purchase as Purchase;
+use Models\Ticket as Ticket;
+use Models\Usuario as User;
 use \DateTime as DateTime;
 
 
@@ -16,8 +19,7 @@ abstract class Helper{
     public function GenerateClass($resultSet){
         $y=count($resultSet);
         $x=0;
-        $result=null;
-
+        $result=[];
         if(isset($resultSet[$x]['CineId'])){
 
             $result=$this->GenerateCine($resultSet,$x,$y);
@@ -29,13 +31,33 @@ abstract class Helper{
         }else if(isset($resultSet[$x]['ShowId'])){
 
             $result=$this->GenerateShow($resultSet,$x,$y);
+        }else if(isset($resultSet[$x]['PurchaseId'])){
 
+            $result=$this->GeneratePurchase($resultSet,$x,$y);
         }
         
         return $result;
     }
 
-    public function GenerateCine($resultSet,$x,$y){
+    private function GeneratePurchase($resultSet,$x,$y){
+        $parchuses=[];
+        while($x<$y){
+            $purchase=$this->CreatePurchase($resultSet[$x]);
+            $tickets=[];
+            while($x<$y&&$purchase->getId()==$resultSet[$x]['PurchaseId']){
+                $ticket=new Ticket();
+                $ticket->setId($resultSet[$x]['ShowIdTicket']);
+                $ticket->setValue($resultSet[$x]['Value']);
+                $purchase->addTickets($ticket);
+                $x++;
+            }
+            
+            array_push($parchuses,$purchase);
+        }
+        return $parchuses;
+    }
+
+    private function GenerateCine($resultSet,$x,$y){
         $CineList=[];
             while($x<$y){
                 $cine=$this->CreateCine($resultSet[$x],array());
@@ -85,7 +107,7 @@ abstract class Helper{
             return $CineList;
     }
 
-    public function GenerateRoom($resultSet,$x,$y){
+    private function GenerateRoom($resultSet,$x,$y){
         $RoomList=[];
         while($x<$y){
             $room=$this->CreateRoom($resultSet[$x],array());
@@ -125,7 +147,7 @@ abstract class Helper{
         return $RoomList;
     }
 
-    public function GenerateShow($resultSet,$x,$y){
+    private function GenerateShow($resultSet,$x,$y){
         $showList=[];
         while($x<$y){
             $show=$this->CreateShow($resultSet[$x],array());
@@ -157,7 +179,15 @@ abstract class Helper{
     }
 
 
-
+    public function CreatePurchase($purchase){
+        $newPurchase=new Purchase();
+        $newPurchase->setId($purchase['PurchaseId']);
+        $user=new User();
+        $user->setEmail($purchase['UserEmail']);
+        $newPurchase->setUser($user);
+        $newPurchase->setDateTime($purchase['DateTime']);
+        return $newPurchase;
+    }
 
     public function CreateCine($cine,$rooms){
         $newCine=new Cine();

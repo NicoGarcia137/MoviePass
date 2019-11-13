@@ -2,9 +2,10 @@
 namespace Models;
     class Purchase{
         private $id;
-        private $tickets;
+        private $tickets=[];
         private $dateTime;
         private $totalValue;
+        private $user;
      
         public function getId()
         {
@@ -21,9 +22,9 @@ namespace Models;
                 return $this->tickets;
         }
 
-        public function setTickets($tickets)
+        public function addTickets($ticket)
         {
-                $this->tickets = $tickets;
+                array_push($this->tickets,$ticket);
         }
 
 
@@ -44,6 +45,16 @@ namespace Models;
         public function setDateTime($dateTime)
         {
                 $this->dateTime = $dateTime;
+        }
+
+        public function getUser()
+        {
+                return $this->user;
+        }
+
+        public function setUser($user)
+        {
+                $this->user = $user;
         }
     }
 
