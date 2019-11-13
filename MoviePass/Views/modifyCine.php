@@ -94,7 +94,8 @@ foreach($rooms as $room){
                 <div class="address">
 
                     <div class="fleft">
-                        <h3>Sala <?php echo $room->getId() ?></h3>
+                        <h3>Id: <?php echo $room->getId() ?></h3>
+                        <h3>Sala: <?php echo $room->getName() ?></h3>
                     </div>
 
                     <div class="fright">
