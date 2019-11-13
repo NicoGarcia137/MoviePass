@@ -58,27 +58,21 @@
             public function Add($name, $address, $capacity,$value,$Rooms=null)
             {
                try{
-                   if($this->CineDAOPDO->GetByName($name)==null){
-                    $Cine = new Cine();
-                    $Cine->setName($name);
-                    $Cine->setAddress($address);
-                    $Cine->setCapacity($capacity);
-                    $Cine->setValue($value);
-                    $Cine->setRooms($Rooms);
+                $Cine = new Cine();
+                $Cine->setName($name);
+                $Cine->setAddress($address);
+                $Cine->setCapacity($capacity);
+                $Cine->setValue($value);
+                $Cine->setRooms($Rooms);
+
     
-        
-                    $this->CineDAO->Add($Cine);
-        
-                    $this->ShowAddView();
-                   }else{
-                    throw new Exception("Error, Ya se encuentra un cine con ese nombre");
-                   }
-                
-                }catch(Exception $ex){
-                    $message=$ex->getMessage();
-                    echo "<script>if(confirm('$message'));</script>";
-                    header("location: ".FRONT_ROOT."Cine/ShowAddView");
-                }
+                $this->CineDAO->Add($Cine);
+    
+                $this->ShowAddView();
+            }catch(Exception $ex){
+                $message=$ex->getMessage();
+                echo "<script>if(confirm('$message'));</script>";
+            }
             }
 
             public function AddRoom($Capacity,$Name,$CineId)
@@ -237,9 +231,6 @@
         }
         public function ShowIndexView(){
             require_once(VIEWS_PATH."index.php");
-        }
-        public function ShowIndexAdminView(){
-            require_once(VIEWS_PATH."indexAdmin.php");
         }
     }
 ?>
