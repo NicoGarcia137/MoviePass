@@ -32,7 +32,7 @@ class PurchaseDAOPDO extends Helper{
         try
         {         
             
-            $query = "select p.Id as PurchaseId,p.UserEmail,p.DateTime,p.TotalValue,t.ShowId as ShowIdTicket,t.Value,t.Seat
+            $query = "select p.Id as PurchaseId,p.UserEmail,p.CineId as CineIdParchuse,p.DateTime,p.TotalValue,t.Id as TicketId,t.ShowId as ShowIdTicket,t.Value,t.Seat
                         from purchases as p
                         join tickets as t
                         on t.PurchaseId=p.Id
@@ -45,10 +45,29 @@ class PurchaseDAOPDO extends Helper{
             $purchases=$this->GenerateClass($resultSet);
             
 
-
-
-  
             return $purchases;
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
+
+    public function GetOccupiedSeatsByShowId($showId){
+        try
+        {         
+            
+            $query = "select Seat from tickets where ShowId=".$showId.";";
+
+            $this->connection = Connection::GetInstance();
+            
+            $resultSet = $this->connection->Execute($query);
+            $occupiedSeats=[];
+            foreach($resultSet as $row){
+                array_push($occupiedSeats,$row['Seat']);
+            }
+
+            return $occupiedSeats;
         }
         catch(Exception $ex)
         {
@@ -60,9 +79,11 @@ class PurchaseDAOPDO extends Helper{
     {
         try
         {
-            $query = "INSERT INTO Purchases (DateTime, TotalValue,UserEmail) VALUES (:DateTime, :TotalValue,:UserEmail);";
-        
+            $query = "INSERT INTO Purchases (CineId,DateTime, TotalValue,UserEmail) VALUES (:CineId,:DateTime, :TotalValue,:UserEmail);";
+           
+            
             $date=$Purchase->getDateTime();
+            $parameters["CineId"]=$Purchase->getCine()->getId();
             $parameters["DateTime"] =$date->format('Y-m-d H:i:s');
             $parameters["TotalValue"]=$Purchase->getTotalValue();
             $parameters["UserEmail"]=$Purchase->getUser()->getEmail();

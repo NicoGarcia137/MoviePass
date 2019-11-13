@@ -6,6 +6,7 @@ namespace Models;
         private $dateTime;
         private $totalValue;
         private $user;
+        private $cine;
      
         public function getId()
         {
@@ -55,6 +56,16 @@ namespace Models;
         public function setUser($user)
         {
                 $this->user = $user;
+        }
+
+        public function getCine()
+        {
+                return $this->cine;
+        }
+
+        public function setCine($cine)
+        {
+                $this->cine = $cine;
         }
     }
 

@@ -45,10 +45,7 @@ abstract class Helper{
             $purchase=$this->CreatePurchase($resultSet[$x]);
             $tickets=[];
             while($x<$y&&$purchase->getId()==$resultSet[$x]['PurchaseId']){
-                $ticket=new Ticket();
-                $ticket->setId($resultSet[$x]['ShowIdTicket']);
-                $ticket->setValue($resultSet[$x]['Value']);
-                $ticket->setSeat($resultSet[$x]['Seat']);
+                $ticket= $this->CreateTicket($resultSet[$x]);
                 $purchase->addTickets($ticket);
                 $x++;
             }
@@ -180,9 +177,22 @@ abstract class Helper{
     }
 
 
+    public function CreateTicket($ticket){
+        $newTicket=new Ticket();
+        $newTicket->setId($ticket['TicketId']);
+        $show=new Show();
+        $show->setId($ticket['ShowIdTicket']);
+        $newTicket->setShow($show);
+        $newTicket->setValue($ticket['Value']);
+        $newTicket->setSeat($ticket['Seat']);
+        return $newTicket;
+    }
     public function CreatePurchase($purchase){
         $newPurchase=new Purchase();
         $newPurchase->setId($purchase['PurchaseId']);
+        $cine=new Cine();
+        $cine->setId($purchase['CineIdParchuse']);
+        $newPurchase->setCine($cine);
         $user=new User();
         $user->setEmail($purchase['UserEmail']);
         $newPurchase->setUser($user);

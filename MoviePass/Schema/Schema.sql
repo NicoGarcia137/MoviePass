@@ -60,9 +60,11 @@ create table MovieXGenres
 create table Purchases(
     Id int auto_increment,
     UserEmail varchar(100) not null,
+    CineId int not null,
     DateTime DateTime not null,
     TotalValue float not null,
-    constraint pk_Purchase primary key (Id)
+    constraint pk_Purchase primary key (Id),
+    constraint fk_Purchase_Cine foreign key (CineId) references Cines (Id)
 );
 
 create table Tickets(
