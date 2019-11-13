@@ -48,6 +48,7 @@ abstract class Helper{
                 $ticket=new Ticket();
                 $ticket->setId($resultSet[$x]['ShowIdTicket']);
                 $ticket->setValue($resultSet[$x]['Value']);
+                $ticket->setSeat($resultSet[$x]['Seat']);
                 $purchase->addTickets($ticket);
                 $x++;
             }

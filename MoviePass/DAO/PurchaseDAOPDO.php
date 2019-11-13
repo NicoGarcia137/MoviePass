@@ -32,7 +32,7 @@ class PurchaseDAOPDO extends Helper{
         try
         {         
             
-            $query = "select p.Id as PurchaseId,p.UserEmail,p.DateTime,p.TotalValue,t.ShowId as ShowIdTicket,t.Value
+            $query = "select p.Id as PurchaseId,p.UserEmail,p.DateTime,p.TotalValue,t.ShowId as ShowIdTicket,t.Value,t.Seat
                         from purchases as p
                         join tickets as t
                         on t.PurchaseId=p.Id
@@ -64,7 +64,6 @@ class PurchaseDAOPDO extends Helper{
         
             $date=$Purchase->getDateTime();
             $parameters["DateTime"] =$date->format('Y-m-d H:i:s');
-            var_dump($Purchase);
             $parameters["TotalValue"]=$Purchase->getTotalValue();
             $parameters["UserEmail"]=$Purchase->getUser()->getEmail();
             
@@ -83,10 +82,11 @@ class PurchaseDAOPDO extends Helper{
     }
 
     private function AddTicket($ticket){
-            $query = "INSERT INTO Tickets (ShowId,Value, PurchaseId) VALUES (:ShowId,:Value, (SELECT MAX(id) FROM purchases));";
+            $query = "INSERT INTO Tickets (ShowId,Value,Seat, PurchaseId) VALUES (:ShowId,:Value,:Seat, (SELECT MAX(id) FROM purchases));";
         
             $parameters["ShowId"] =$ticket->getShow()->getId();
             $parameters["Value"]=$ticket->getValue();
+            $parameters["Seat"]=$ticket->getSeat();
                           
             $this->connection->ExecuteNonQuery($query, $parameters);
     }
