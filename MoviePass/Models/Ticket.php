@@ -3,7 +3,7 @@ namespace Models;
     class Ticket{
         private $id;
         private $show;
-        private $number;
+        private $seat;
         private $value;
      
 
@@ -27,14 +27,14 @@ namespace Models;
                 $this->show = $show;
         }
 
-        public function getNumber()
+        public function getSeat()
         {
-                return $this->number;
+                return $this->seat;
         }
 
-        public function setNumber($number)
+        public function setSeat($seat)
         {
-                $this->number = $number;
+                $this->seat = $seat;
         }
 
         public function getValue()

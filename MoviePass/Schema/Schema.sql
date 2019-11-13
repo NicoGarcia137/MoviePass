@@ -57,5 +57,24 @@ create table MovieXGenres
    constraint fk_MovieXGenre_GenreId foreign key (GenreId) references Genres (Id) 
 );
 
+create table Purchases(
+    Id int auto_increment,
+    UserEmail varchar(100) not null,
+    DateTime DateTime not null,
+    TotalValue float not null,
+    constraint pk_Purchase primary key (Id)
+);
+
+create table Tickets(
+    Id int auto_increment,
+    ShowId int not null,
+    PurchaseId int not null,
+    Value float not null,
+    constraint pk_Purchase primary key (Id),
+    constraint fk_Tickets_Purchase foreign key (PurchaseId) references Purchases (Id),
+    constraint fk_Tickets_Show foreign key (ShowId) references Shows (Id)
+);
+
+
 
 --echo "<script>if(confirm('echo $query'));</script>";

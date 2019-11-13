@@ -3,6 +3,8 @@
 
     use Models\Show as Show;
     use Models\Movie as Movie;
+    use Models\Purchase as Purchase;
+    use DAO\PurchaseDAOPDO as PurchaseDAOPDO;
     use DAO\ShowDAOPDO as ShowDAOPDO;
     use DAO\BillboardDAOPDO as BillboardDAOPDO;
     use DAO\RoomDAOPDO as RoomDAOPDO;
@@ -15,12 +17,14 @@
         private $ShowDAOPDO;
         private $BillboardDAOPDO;
         private $RoomDAOPDO;
+        private $PurchaseDAOPDO;
 
         public function __construct()
         {
             $this->ShowDAOPDO=new ShowDAOPDO();
             $this->BillboardDAOPDO=new BillboardDAOPDO();
             $this->RoomDAOPDO=new RoomDAOPDO();
+            $this->PurchaseDAOPDO=new PurchaseDAOPDO();
         }
 
         public function GetAllByRoom($RoomId){
@@ -39,16 +43,18 @@
 
         public function ModifyShow($Id,$MovieId, $Tickets){
             $Show=$this->GetShow($Id);
-            $Movie=null;
-            if($MovieId!=null){
-                $Movie=$this->BillboardDAOPDO->GetMovieById($MovieId);
+            if(empty($this->PurchaseDAOPDO->getTicketsByShowId($Id))){
+                $Show=$this->GetShow($Id);
+                $Movie=null;
+                if($MovieId!=null){
+                    $Movie=$this->BillboardDAOPDO->GetMovieById($MovieId);
+                }
+                $Show->setMovie($Movie);
+                $Show->setTickets($Tickets);
+                $this->ShowDAOPDO->ModifyShow($Show);
             }
-            $Show->setMovie($Movie);
-            $Show->setTickets($Tickets);
-
-            $this->ShowDAOPDO->ModifyShow($Show);
-            $room =$Show->getRoom();
-            $room = $this->RoomDAOPDO->GetById($room->getId());
+            
+            $room = $this->RoomDAOPDO->GetById($Show->getRoom()->getId());
             
             require_once(VIEWS_PATH."modifyRoom.php");
         }
