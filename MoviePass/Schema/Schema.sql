@@ -69,6 +69,7 @@ create table Tickets(
     Id int auto_increment,
     ShowId int not null,
     PurchaseId int not null,
+    Seat int not null,
     Value float not null,
     constraint pk_Purchase primary key (Id),
     constraint fk_Tickets_Purchase foreign key (PurchaseId) references Purchases (Id),
