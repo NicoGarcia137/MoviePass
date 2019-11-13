@@ -939,10 +939,64 @@ table.calendarTable{
 }
 
 .ticketBox {
+	padding: 0 18px;
+	/* display: none; */
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+
+	background-color: rgba(15, 15, 15, 0.76);
 	margin-left: 5%;
 	margin-right: 60%;
 }
 
 .ticketBox h5 {
 	margin-left: 5%;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+	width: 35%;
+	background-color: black;
+	color: #444;
+	cursor: pointer;
+	padding: 10px 10px 5px 10px;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+
+	margin-left: 5%;
+	margin-right: 60%;
+}
+
+.collapsible span {
+	color: rgb(177, 24, 24);
+}
+  
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+	background-color: rgba(15, 15, 15, 0.76);
+}
+
+.collapsible:after {
+	content: '\002B';
+	color: white;
+	font-weight: bold;
+	float: right;
+	margin-left: 5px;
+  }
+  
+  .active:after {
+	content: "\2212";
+  }
+  
+/* Style the collapsible content. Note: hidden by default */
+.content {
+	padding: 0 18px;
+	display: none;
+	overflow: hidden;
+	background-color: #f1f1f1;
+
+
 }

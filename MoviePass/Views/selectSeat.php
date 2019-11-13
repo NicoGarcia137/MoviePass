@@ -39,9 +39,9 @@ include_once("navUser.php");
                 $y = 0;
                 $seat = 0;
 
-                echo "Capacidad:". $room->getCapacity(); 
-                echo "<br>";
-                echo "cantFilas: ". $cantFilas;
+                // echo "Capacidad:". $room->getCapacity(); 
+                // echo "<br>";
+                // echo "cantFilas: ". $cantFilas;
 
                 while($x <= $limit && $seat < $cantButacas && $y <= $cantFilas){
 
