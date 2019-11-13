@@ -5,7 +5,6 @@ use Models\Usuario as User;
 use Models\PerfilUsuario as PerfilUsuario; 
 use Models\Rol as Rol; 
 use DAO\Connection as Connection;
-use DAO\Helper as Helper;
 use \Exception as Exception;
 
 
@@ -34,7 +33,8 @@ class UserDAOPDO extends Helper {
       
     $this-> connection=Connection::GetInstance();
     $resultSet=$this->connection->Execute($query);
-   
+    $user=new User();
+    $user=null;
     foreach ($resultSet as $row)
     {                
          $rol =New Rol();
@@ -46,13 +46,13 @@ class UserDAOPDO extends Helper {
     $perfilUsuario->setDni($row["DNI"]);
     
     $user=new User();
+    
     $user->setEmail($row["Email"]);
     $user->setPassword($row["Password"]);
     $user->setPerfilUsuario($perfilUsuario);
     $user->setRol($rol);
     }
-   
- var_dump($user);
+    
     return $user; 
 
      }
@@ -70,8 +70,8 @@ class UserDAOPDO extends Helper {
           $parameters["Email"] = $User->getEmail();
           $parameters["Password"] = $User->getPassword();
           $parameters["RolId"] =2; //1 PARA ADMIN 2 PARA USER
-          $parameters["Profile_UserId"] =IdProfileInsert();
-         
+          $parameters["Profile_UserId"] =$this->IdProfileInsert();
+         var_dump($parameters);
           $this->connection = Connection::GetInstance();                
           $this->connection->ExecuteNonQuery($query, $parameters);
 
@@ -89,11 +89,15 @@ class UserDAOPDO extends Helper {
     public function IdProfileInsert()
     { try{
 
-     $query="select AUTO_INCREMENT FROM information_schema.TABLES where TABLE_SCHEMA = "."MoviePass"." and TABLE_NAME="."Profile_Users".";";
+     $query="select AUTO_INCREMENT FROM information_schema.TABLES where TABLE_SCHEMA = "."'"."MoviePass"."'"." and TABLE_NAME= "."'"."Profile_Users"."'".";";
      $this-> connection=Connection::GetInstance();
     $result=$this->connection->Execute($query);
      
-    $Id= array_shift($result);
+    foreach ($result as $row)
+    {
+        $Id=$row["AUTO_INCREMENT"];
+    }
+   
     return $Id;
 
     }
