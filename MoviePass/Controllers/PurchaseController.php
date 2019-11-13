@@ -24,14 +24,14 @@
             try{
                 if(isset($_SESSION['loggedUser'])){
                     $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
-                    var_dump($cine);
+                    // var_dump($cine);
                     $show=$cine->getRooms()[0]->getShows()[0];
                     $show->setRoom($cine->getRooms()[0]);
                     $show->getRoom()->getCine()->setValue($cine->getValue());
                     $purchase=new Purchase();
                     foreach($seats as $seat){
                         $ticket=new Ticket();
-                        var_dump($seat);
+                        // var_dump($seat);
                         $ticket->setSeat($seat);
                         $ticket->setShow($show);
                         $ticket->setValue($value);

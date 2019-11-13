@@ -29,7 +29,7 @@
                             
                             <h3> Sala <span> <?php echo $room->getId(); ?> </span></h3>
                             
-                            <span><h4> Horarios </h4></span>|
+                            <span><h4> Horarios </h4></span>
                             
                             <?php 
                             
@@ -37,7 +37,7 @@
                                     
                             ?>
                                 <form action="<?php echo FRONT_ROOT."Purchase/ShowPurchaseView" ?>" method="post">
-                                <input value="<?php echo $show->getId(); ?>" name="showId" >
+                                <input type="hidden" value="<?php echo $show->getId(); ?>" name="showId" >
                                 <button class="optButton optButton-block" type="submit"  ><?php echo $show->getDateTime()->format('H:i')?></button>
 
                                 

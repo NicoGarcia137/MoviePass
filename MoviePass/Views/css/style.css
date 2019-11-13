@@ -903,3 +903,46 @@ table.calendarTable{
 }
 
 /* -------------------------------------- */
+
+.seat {
+	width:50px;
+	height: 50px;
+	/* background-size: 2%;
+	background:url(../images/butaca-cerrada.png) ; */
+	
+}
+
+.seat:hover {
+	background:url(../images/seatOpen.png) ;
+}
+
+.stairs {
+	width:50px;
+	height: 50px;
+}
+
+.seatsTable {
+	margin: auto;
+}
+
+.checkeable input{
+	display: none;
+}
+
+.checkeable img {
+	width: 50px;
+	height: 50px;
+}
+
+.checkeable input:checked + img {
+	background:url(../images/seatOpen.png) ;
+}
+
+.ticketBox {
+	margin-left: 5%;
+	margin-right: 60%;
+}
+
+.ticketBox h5 {
+	margin-left: 5%;
+}

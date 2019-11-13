@@ -42,12 +42,13 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
 
                     <form action="<?php echo FRONT_ROOT."Show/ModifyShow" ?>" method="post">
                             
-                            <input value="<?php echo $show->getId(); ?>" name="Id" >
-                            <input name="MovieId" value="<?php echo null ?>">
-                            <input value="100" name="Tickets">
+                            <input type="hidden" value="<?php echo $show->getId(); ?>" name="Id" >
+                            <input type="hidden" name="MovieId" value="<?php echo null ?>">
+                            <input type="hidden" value="100" name="Tickets">
                             <button class="optButton optButton-block" type="submit"  >X</button>
+                            <br>
 
-                        </form>
+                    </form>
 
                         <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
                         
@@ -84,6 +85,15 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                 <td>
                 <div class="imgBox">
 
+                    <form action="<?php echo FRONT_ROOT."Show/ModifyShow" ?>" method="post">
+                            
+                            <input type="hidden" value="<?php echo $show->getId(); ?>" name="Id" >
+                            <input type="hidden" name="MovieId" value="<?php echo null ?>">
+                            <input type="hidden" value="100" name="Tickets">
+                            <button class="optButton optButton-block" type="submit"  >X</button>
+
+                    </form>
+
                     <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
                         
                         <button type="submit" name="show" value="<?php echo $show->getId();?>">
@@ -117,6 +127,15 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                     if($date->format('H:i')==="20:00"){ ?>
                 <td>
                 <div class="imgBox">
+
+                    <form action="<?php echo FRONT_ROOT."Show/ModifyShow" ?>" method="post">
+                            
+                            <input type="hidden" value="<?php echo $show->getId(); ?>" name="Id" >
+                            <input type="hidden" name="MovieId" value="<?php echo null ?>">
+                            <input type="hidden" value="100" name="Tickets">
+                            <button class="optButton optButton-block" type="submit"  >X</button>
+
+                    </form>
 
                     <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
                         
