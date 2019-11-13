@@ -29,25 +29,30 @@ class UserDAOPDO extends Helper {
       on PU.Id =U.Profile_UserId 
       left join Rol as R 
       on R.Id = U.RolId
-      where U.Email= ".$Email.";";
-
+      where U.Email= ". "'".$Email."' ;";
+     
+      
     $this-> connection=Connection::GetInstance();
     $resultSet=$this->connection->Execute($query);
-
-    $rol =New Rol();
-    $rol->setDescripcion($resultSet["Description"]);
+   
+    foreach ($resultSet as $row)
+    {                
+         $rol =New Rol();
+    $rol->setDescripcion($row["Description"]);
 
     $perfilUsuario=New PerfilUsuario();
-    $perfilUsuario->setFirstName($resultSet["FirstName"]);
-    $perfilUsuario->setLastName($resultSet["LastName"]);
-    $perfilUsuario->setDni($resultSet["DNI"]);
+    $perfilUsuario->setFirstName($row["FirstName"]);
+    $perfilUsuario->setLastName($row["LastName"]);
+    $perfilUsuario->setDni($row["DNI"]);
     
     $user=new User();
-    $user->setEmail($resultSet["Email"]);
-    $user->setPassword($resultSet["Password"]);
+    $user->setEmail($row["Email"]);
+    $user->setPassword($row["Password"]);
     $user->setPerfilUsuario($perfilUsuario);
     $user->setRol($rol);
-
+    }
+   
+ var_dump($user);
     return $user; 
 
      }
