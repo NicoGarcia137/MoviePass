@@ -23,22 +23,20 @@
         public function CreatePurchase($showId,$value,$seats){
             try{
                 if(isset($_SESSION['loggedUser'])){
-                    $tickets=[];
                     $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
                     var_dump($cine);
                     $show=$cine->getRooms()[0]->getShows()[0];
                     $show->setRoom($cine->getRooms()[0]);
                     $show->getRoom()->getCine()->setValue($cine->getValue());
-
+                    $purchase=new Purchase();
                     foreach($seats as $seat){
                         $ticket=new Ticket();
+                        var_dump($seat);
                         $ticket->setSeat($seat);
                         $ticket->setShow($show);
                         $ticket->setValue($value);
-                        array_push($tickets,$ticket);
+                        $purchase->addTickets($ticket);
                     }
-                    $purchase=new Purchase();
-                    $purchase->setTickets($tickets);
                     $purchase->setDateTime(new DateTime());
                     $purchase->setUser($_SESSION['loggedUser']);
 
@@ -85,8 +83,5 @@
         }
 
 
-        public function IndexView(){
-            require_once(VIEWS_PATH."".FRONT_ROOT."Login/Login");
-        }
     }
 ?>
