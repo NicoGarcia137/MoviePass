@@ -31,13 +31,19 @@
                                     while($x<$y){
                                         $dateTime=$shows[$x]->getDateTime()->format('Y-m-d');
                                         ?>
-                                        <h2>Fecha <span><?php echo $shows[$x]->getDateTime()->format('Y-m-d'); ?></span></h2><br>
+                                        <br>
+                                        <hr>
+                                        <br>
+                                        <h3>Fecha <span><?php echo $shows[$x]->getDateTime()->format('Y-m-d'); ?></span></h2><br>
 
                                         <?php while($x<$y&&$shows[$x]->getDateTime()->format('Y-m-d')==$dateTime){ ?>
 
                                             <form action="<?php echo FRONT_ROOT."Purchase/ShowPurchaseView" ?>" method="post">
-                                            <input type="hidden" value="<?php echo $shows[$x]->getId(); ?>" name="showId" >
-                                            <button class="optButton optButton-block" type="submit"  ><?php echo $shows[$x]->getDateTime()->format('H:i')?></button>
+
+                                                <input type="hidden" value="<?php echo $shows[$x]->getId(); ?>" name="showId" >
+                                                <button class="optButton optButton-block" type="submit"  ><?php echo $shows[$x]->getDateTime()->format('H:i')?></button>
+                                                <br>
+                                            
                                             </form>
 
                             <?php 
@@ -46,11 +52,12 @@
                                     }   
                             ?> 
 
-                            <br><br><br>
+                            <br>
 
                             <?php
                                 }
                             ?>
+                            <hr>
                         </div>
                     </div>
                 </div>
