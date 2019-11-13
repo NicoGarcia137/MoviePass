@@ -25,27 +25,25 @@
                             <?php 
                             
                                 foreach($Cine->getRooms() as $room){
-                            ?>
-                            
-                            <h3> Sala <span> <?php echo $room->getId(); ?> </span></h3>
-                            
-                            <span><h4> Horarios </h4></span>
-                            
+                                    $shows=$room->getShows();
+                                    $y=count($shows);
+                                    $x=0;
+                                    while($x<$y){
+                                        $dateTime=$shows[$x]->getDateTime()->format('Y-m-d');
+                                        ?>
+                                        <h2>Fecha <span><?php echo $shows[$x]->getDateTime()->format('Y-m-d'); ?></span></h2><br>
+
+                                        <?php while($x<$y&&$shows[$x]->getDateTime()->format('Y-m-d')==$dateTime){ ?>
+
+                                            <form action="<?php echo FRONT_ROOT."Purchase/ShowPurchaseView" ?>" method="post">
+                                            <input type="hidden" value="<?php echo $shows[$x]->getId(); ?>" name="showId" >
+                                            <button class="optButton optButton-block" type="submit"  ><?php echo $shows[$x]->getDateTime()->format('H:i')?></button>
+                                            </form>
+
                             <?php 
-                            
-                                foreach($room->GetShows() as $show){
-                                    
-                            ?>
-                                <form action="<?php echo FRONT_ROOT."Purchase/ShowPurchaseView" ?>" method="post">
-                                <input type="hidden" value="<?php echo $show->getId(); ?>" name="showId" >
-                                <button class="optButton optButton-block" type="submit"  ><?php echo $show->getDateTime()->format('H:i')?></button>
-
-                                
-                                </form>
-
-                        
-                            <?php     
-                                    }
+                                        $x++;
+                                        }
+                                    }   
                             ?> 
 
                             <br><br><br>

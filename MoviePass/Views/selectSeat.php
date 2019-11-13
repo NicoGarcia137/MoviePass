@@ -61,8 +61,14 @@ include_once("navUser.php");
                         <td> 
                             <label class="checkeable" >
 
-                                <input type="checkbox" name="seats[]" value="<?php echo $seat ?>"> 
-                                <img class="seat" src="<?php echo FRONT_ROOT?>Views/images/butaca-cerrada.png" alt="">
+                                <?php if(!in_array($seat,$OccupiedSeats)){ ?>
+                                    
+                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>"> 
+                                    <img class="seat" src="<?php echo FRONT_ROOT?>Views/images/butaca-cerrada.png" alt="">
+                                <?php }else{ ?>
+                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>" disabled> 
+                                    <img class="seat" src="<?php echo FRONT_ROOT?>Views/images/butaca-abierta-lock.png" alt="">
+                                <?php } ?>
 
                             </label>
                         </td> 
@@ -76,8 +82,13 @@ include_once("navUser.php");
                         <td> 
                             <label class="checkeable" >
 
-                                <input type="checkbox" name="seats[]" value="<?php echo $seat ?>"> 
-                                <img class="seat" src="<?php echo FRONT_ROOT?>Views/images/butaca-cerrada.png" alt="">
+                                <?php if(!in_array($seat,$OccupiedSeats)){ ?>
+                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>"> 
+                                    <img class="seat" src="<?php echo FRONT_ROOT?>Views/images/butaca-cerrada.png" alt="">
+                                <?php }else{ ?>
+                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>" disabled> 
+                                    <img class="seat" src="<?php echo FRONT_ROOT?>Views/images/butaca-abierta-lock.png" alt="">
+                                <?php } ?>
 
                             </label>
                         </td> 

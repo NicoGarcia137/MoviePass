@@ -12,10 +12,8 @@ include_once("navUser.php");
 
 
 <?php 
-// var_dump($purchases);
 
 foreach($purchases as $purchase){
-     //var_dump($purchase);
 ?>
 
     <div class="box">
@@ -26,7 +24,7 @@ foreach($purchases as $purchase){
                         <div class="fleft" >
                    
                             <h3>Compra</h3>
-                            <span>ID: </span> <?php echo $purchase->getId(); ?> 
+                            <span>Cine: </span> <?php echo $purchase->getCine()->getName(); ?> 
                             <br>
                             <span>Valor total: </span> <?php echo "$ " . $purchase->getTotalValue(); ?> 
                             <br>
@@ -43,12 +41,14 @@ foreach($purchases as $purchase){
 <?php
     
     foreach($purchase->getTickets() as $ticket){
-        //var_dump($ticket);
 ?> 
         <div class="ticketBox">
             <br>
             <h5><span> ID: </span> <?php echo $ticket->getId(); ?> </h5>
-            <h5><span> Pelicula: </span> <?php echo $ticket->getShow(); ?> </h5>
+            <h5><span> Sala: </span> <?php echo $purchase->getCine()->getRooms()[0]->getName(); ?> </h5>
+            <h5><span> Pelicula: </span> <?php echo $ticket->getShow()->getMovie()->getName(); ?> </h5>
+            <h5><span> Fecha: </span> <?php echo $ticket->getShow()->getDateTime()->format('Y-m-d'); ?> </h5>
+            <h5><span> Hora: </span> <?php echo $ticket->getShow()->getDateTime()->format('H:i'); ?> </h5>
             <h5><span> Asiento: </span> <?php echo $ticket->getSeat(); ?> </h5>
             <h5><span> Valor: $</span> <?php echo $ticket->getValue(); ?> </h5>
             <br>

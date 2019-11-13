@@ -24,7 +24,6 @@
             try{
                 if(isset($_SESSION['loggedUser'])){
                     $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
-                    // var_dump($cine);
                     $show=$cine->getRooms()[0]->getShows()[0];
                     $show->setRoom($cine->getRooms()[0]);
                     $show->getRoom()->getCine()->setValue($cine->getValue());
@@ -37,6 +36,7 @@
                         $ticket->setValue($value);
                         $purchase->addTickets($ticket);
                     }
+                    $purchase->setCine($cine);
                     $purchase->setDateTime(new DateTime());
                     $purchase->setUser($_SESSION['loggedUser']);
 
@@ -72,6 +72,14 @@
 
         public function ShowUserPurchases(){
             $purchases=$this->getPurchaseByUser();
+            foreach($purchases as $purchase){
+                $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($purchase->getTickets()[0]->getShow()->getId());
+                $purchase->setCine($cine);
+                foreach($purchase->getTickets() as $ticket){
+                    $show=$this->ShowDAOPDO->GetById($ticket->getShow()->getId());
+                    $ticket->setShow($show);
+                }
+            }
             require_once(VIEWS_PATH."userPurchases.php");
         }
 
@@ -79,6 +87,7 @@
 
         public function ShowPurchaseView($showId){
             $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
+            $OccupiedSeats=$this->PurchaseDAOPDO->GetOccupiedSeatsByShowId($showId);
             require_once(VIEWS_PATH."selectSeat.php");
         }
 
