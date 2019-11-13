@@ -220,6 +220,19 @@ order by c.Id ,r.Id,s.Id,m.Id,g.Id;
 
 update Shows set MovieId=475557;
 
+-- Traer un perfil por el email 
+select U.Email , 
+U.Password ,
+R.Description , 
+PU.FirstName ,
+PU.LastName ,
+PU.DNI 
+from Users as U 
+left join Profile_Users as PU 
+on PU.Id =U.Profile_UserId 
+left join Rol as R 
+on R.Id = U.RolId
+where U.Email= "Email" ;
 
 
 

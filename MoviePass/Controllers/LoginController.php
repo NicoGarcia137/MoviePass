@@ -1,16 +1,16 @@
 <?php 
 namespace Controllers;
 
-use DAO\UserDAO as UserDAO;
+use DAO\UserDAOPDO as UserDAOPDO;
 use Models\Usuario as Usuario;
 
 class LoginController
 {
-    private $UserDAO;
+    private $UserDAOPDO;
 
         public function __construct()
         {
-            $this->UserDAO = new UserDAO();
+            $this->UserDAOPDO = new UserDAOPDO();
         }
 
     public function FacebookLogin()
@@ -24,7 +24,7 @@ class LoginController
 
     public function Login($email, $password)
     {
-        $user = $this->UserDAO->GetByEmail($email);
+        $user = $this->UserDAOPDO->GetByEmail($email);
         if(($user != null) && ($user->getPassword() === $password))
         {
             $_SESSION["loggedUser"] = $user;

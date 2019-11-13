@@ -57,5 +57,42 @@ create table MovieXGenres
    constraint fk_MovieXGenre_GenreId foreign key (GenreId) references Genres (Id) 
 );
 
+create table Users
+(
+    Id int auto_increment,
+    Email varchar (100) not null ,
+    Password varchar (50) not null , 
+    RolId int not null ,
+    Profile_UserId int not null ,
+    constraint pk_UserId primary key (Id),
+    constraint fk_ProfileUser foreign key (Profile_UserId) references Profile_Users(Id),
+    constraint FK_Rol foreign key (RolId) references Rol (Id) 
+);
 
+create table Rol
+(
+    Id int auto_increment,
+    Description varchar(30) not null,
+    constraint pk_Rol_Id primary key (Id)
+);
+
+create table Profile_Users
+(
+    Id int auto_increment ,
+    UserId int not null ,
+    FirstName varchar (70) not null ,
+    LastName varchar (70) not null  ,
+    DNI int not null ,
+    constraint pk_Profile primary key (Id),
+    constraint fk_User foreign key (UserId) references Users (Id)
+);
 --echo "<script>if(confirm('echo $query'));</script>";
+
+insert into Users (Email,Password,RolId,Profile_UserId) values ("a@a","a",1,1);
+insert into Profile_Users (FirstName,LastName,DNI,UserId) values ("Nicol","qwe",123,1);
+
+insert into Rol (Description) values ("admin");
+insert into Rol (Description) values ("user");
+
+
+insert into UserProfile () values () ;
