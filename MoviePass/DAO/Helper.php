@@ -205,7 +205,6 @@ abstract class Helper{
         $newCine->setId($cine["CineId"]);
         $newCine->setName($cine["CineName"]);
         $newCine->setAddress($cine["Address"]);
-        $newCine->setCapacity($cine["CineCapacity"]);
         $newCine->setValue($cine["Value"]);
         foreach($rooms as $room){
             $newCine->addRoom($room);

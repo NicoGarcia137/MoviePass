@@ -52,11 +52,32 @@
                 $Show->setMovie($Movie);
                 $Show->setTickets($Tickets);
                 $this->ShowDAOPDO->ModifyShow($Show);
+                $_SESSION['successMessage']="Extio al modificar la funcion";
+            }else{
+                $_SESSION['errorMessage']="No se puede modificar esta funcion, hay tickets vendidos para la misma";
             }
             
             $room = $this->RoomDAOPDO->GetById($Show->getRoom()->getId());
             
             require_once(VIEWS_PATH."modifyRoom.php");
+        }
+
+        public function AddShow($roomId,$time){
+            $date=new DateTime();
+            $room=new Room();
+            $room->setId($roomId);
+            for($x=0;$x<7;$x++){
+                $show=new Show();
+                $show->setRoom($room);
+                $show->setMovie(null);
+                $show->setTickets(null);
+               
+                //date_time_set($date, $time->);
+                $show->setDateTime($date);
+                $this->ShowDAOPDO->Add($show);
+            
+                $date->modify('+1 day');
+            }
         }
         
         public function ShowIndexView(){
@@ -68,6 +89,5 @@
             $billboard=$this->BillboardDAOPDO->GetAllMovies();
             require_once(VIEWS_PATH."modifyShow.php");
         }
-        
     }
 ?>

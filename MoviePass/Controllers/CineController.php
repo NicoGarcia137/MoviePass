@@ -40,7 +40,8 @@
                 return $this->CineDAO->GetAll();
              }catch(Exception $ex){
                 $message=$ex->getMessage();
-                echo "<script>if(confirm('$message'));</script>";
+                $_SESSION['errorMessage']=$message;
+                header("location: ".FRONT_ROOT."Home/index");
             }
         }
 
@@ -50,24 +51,25 @@
                 return $cine;
             }catch(Exception $ex){
                 $message=$ex->getMessage();
-                echo "<script>if(confirm('$message'));</script>";
+                $_SESSION['errorMessage']=$message;
+                header("location: ".FRONT_ROOT."Home/index");
             }
          }
 
         
-            public function Add($name, $address, $capacity,$value,$Rooms=null)
+            public function Add($name, $address,$value,$Rooms=null)
             {
                try{
-                   if(empty($this->CineDAOPDO->GetByName($name))){
+                   if($this->CineDAOPDO->NameCheck($name)){
                     $Cine = new Cine();
                     $Cine->setName($name);
                     $Cine->setAddress($address);
-                    $Cine->setCapacity($capacity);
                     $Cine->setValue($value);
                     $Cine->setRooms($Rooms);
     
         
                     $this->CineDAO->Add($Cine);
+                    $_SESSION['successMessage']="Exito al crear el cine";
         
                     $this->ShowAddView();
                    }else{
@@ -76,81 +78,13 @@
                 
                 }catch(Exception $ex){
                     $message=$ex->getMessage();
-                    echo "<script>if(confirm('$message'));</script>";
+                    $_SESSION['errorMessage']=$message;
                     header("location: ".FRONT_ROOT."Cine/ShowAddView");
                 }
             }
 
-            public function AddRoom($Capacity,$Name,$CineId)
-            {
-               try{
-                $Room = new Room();
-                $Cine = $this->GetCine($CineId);
-                $Room->setCapacity($Capacity);
-                $Room->setCine($Cine);
-                $Room->setName($Name);
-                $id=$this->RoomDAOPDO->GetLastId();
-              
-                $date=new DateTime();
-                for($x=0;$x<7;$x++){
-                    $show=new Show();
-                    $show->setRoom($id);
-                    $show->setMovie(null);
-                    $show->setTickets(null);
-                   
-                    date_time_set($date, 10, 00, 00);
-                    $show->setDateTime($date);
-                    $this->ShowDAOPDO->Add($show);
-                
-                    date_time_set($date, 15, 00, 00);
-                    $show->setDateTime($date);
-                    $this->ShowDAOPDO->Add($show);
-
-                    date_time_set($date, 20, 00, 00);
-                    $show->setDateTime($date);
-                    $this->ShowDAOPDO->Add($show);
-                
-                    $date->modify('+1 day');
-                }
-                $this->RoomDAOPDO->Add($Room);
-
-                $this->ShowModifyView($CineId);
-               }catch(Exception $ex){
-                require_once(VIEWS_PATH."IndexAdmin.php");
-               }
-            }
-
-            public function RemoveRoom($cineId,$id){
-                try{
-                    $Room=$this->RoomDAOPDO->GetById($id);
-                    if($Room != null){
-                        if($this->CheckShowsByRoom($Room)){
-                            $this->RoomDAOPDO->RemoveRoom($Room);
-                            $this->ShowModifyView($cineId);   
-                        }else{
-                            throw new Exception("Error, Asegurarse de que la sala no tenga funciones con peliculas asignadas");
-                        }
-                    }else{
-                        throw new Exception("Error, no se encuentra sala con esa Id en el sistema");
-                    }
-                    }catch(Exception $ex){
-                    $message=$ex->getMessage();
-                    echo "<script>if(confirm('$message'));</script>";
-                    $this->ShowModifyView($cineId);
-                }
-            }
     
-    
-    
-            public function CheckShowsByRoom(Room $room){
-                $result=true;
-                foreach($room->getShows() as $show){
-                    if($show->getMovie()!=null){
-                        $result=false;
-                    }
-                }
-                return $result;
-            }
+            
 
 
 
@@ -163,6 +97,7 @@
                 if($cine != null){
                     if(empty($cine->getRooms())){
                         $this->CineDAO->RemoveCine($cine);
+                        $_SESSION['successMessage']="Exito al remover el cine";
                         $this->ShowListCinesAdminView();   
                     }else{
                         throw new Exception("Error, Asegurarse de que el cine no tenga salas");
@@ -172,25 +107,30 @@
                 }
                 }catch(Exception $ex){
                 $message=$ex->getMessage();
-                echo "<script>if(confirm('$message'));</script>";
+                $_SESSION['errorMessage']=$message;
                 $this->ShowListCinesAdminView(); 
             }
         }
 
-        public function ModifyCine($id,$name, $address, $capacity,$value){
+        public function ModifyCine($id,$name, $address,$value){
             try{
-            $Cine = new Cine();
-            $Cine->setId($id);
-            $Cine->setName($name);
-            $Cine->setAddress($address);
-            $Cine->setCapacity($capacity);
-            $Cine->setValue($value);
+                if($this->CineDAOPDO->NameCheck($name,$id)){
+                    $Cine = $this->GetCine($id);
+                    $Cine->setName($name);
+                    $Cine->setAddress($address);
+                    $Cine->setValue($value);
 
-            $this->CineDAO->ModifyCine($Cine);
-            $this->ShowListCinesAdminView();
-        }catch(Exception $ex){
-            echo "<script>if(confirm('echo $ex'));</script>";
-        }
+                    $this->CineDAO->ModifyCine($Cine);
+                    $_SESSION['successMessage']="Exito al modificar el cine";
+                    $this->ShowModifyView($id);
+                 }else{
+                    throw new Exception("Error, Ya se encuentra un cine con ese nombre");
+                }
+            }catch(Exception $ex){
+                $message=$ex->getMessage();
+                $_SESSION['errorMessage']=$message;
+                header("location: ".FRONT_ROOT."Home/indexAdmin");
+            }
         }
 
 
@@ -240,6 +180,7 @@
         }
         public function ShowIndexAdminView(){
             require_once(VIEWS_PATH."indexAdmin.php");
+            
         }
     }
 ?>

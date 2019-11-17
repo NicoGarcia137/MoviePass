@@ -78,6 +78,13 @@ create table Tickets(
     constraint fk_Tickets_Show foreign key (ShowId) references Shows (Id)
 );
 
+create table ShowTimes(
+    ShowTime DateTime,
+    RoomId int,
+    constraint pk_ShowTimes primary key(showTime,RoomId),
+    constraint fk_RoomId foreign key (RoomId) references Rooms (Id) ON DELETE CASCADE 
+)
+
 
 
 --echo "<script>if(confirm('echo $query'));</script>";
