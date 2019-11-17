@@ -8,50 +8,22 @@ class ShowTimeDAOPDO extends Helper{
     private $connection;
     
     
-    public function GetShowTime($showTime,$roomId)
+    public function GetShowTime($showTime,$CineId)
     {
         try
         {   
-            $showTimeExist=null;
             $query = "select
             s.ShowTime as ShowTime,
-            s.RoomId
+            s.CineId
             from ShowTimes as s
-            where s.ShowTime = '".$showTime->getFormat('H:i')."' AND s.RoomId= ".$roomId." ;";
+            where s.ShowTime = '".$showTime->Format('H:i')."' AND s.CineId= ".$CineId." ;";
 
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
             
-            $showTimeExist=$resultSet[0];
-        
   
-            return array_shift($showExist);
-        }
-        catch(Exception $ex)
-        {
-            throw $ex;
-        }
-    }
-
-    public function GetAllByRoom($roomId)
-    {
-        try
-        {   
-            $showTimes=[];
-            $query = "select
-            s.ShowTime as ShowTime,
-            s.RoomId
-            from ShowTimes as s
-            where s.RoomId= " .$roomId." ;";
-
-            $this->connection = Connection::GetInstance();
-
-            $resultSet = $this->connection->Execute($query);
-            
-            $showTimes=$resultSet[0];
-  
-            return array_shift($showTimes);
+            return $resultSet;
         }
         catch(Exception $ex)
         {
@@ -59,15 +31,16 @@ class ShowTimeDAOPDO extends Helper{
         }
     }
     
-    public function RemoveShowTime($showTime,$roomId)
+    public function RemoveShowTime($showTime,$CineId)
     {
         try
         {
             
-            $query = "DELETE FROM ShowTimes WHERE ShowTime = :ShowTime  AND RoomId= :RoomId ;";
+            $query = "DELETE FROM ShowTimes WHERE ShowTime = :ShowTime  AND CineId= :CineId ;";
 
-            $parameters['ShowTime']=$showTime->getFormat('H:i');
-            $parameters['RoomId']=$roomId;
+
+            $parameters['ShowTime']=$showTime->Format('H:i');
+            $parameters['CineId']=$CineId;
             
             $this->connection = Connection::GetInstance();                
             $this->connection->ExecuteNonQuery($query,$parameters);
@@ -78,14 +51,14 @@ class ShowTimeDAOPDO extends Helper{
         }
     }
   
-    public function Add($showTime,$roomId)
+    public function Add($showTime,$CineId)
     {
         try
         {
-            $query = "INSERT INTO ShowTimes (ShowTime,RoomId) VALUES (:ShowTime,:RoomId);";
+            $query = "INSERT INTO ShowTimes (ShowTime,CineId) VALUES (:ShowTime,:CineId);";
             
-            $parameters['ShowTime']=$showTime->getFormat('H:i');
-            $parameters['RoomId']=$roomId;
+            $parameters['ShowTime']=$showTime->Format('H:i');
+            $parameters['CineId']=$CineId;
             
             $this->connection = Connection::GetInstance();                
             $this->connection->ExecuteNonQuery($query,$parameters);

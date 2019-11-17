@@ -57,7 +57,7 @@
          }
 
         
-            public function Add($name, $address,$value,$Rooms=null)
+            public function Add($name, $address,$value)
             {
                try{
                    if($this->CineDAOPDO->NameCheck($name)){
@@ -65,8 +65,6 @@
                     $Cine->setName($name);
                     $Cine->setAddress($address);
                     $Cine->setValue($value);
-                    $Cine->setRooms($Rooms);
-    
         
                     $this->CineDAO->Add($Cine);
                     $_SESSION['successMessage']="Exito al crear el cine";
@@ -82,11 +80,6 @@
                     header("location: ".FRONT_ROOT."Cine/ShowAddView");
                 }
             }
-
-    
-            
-
-
 
       
         

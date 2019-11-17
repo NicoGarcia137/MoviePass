@@ -53,6 +53,18 @@ class RoomDAOPDO extends Helper{
         }
     }
 
+    public function GetCineIdByRoomId($roomId){
+        $query = "select
+            r.CineId 
+            from Rooms as r
+            where r.Id = '".$roomId."' ;";
+
+            $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+                $result=$resultSet[0];
+                return $result;
+    }
+
     public function NameCheck($name,...$id){
         $query = "select
             r.Id as RoomId,

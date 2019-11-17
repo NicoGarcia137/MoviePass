@@ -140,6 +140,8 @@ class CineDAOPDO extends Helper implements ICineDAO{
                 return $result;
         }
 
+      
+
     public function GetById($id)
     {
         try

@@ -79,11 +79,11 @@ create table Tickets(
 );
 
 create table ShowTimes(
-    ShowTime DateTime,
-    RoomId int,
-    constraint pk_ShowTimes primary key(showTime,RoomId),
-    constraint fk_RoomId foreign key (RoomId) references Rooms (Id) ON DELETE CASCADE 
-)
+    ShowTime varchar(10),
+    CineId int,
+    constraint pk_ShowTimes primary key(showTime,CineId),
+    constraint fk_CineId foreign key (CineId) references Cines (Id) ON DELETE CASCADE 
+);
 
 
 
