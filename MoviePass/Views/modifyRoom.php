@@ -40,25 +40,39 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
         <thead>
             <tr>
                 <th></th>
-                <th scope="col" abbr="Starter">Lunes</th>
-                <th scope="col" abbr="Medium">Martes</th>
-                <th scope="col" abbr="Business">Miercoles</th>
-                <th scope="col" abbr="Deluxe">Jueves</th>
-                <th scope="col" abbr="Deluxe">Viernes</th>
-                <th scope="col" abbr="Deluxe">Sabado</th>
-                <th scope="col" abbr="Deluxe">Domingo</th>
+                <?php $date=new DateTime(); for($x=0;$x<7;$x++){ ?>
+                    <th scope="col" abbr="Starter"><?php echo $date->format('l'); ?></th>
+                <?php $date->modify('+1 day');  } ?>
+                
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">10:00</th>
-                <?php foreach($room->getShows() as $show){ 
-                    $date=$show->getDateTime();
-                    if($date->format('H:i')==="10:00"){
-                         ?>
-                <td>
-                    <div class="imgBox">
+           
+          
+       
+            
+       
+                <?php $dates=[];
+                      foreach($room->getShows() as $show){
+                          $x=false; 
+                        $date=$show->getDateTime();     ?>
+
+                       <?php  if(!in_array($date->format('H:i'),$dates)){
+                           $x=true;
+                            array_push($dates,$date->format('H:i'));?>
+             <tr>
+                            <th scope="row"><?php echo $date->format('H:i'); ?></th>
+                          
+                       <?php }?>
+                <td>  
+                        <?php   foreach($dates as $dateValue){ 
+                            if($date->format('H:i')==$dateValue){ ?>
+              
+                 
+                                
                         
+                    <div class="imgBox">
+                  
 
                     <form action="<?php echo FRONT_ROOT."Show/ModifyShow" ?>" method="post">
                             
@@ -67,7 +81,6 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                             <input type="hidden" value="100" name="Tickets">
                             <button class="optButton optButton-block" type="submit"  >X</button>
                             <br>
-
                     </form>
 
                         <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
@@ -94,98 +107,30 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                                     } ?></h3>
                     </div>
                 </td>
-                    <?php }} ?>
-            </tr>
-            <tr>
-                <th scope="row">15:00</th>
-                <?php foreach($room->getShows() as $show){ 
-                    $date=$show->getDateTime();
-                    if($date->format('H:i')==="15:00"){ 
-                        ?>
-                <td>
-                <div class="imgBox">
-
-                    <form action="<?php echo FRONT_ROOT."Show/ModifyShow" ?>" method="post">
-                            
-                            <input type="hidden" value="<?php echo $show->getId(); ?>" name="Id" >
-                            <input type="hidden" name="MovieId" value="<?php echo null ?>">
-                            <input type="hidden" value="100" name="Tickets">
-                            <button class="optButton optButton-block" type="submit"  >X</button>
-
-                    </form>
-
-                    <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
-                        
-                        <button type="submit" name="show" value="<?php echo $show->getId();?>">
-                            <a href="">
-                                <img src="<?php if($show->getMovie() != null)
-                                                {
-                                                    echo $baseurl . $show->getMovie()->getImage();
-                                                }else{  
-                                                    echo $emptyImg;
-                                                }  ?>" alt="">
-                            </a>
-                        </button>
-
-                    </form>
-
-                </div>
-                <div class="details">
-                    <h3><?php if($show->getMovie() != null)
-                                {echo $show->getMovie()->getName();
-                                }else{  
-                                    echo "No Asignado";
-                                } ?></h3>
-                </div>
-            </td>
-                <?php }} ?>              
-            </tr>
-            <tr>
-                <th scope="row">20:00</th>
-                <?php foreach($room->getShows() as $show){ 
-                    $date=$show->getDateTime();
-                    if($date->format('H:i')==="20:00"){ ?>
-                <td>
-                <div class="imgBox">
-
-                    <form action="<?php echo FRONT_ROOT."Show/ModifyShow" ?>" method="post">
-                            
-                            <input type="hidden" value="<?php echo $show->getId(); ?>" name="Id" >
-                            <input type="hidden" name="MovieId" value="<?php echo null ?>">
-                            <input type="hidden" value="100" name="Tickets">
-                            <button class="optButton optButton-block" type="submit"  >X</button>
-
-                    </form>
-
-                    <form action="<?php echo FRONT_ROOT."Show/ShowModifyView"?>" method="post">
-                        
-                        <button type="submit" name="show" value="<?php echo $show->getId();?>">
-                            <a href="">
-                                <img src="<?php if($show->getMovie() != null)
-                                                {
-                                                    echo $baseurl . $show->getMovie()->getImage();
-                                                }else{  
-                                                    echo $emptyImg;
-                                                }  ?>" alt="">
-                            </a>
-                        </button>
-
-                    </form>
-
-                </div>
-                <div class="details">
-                    <h3><?php if($show->getMovie() != null)
-                                {echo $show->getMovie()->getName();
-                                }else{  
-                                    echo "No Asignado";
-                                } ?></h3>
-                </div>
-            </td>
-                <?php }} ?>             
-            </tr>
-            
+               
+                       <?php  }}} ?>
         </tbody>
     </table>
+
+    <div class="form">
+    <form action="<?php echo FRONT_ROOT."Show/AddShowTime" ?>" method="post">
+                        
+                        <input class="log-input" type="hidden" name="roomId"  value="<?php echo $room->getId(); ?>" required readonly>
+                        
+                        <label class="log-label" for="name">Hora de funcion</label>
+                    <div class="field-wrap">
+                        <input type="time" name="time" step="60" required>
+                    </div>
+                    <div class="field-wrap">
+                    </div>
+
+                    
+                    <input class="log-input" type="hidden" name="cineId"  value="<?php echo $room->getCine()->getId(); ?>" required readonly>
+
+                    <input type=submit class="button button-block" value="Agregar Horario">
+
+    </form>
+</div>
     
 
 
