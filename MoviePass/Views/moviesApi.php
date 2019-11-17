@@ -12,6 +12,10 @@ $baseurl="https://image.tmdb.org/t/p/w500";
     </div>
 </div>
 
+
+
+<a class="button button-block" href="<?php echo FRONT_ROOT."Billboard/UpdateBillboardFromApi" ?>" >Actualizar Cartelera desde Api externa</a>
+
 <?php 
     foreach($Billboard as $movie)
     {

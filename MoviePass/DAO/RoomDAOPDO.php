@@ -53,6 +53,38 @@ class RoomDAOPDO extends Helper{
         }
     }
 
+    public function GetCineIdByRoomId($roomId){
+        $query = "select
+            r.CineId 
+            from Rooms as r
+            where r.Id = '".$roomId."' ;";
+
+            $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+                $result=$resultSet[0];
+                return $result;
+    }
+
+    public function NameCheck($name,...$id){
+        $query = "select
+            r.Id as RoomId,
+            r.Capacity as RoomCapacity,
+            r.Name as RoomName,
+            r.CineId as CineIdRoom
+            from Rooms as r
+            where r.Name = '".$name."' ;";
+
+            $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+                $result=false;
+                if(empty($resultSet)){
+                    $result=true;
+                }else if($id[0]==$resultSet[0]['RoomId']){
+                    $result=true;
+                }
+                return $result;
+    }
+
     public function GetLastId(){
         try
         {         
@@ -78,11 +110,14 @@ class RoomDAOPDO extends Helper{
         {
             try
             {
-                $query = "UPDATE Rooms SET Capacity= "."'".$Room->getCapacity()."'"." WHERE Id= ".$Room->getId().";";
+                $query = "UPDATE Rooms SET Name =:Name,Capacity =:Capacity WHERE Id=:Id;";
+                
+                $parameters["Id"] = $Room->getId();
+                $parameters["Name"] = $Room->getName();
+                $parameters["Capacity"] = $Room->getCapacity();
 
                 $this->connection = Connection::GetInstance();
-                echo "<script>if(confirm('echo $query'));</script>";
-                $this->connection->ExecuteNonQuery($query);
+                $this->connection->ExecuteNonQuery($query,$parameters);
             }
             catch(Exception $ex)
             {

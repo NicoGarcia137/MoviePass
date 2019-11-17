@@ -59,15 +59,18 @@ include_once("navUser.php");
                         <td> <img class="stairs" src="<?php echo FRONT_ROOT?>Views/images/stairsHD.png"> </td>
 
                         <td> 
-                            <label class="checkeable" >
+                            <label class="checkeable">
 
-                                <?php if(!in_array($seat,$OccupiedSeats)){ ?>
-                                    
+                            <?php if(!in_array($seat,$OccupiedSeats)){ 
+                                         if(isset($_SESSION['failPurchase']) && $_SESSION['failPurchase'][0]->getId()==$show->getId() && in_array($seat,$_SESSION['failPurchase'][2])){ ?>
+                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>" checked > 
+                                    <?php }else{ ?>  
                                     <input type="checkbox" name="seats[]" value="<?php echo $seat ?>"> 
+                                    <?php } ?>
                                     <img class="seat" src="<?php echo FRONT_ROOT?>Views/images/butaca-cerrada.png" alt="">
                                 <?php }else{ ?>
-                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>" disabled> 
-                                    <img class="seat-lock" src="<?php echo FRONT_ROOT?>Views/images/butaca-abierta-lock.png" alt="">
+                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>" disabled > 
+                                    <img class="seat" src="<?php echo FRONT_ROOT?>Views/images/butaca-abierta-lock.png" alt="">
                                 <?php } ?>
 
                             </label>
@@ -82,11 +85,15 @@ include_once("navUser.php");
                         <td> 
                             <label class="checkeable" >
 
-                                <?php if(!in_array($seat,$OccupiedSeats)){ ?>
-                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>"> 
+                            <?php if(!in_array($seat,$OccupiedSeats)){  
+                                         if(isset($_SESSION['failPurchase']) && $_SESSION['failPurchase'][0]->getId()==$show->getId() && in_array($seat,$_SESSION['failPurchase'][2])){ ?>
+                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>" checked > 
+                                    <?php }else{ ?>  
+                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>" > 
+                                    <?php } ?>
                                     <img class="seat" src="<?php echo FRONT_ROOT?>Views/images/butaca-cerrada.png" alt="">
                                 <?php }else{ ?>
-                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>" disabled> 
+                                    <input type="checkbox" name="seats[]" value="<?php echo $seat ?>" disabled > 
                                     <img class="seat" src="<?php echo FRONT_ROOT?>Views/images/butaca-abierta-lock.png" alt="">
                                 <?php } ?>
 
@@ -108,7 +115,7 @@ include_once("navUser.php");
     <br><br>
 
     <div class="field-wrap">
-        <button class="optButton optButton-block" type="submit"  >Seleccionar</button>
+            <button class="optButton optButton-block" type="submit" required  >Seleccionar</button>
     </div>
     </div>
         </div>

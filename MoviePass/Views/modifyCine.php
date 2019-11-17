@@ -2,6 +2,7 @@
 include_once("header.php");
 include_once("navAdmin.php");
 
+
 ?>
 
 <div id="signupSlogan">
@@ -21,10 +22,7 @@ include_once("navAdmin.php");
                     <div class="form">
                         <form action="<?php echo FRONT_ROOT."Cine/ModifyCine" ?>" method="post">
                         
-                                <div class="field-wrap">
-                                <label class="log-label" for="name">Id</label>
-                                <input class="log-input" type="text" name="id"  value="<?php echo $cine->getId(); ?>" required readonly>
-                            </div>
+                                <input class="log-input" type="hidden" name="id"  value="<?php echo $cine->getId(); ?>" required readonly>
 
                             <div class="field-wrap">
                                 <label class="log-label" for="name">Nombre</label>
@@ -34,11 +32,6 @@ include_once("navAdmin.php");
                             <div class="field-wrap">
                                 <label class="log-label" for="name">Direccion</label>
                                 <input class="log-input" type="text" name="address" value="<?php echo $cine->getAddress(); ?>"required>
-                            </div>
-
-                            <div class="field-wrap">
-                                <label class="log-label" for="name">Capacidad</label>
-                                <input class="log-input" type="number" name="capacity" value="<?php echo $cine->getCapacity(); ?>"required>
                             </div>
 
                             <div class="field-wrap">
@@ -55,7 +48,7 @@ include_once("navAdmin.php");
 
                         </form>
                         <br><br>
-                        <form action="<?php echo FRONT_ROOT."Cine/AddRoom" ?>" method="post">
+                        <form action="<?php echo FRONT_ROOT."Room/AddRoom" ?>" method="post">
                             <div class="field-wrap">
                                 <label class="log-label" for="name">Capacidad</label>
                                 <input class="log-input" type="number" name="Capacity" value=""required>    
@@ -94,7 +87,6 @@ foreach($rooms as $room){
                 <div class="address">
 
                     <div class="fleft">
-                        <h3>Id: <?php echo $room->getId() ?></h3>
                         <h3>Sala: <?php echo $room->getName() ?></h3>
                     </div>
 
@@ -105,7 +97,7 @@ foreach($rooms as $room){
 
                         </form>
 
-                        <form action="<?php echo FRONT_ROOT."Cine/RemoveRoom" ?>">
+                        <form action="<?php echo FRONT_ROOT."Room/RemoveRoom" ?>">
                             <input type="hidden" name="cineid" value="<?php echo $cine->getId(); ?>">
                             <button class="optButton optButton-block" type="submit" name="id" value="<?php echo $room->getId() ?>" >Eliminar</button>
 

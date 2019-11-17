@@ -7,7 +7,6 @@
     use Models\MovieXGenre as MovieXGenre;
     use DAO\BillboardDAOPDO as BillboardDAOPDO;
     use DAO\GenreDAOPDO as GenreDAOPDO;
-    use DAO\MovieXGenreDAOPDO as MovieXGenreDAOPDO;
 
     class BillboardController
     {
@@ -20,7 +19,6 @@
         {
             $this->GenreDAOPDO=new GenreDAOPDO();
             $this->BillboardDAOPDO=new BillboardDAOPDO();
-            $this->MovieXGenreDAOPDO=new MovieXGenreDAOPDO();
         }
 
 
@@ -48,13 +46,19 @@
              }
          }
 
-         public function ShowBillboard(){
+         public function UpdateBillboardFromApi(){
             $this->GetMoviesFromApi();
             $this->GetMovieGenresFromApi();
-
-            $Billboard= $this->GetAllMovies();
-             require_once(VIEWS_PATH."moviesApi.php");
+            $_SESSION['successMessage']="Cartelera actualizada con exito";
+            $this->ShowBillboard();
          }
+
+         public function ShowBillboard(){
+            $Billboard= $this->GetAllMovies();
+            require_once(VIEWS_PATH."moviesApi.php");
+         }
+
+         
 
          public function GetAllMoviesInshows(){
             $movies=[];
@@ -115,8 +119,8 @@
                 $MoviesIdsInShows=$this->BillboardDAOPDO->GetAllMoviesInshows();
 
                 foreach($new_array as $movieId){
-                    if(!in_array($movieId->getId(),$MoviesIdsInShows)){
-                    $this->RemoveMovie($movieId->getId());
+                    if(!in_array($movieId,$MoviesIdsInShows)){
+                    $this->RemoveMovie($movieId);
                     }
                 }
         }

@@ -147,7 +147,7 @@ class ShowDAOPDO extends Helper{
             $parameters["DateTime"] =$date->format('Y-m-d H:i:s');
             $parameters["MovieId"] = $Show->getMovie();
             $parameters["Tickets"] = $Show->getTickets();
-            $parameters["RoomId"] = $Show->getRoom();
+            $parameters["RoomId"] = $Show->getRoom()->getid();
             
             $this->connection = Connection::GetInstance();                
             $this->connection->ExecuteNonQuery($query, $parameters);
