@@ -8,14 +8,34 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
 <div id="signupSlogan">
     <div class="inside">
         <h2>Modificar<span>Sala</span></h2>
-        <p>Modificacion de las funciones de la sala seleccionada.</p>
+        
     </div>
 </div>
+
 
 
 <br>
     <h3>Sala : <span><?php echo $room->getName() ?></span></h3>
 
+    <div class="form">
+    <form action="<?php echo FRONT_ROOT."Room/ModifyRoom" ?>" method="post">
+                        
+                        <input class="log-input" type="hidden" name="id"  value="<?php echo $room->getId(); ?>" required readonly>
+                    <div class="field-wrap">
+                        <label class="log-label" for="name">Nombre</label>
+                        <input class="log-input" type="text" name="name"  value="<?php echo $room->getName(); ?>"required>
+                    </div>
+                    <div class="field-wrap">
+                        <label class="log-label" for="name">Direccion</label>
+                        <input class="log-input" type="text" name="capacity" value="<?php echo $room->getCapacity(); ?>"required>
+                    </div>
+                    <div class="field-wrap">
+                    </div>
+                    <input type=submit class="button button-block" value="Modificar">
+
+    </form>
+</div>
+    <p>Modificacion de las funciones de la sala seleccionada.</p>
     <table class="calendarTable">
         <thead>
             <tr>
