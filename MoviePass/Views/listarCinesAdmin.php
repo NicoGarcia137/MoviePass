@@ -27,7 +27,6 @@ include_once("navAdmin.php");
                         <div class="fleft">
                             <br>
                             <div class="cineText">
-                                <span>Id:</span> <?php echo $cine->getId() ?> <br>
                                 <span>Nombre:</span> <?php echo $cine->getName() ?> <br>
                                 <span>Direccion:</span> <?php echo $cine->getAddress() ?> <br>
                                 <span>Capacidad:</span> <?php echo $cine->getCapacity() ?> <br>

@@ -15,7 +15,7 @@ include_once("navUser.php");
 // var_dump($purchases);
 
 foreach($purchases as $purchase){
-     //var_dump($purchase);
+     
 ?>
 
     <div class="box" >
@@ -45,8 +45,8 @@ foreach($purchases as $purchase){
                     <div class="ticketBox">
                         <br><hr><br> <!-- Barra superior -->
 <?php
+
     foreach($purchase->getTickets() as $ticket){
-        //var_dump($ticket);
 ?>                 
                         <h5><span> Sala: </span> <?php echo $purchase->getCine()->getRooms()[0]->getName(); ?> </h5>
                         <h5><span> Pelicula: </span> <?php echo $ticket->getShow()->getMovie()->getName(); ?> </h5>

@@ -31,11 +31,11 @@ namespace Models;
 
         public function getTotalValue()
         {
-                $result=0;
+                $totalValue=0;
                 foreach($this->tickets as $ticket){
-                        $result+=$ticket->getValue();
+                        $totalValue+=$ticket->getValue();
                 }
-                return $result;
+                return $totalValue;
         }
 
         public function getDateTime()

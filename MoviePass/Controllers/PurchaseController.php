@@ -20,36 +20,44 @@
             $this->PurchaseDAOPDO=new PurchaseDAOPDO();
         }
         
-        public function CreatePurchase($showId,$value,$seats){
+        public function CreatePurchase($showId,$value,...$seats){
             try{
-                if(isset($_SESSION['loggedUser'])){
-                    $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
-                    $show=$cine->getRooms()[0]->getShows()[0];
-                    $show->setRoom($cine->getRooms()[0]);
-                    $show->getRoom()->getCine()->setValue($cine->getValue());
-                    $purchase=new Purchase();
-                    foreach($seats as $seat){
-                        $ticket=new Ticket();
-                        // var_dump($seat);
-                        $ticket->setSeat($seat);
-                        $ticket->setShow($show);
-                        $ticket->setValue($value);
-                        $purchase->addTickets($ticket);
+                if(!empty($seats)){
+                    if(isset($_SESSION['loggedUser'])){
+                        $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
+                        $show=$cine->getRooms()[0]->getShows()[0];
+                        $show->setRoom($cine->getRooms()[0]);
+                        $show->getRoom()->getCine()->setValue($cine->getValue());
+                        $purchase=new Purchase();
+                        foreach($seats as $seat){
+                            $ticket=new Ticket();
+                            // var_dump($seat);
+                            $ticket->setSeat($seat);
+                            $ticket->setShow($show);
+                            $ticket->setValue($value);
+                            $purchase->addTickets($ticket);
+                        }
+                        $purchase->setCine($cine);
+                        $purchase->setDateTime(new DateTime());
+                        $purchase->setUser($_SESSION['loggedUser']);
+    
+                        $this->PurchaseDAOPDO->Add($purchase);
+                        unset($_SESSION['failPurchase']);
+                        $this->ShowUserPurchases();
+                    }else{
+                        $show=$this->ShowDAOPDO->GetById($showId);
+                        $_SESSION['failPurchase']= array($show,$value,$seats);
+                        throw new Exception("usuario invalido, necesitas estar logueado");
                     }
-                    $purchase->setCine($cine);
-                    $purchase->setDateTime(new DateTime());
-                    $purchase->setUser($_SESSION['loggedUser']);
-
-                    $this->PurchaseDAOPDO->Add($purchase);
-                    $this->ShowUserPurchases();
                 }else{
-                    throw new Exception("usuario invalido, necesitas estar logueado");
+                    $_SESSION['errorMessage']= "Seleccione al menos 1 butaca antes de continuar.";
+                    $this->ShowPurchaseView($showId);
                 }
                 
             }catch(Exception $ex){
                 $message=$ex->getMessage();
-                echo "<script>if(confirm('$message'));</script>";
-                header("location:".FRONT_ROOT."Login/ShowLoginView");
+                $_SESSION['errorMessage']=$message;
+                require_once(VIEWS_PATH."login.php");
             }
             
         }
@@ -65,24 +73,39 @@
                 }
             }catch(Exception $ex){
                 $message=$ex->getMessage();
-                echo "<script>if(confirm('$message'));</script>";
-                header("location:".FRONT_ROOT."Login/ShowLoginView");
+                $_SESSION['errorMessage']=$message;
+                require_once(VIEWS_PATH."login.php");
             }
         }
 
         public function ShowUserPurchases(){
-            $purchases=$this->getPurchaseByUser();
-            foreach($purchases as $purchase){
-                $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($purchase->getTickets()[0]->getShow()->getId());
-                $purchase->setCine($cine);
-                foreach($purchase->getTickets() as $ticket){
-                    $show=$this->ShowDAOPDO->GetById($ticket->getShow()->getId());
-                    $ticket->setShow($show);
+            try{
+                $purchases=$this->getPurchaseByUser();
+                if($purchases!=null){
+                    foreach($purchases as $purchase){
+                        $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($purchase->getTickets()[0]->getShow()->getId());
+                        $purchase->setCine($cine);
+                        foreach($purchase->getTickets() as $ticket){
+                            $show=$this->ShowDAOPDO->GetById($ticket->getShow()->getId());
+                            $ticket->setShow($show);
+                        }
+                     }
+                     require_once(VIEWS_PATH."userPurchases.php");
+                }else{
+                    $purchases=[];
+                    require_once(VIEWS_PATH."userPurchases.php");
                 }
+            }catch(Exception $ex){
+                $message=$ex->getMessage();
+                $_SESSION['errorMessage']=$message;
+                require_once(VIEWS_PATH."login.php");
             }
-            require_once(VIEWS_PATH."userPurchases.php");
         }
 
+        public function AbortPurchase(){
+            unset($_SESSION['failPurchase']);
+            header("location:".FRONT_ROOT."Home/Index");
+        }
 
 
         public function ShowPurchaseView($showId){
