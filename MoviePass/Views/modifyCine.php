@@ -103,8 +103,15 @@ foreach($rooms as $room){
 
                         </form>
                     </div>
-
-                    <?php include("movieCarousel.php"); ?>
+                    <?php 
+                        $carousel=[];
+                            foreach($room->getShows() as $show){
+                                if($show->getMovie()!=null){
+                                    array_push($carousel,$show->getMovie());
+                                }
+                            }
+                        
+                        include("movieCarousel.php"); ?>
 
                 </div>
             </div>

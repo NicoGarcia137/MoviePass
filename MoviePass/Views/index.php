@@ -5,6 +5,8 @@ include_once("navUser.php");
 
 ?>
 
+
+
       <div id="content">
         <div id="slogan">
           <div class="image png"></div>
@@ -14,6 +16,7 @@ include_once("navUser.php");
               <div class="wrapper"><a href="#" class="link1"><span><span>Learn More</span></span></a></div>
             </div>
           </div>
+          <?php include("movieCarousel.php"); ?>
           <div class="box">
             <div class="border-right">
               <div class="border-left">

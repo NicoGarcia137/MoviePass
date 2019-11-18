@@ -3,6 +3,7 @@ include_once("header.php");
 include_once("navAdmin.php");
 $baseurl="https://image.tmdb.org/t/p/w500";
 $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_200_200/0?e=2159024400&v=beta&t=qdZJ4JLDc4N_esDRR0m2L6_qz27N2KKhi9yP5-LtAFA";
+$dates=[];
 ?>
 
 <div id="signupSlogan">
@@ -36,6 +37,9 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
     </form>
 </div>
     <p>Modificacion de las funciones de la sala seleccionada.</p>
+
+    </br></br>
+    
     <table class="calendarTable">
         <thead>
             <tr>
@@ -52,7 +56,7 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
        
             
        
-                <?php $dates=[];
+                <?php 
                       foreach($room->getShows() as $show){
                           $x=false; 
                         $date=$show->getDateTime();     ?>
@@ -78,7 +82,6 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                             
                             <input type="hidden" value="<?php echo $show->getId(); ?>" name="Id" >
                             <input type="hidden" name="MovieId" value="<?php echo null ?>">
-                            <input type="hidden" value="100" name="Tickets">
                             <button class="optButton optButton-block" type="submit"  >X</button>
                             <br>
                     </form>
@@ -107,12 +110,12 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                                     } ?></h3>
                     </div>
                 </td>
-               
+          
                        <?php  }}} ?>
         </tbody>
     </table>
 
-    <div class="form">
+    </br></br></br></br>    
     <form action="<?php echo FRONT_ROOT."Show/AddShowTime" ?>" method="post">
                         
                         <input class="log-input" type="hidden" name="roomId"  value="<?php echo $room->getId(); ?>" required readonly>
@@ -130,8 +133,18 @@ $emptyImg="https://media.licdn.com/dms/image/C560BAQHvjs3O4Utmdw/company-logo_20
                     <input type=submit class="button button-block" value="Agregar Horario">
 
     </form>
-</div>
-    
+    </br></br></br></br>                              
+    <?php foreach($dates as $date){  ?>
+
+        <form action="<?php echo FRONT_ROOT."Show/RemoveShowtime" ?>" method="post">
+                <input type="hidden" value="<?php echo $date; ?>" name="time" >
+                <input type="hidden" name="cineId" value="<?php echo $room->getCine()->getId(); ?>">
+                <input type="hidden" name="roomId" value="<?php echo $room->getId(); ?>">
+                <button class="optButton optButton-block" type="submit"  >Eliminar Horario / <?php echo $date; ?> / de todo el cine</button>
+        </form>
+        </br>
+
+    <?php }  ?>
 
 
 <?php
