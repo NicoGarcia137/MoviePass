@@ -166,9 +166,8 @@ class ShowDAOPDO extends Helper{
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
-            $show=$this->GenerateClass($resultSet);
-  
-            return array_shift($show);
+            $shows=$this->GenerateClass($resultSet);
+            return $shows;
         }catch(Exception $ex)
         {
             throw $ex;
@@ -228,11 +227,16 @@ class ShowDAOPDO extends Helper{
         try
         {
             $query = "INSERT INTO Shows (DateTime, MovieId,RoomId) VALUES (:DateTime, :MovieId, :RoomId);";
-            
+
             $date=$Show->getDateTime();
             $parameters["DateTime"] =$date->format('Y-m-d H:i:s');
-            $parameters["MovieId"] = $Show->getMovie();
-            $parameters["RoomId"] = $Show->getRoom()->getid();
+            if($Show->getMovie()!=null){
+                $parameters["MovieId"] = $Show->getMovie()->getId();
+            }else{
+                $parameters["MovieId"] = null;
+            }
+
+            $parameters["RoomId"] = $Show->getRoom()->getId();
             
             $this->connection = Connection::GetInstance();                
             $this->connection->ExecuteNonQuery($query, $parameters);

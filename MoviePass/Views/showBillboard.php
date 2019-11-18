@@ -46,8 +46,6 @@
 
 
 <?php 
-
-
 $MoviesWithFilter=array();
   
   
@@ -69,7 +67,6 @@ if(isset($_POST["genreSelect"]))
               
                 while ($k<count($_POST["genreSelect"]))
                 {         
-
                
                        if( $genreMovie[$j]->getDescription() == $_POST["genreSelect"][$k]){
                          
@@ -77,7 +74,6 @@ if(isset($_POST["genreSelect"]))
                         array_push($MoviesWithFilter,$Billboard[$i]);
                              
                       }
-
                  $k++;
                 }
                $k=0;
@@ -98,12 +94,6 @@ if(!isset($_POST["daySelect"]))
 {
        
 }
-
-
-
-
-
-
     foreach($MoviesWithFilter as $movie)
     {
 ?>

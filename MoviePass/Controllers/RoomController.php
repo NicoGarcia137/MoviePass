@@ -66,6 +66,7 @@
 
         private function AddShows($room){
             $date=new DateTime();
+            $date->modify('-2 day');
             $ShowTimes=$this->ShowTimeDAOPDO->GetAllByCine($room->getCine()->getId());
             foreach($ShowTimes as $ShowTime){
                 $time=explode(":",$ShowTime[0]);
@@ -94,18 +95,17 @@
                 if($days->format('%a')>0){
                     $shows=$this->ShowDAOPDO->GetAllActiveShows();
                     foreach($shows as $show){
-                        $dateTime=new DateTime($show->getDateTime());
-
+                        $dateTime=$show->getDateTime();
                         if($dateTime->format('Y-m-d')<$now->format('Y-m-d')){
-                            $this->SoftDeleteShow($show);
-                            
+                            $this->ShowDAOPDO->SoftDeleteShow($show);
                             $dateTime->modify('+7 day');
                             $newShow=new Show();
-                            $newShow->setRoom($show->getRoom()->getId());
-                            $newShow->setMovie(null);
+                            $newShow->setRoom($show->getRoom());
+                            if(!empty($show->getMovie())){
+                                $newShow->setMovie($show->getMovie());
+                            }
                             $newShow->setDateTime($dateTime);
                             $this->ShowDAOPDO->Add($newShow);
-
                         }
                     }
                     $_SESSION['successMessage']="Funciones actualizadas al dia de la fecha";
@@ -188,8 +188,8 @@
         }
         
         public function ShowModifyRoomView($id){
-            $room=$this->GetRoom($id);
             $this->UpdateShows();
+            $room=$this->GetRoom($id);
             require_once(VIEWS_PATH."ModifyRoom.php");
         }
 
