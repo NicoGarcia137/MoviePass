@@ -1,27 +1,20 @@
 <?php
     namespace Controllers;
-
    
     use Models\Movie as Movie;
     use Models\Genre as Genre;
-    use Models\MovieXGenre as MovieXGenre;
     use DAO\BillboardDAOPDO as BillboardDAOPDO;
     use DAO\GenreDAOPDO as GenreDAOPDO;
-
     class BillboardController
     {
      
         private $BillboardDAOPDO;
         private $GenreDAOPDO;
-        private $MovieXGenreDAOPDO;
-
         public function __construct()
         {
             $this->GenreDAOPDO=new GenreDAOPDO();
             $this->BillboardDAOPDO=new BillboardDAOPDO();
         }
-
-
         public function GetAllMovies(){
             return $this->BillboardDAOPDO->GetAllMovies();
         }
@@ -35,7 +28,6 @@
          {
              $this->BillboardDAOPDO->Add($Movie);
          }
-
          
          public function RemoveMovie($Id){
              $Movie= $this->GetMovie($Id);
@@ -45,21 +37,17 @@
                return null;
              }
          }
-
          public function UpdateBillboardFromApi(){
             $this->GetMoviesFromApi();
             $this->GetMovieGenresFromApi();
             $_SESSION['successMessage']="Cartelera actualizada con exito";
             $this->ShowBillboard();
          }
-
          public function ShowBillboard(){
             $Billboard= $this->GetAllMovies();
             require_once(VIEWS_PATH."moviesApi.php");
          }
-
          
-
          public function GetAllMoviesInshows(){
             $movies=[];
             $movieIds= $this->BillboardDAOPDO->GetAllMoviesInshows();
@@ -69,27 +57,32 @@
             }
             return $movies;
          }
-
          public function ShowMoviesInShows(){
             
-             $Billboard= $this->GetAllMoviesInshows();
-             require_once(VIEWS_PATH."showBillboard.php");
+             
+            $Billboard= $this->GetAllMoviesInshows();
+            $genres=$this->GenreDAOPDO->GetAll();
+            $array_days[0] = "Monday";
+            $array_days[1] = "Tuesday";
+            $array_days[2] = "Wednesday";
+            $array_days[3] = "Thursday";
+            $array_days[4] = "Friday";
+            $array_days[5] = "Saturday";
+            $array_days[6] = "Sunday";
+            
+            require_once(VIEWS_PATH."showBillboard.php");
+            
          }
-
          public function ShowMoviesInShowsByCineId($cineId){
             
             $Billboard= $this->BillboardDAOPDO->ShowMoviesInShowsByCineId($cineId);
             require_once(VIEWS_PATH."showBillboard.php");
         }
-
         public function ShowMoviesInShowsByRoomId($roomId){
             
             $Billboard= $this->BillboardDAOPDO->ShowMoviesInShowsByCineId($roomId);
             require_once(VIEWS_PATH."showBillboard.php");
         }
-
-
-
       
          public function GetMoviesFromApi(){
             $url="https://api.themoviedb.org/3/movie/now_playing?api_key=659f1569858f26bfcf78a91dd24bec94&page=1";
@@ -118,25 +111,20 @@
                 
                 $MovieIds=[];
                 $BillboardIds=[];
-
                 foreach($moviesInc['results'] as $Movie){
                      array_push($MovieIds,$Movie['id']);
                 }
                 foreach($Billboard as $BMovie){
                      array_push($BillboardIds,$BMovie->getId());
                 }
-
                 $new_array = array_diff($BillboardIds,$MovieIds);
-
                 $MoviesIdsInShows=$this->BillboardDAOPDO->GetAllMoviesInshows();
-
                 foreach($new_array as $movieId){
                     if(!in_array($movieId,$MoviesIdsInShows)){
                     $this->RemoveMovie($movieId);
                     }
                 }
         }
-
         public function GetMovieGenresFromApi(){
             $urlg="https://api.themoviedb.org/3/genre/movie/list?api_key=659f1569858f26bfcf78a91dd24bec94";
             $genresJson=file_get_contents($urlg);
