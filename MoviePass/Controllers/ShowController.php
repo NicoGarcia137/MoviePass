@@ -45,22 +45,21 @@
             return $this->ShowDAOPDO->GetById($Id);
         }
   
-        public function RemoveShow($Id){
-            $Show= $this->GetShow($Id);
+        public function RemoveShow($ShowId){
+            $Show= $this->GetShow($ShowId);
             $this->ShowDAOPDO->RemoveShow($Show);
             $this->ShowListShowsAdminView();
         }
 
-        public function ModifyShow($Id,$MovieId, $Tickets){
+        public function ModifyShow($Id,$MovieId){
             $Show=$this->GetShow($Id);
-            if(empty($this->PurchaseDAOPDO->getTicketsByShowId($Id))){
+            if(empty($this->ShowDAOPDO->getTicketsByShow($Id))){
                 $Show=$this->GetShow($Id);
                 $Movie=null;
                 if($MovieId!=null){
                     $Movie=$this->BillboardDAOPDO->GetMovieById($MovieId);
                 }
                 $Show->setMovie($Movie);
-                $Show->setTickets($Tickets);
                 $this->ShowDAOPDO->ModifyShow($Show);
                 $_SESSION['successMessage']="Extio al modificar la funcion";
             }else{
@@ -84,7 +83,6 @@
                     $show=new Show();
                     $show->setRoom($room);
                     $show->setMovie(null);
-                    $show->setTickets(null);
                     $show->setDateTime($date);
                     $this->ShowDAOPDO->Add($show);
                     $date->modify('+1 day');
@@ -100,6 +98,50 @@
         }
 
 
+
+        public function RemoveShowtime($time,$cineId,$roomId){
+            $cine=$this->CineDAOPDO->GetById($cineId);
+            $date=new DateTime();
+            $time=explode(":",$time);
+            date_time_set($date,$time[0],$time[1]);
+            $showsToDelete=[];
+            foreach($cine->getRooms() as $room){
+                if($showsToDelete!=0){
+                    foreach($room->getShows() as $show){
+                        if($showsToDelete!=0 && $show->getDateTime()->format('H:i')==$date->format('H:i')) {
+                            if(empty($this->ShowDAOPDO->GetTicketsbyShow($show->getId()))){
+                                array_push($showsToDelete,$show->getId());
+                            }else{
+                                $showsToDelete=0;
+                                $_SESSION['errorMessage']="Hay Tickets vendidos para ".$show->GetMovie()->getName()." en este horario en alguna de las salas";
+                                
+                                $this->ShowModifyRoomView($roomId);
+                            }
+                        }
+                    }
+                }
+            }
+            if($showsToDelete!=0){
+                foreach($showsToDelete as $showId){
+                    $this->SoftDeleteShow($showId);
+                }
+                
+                $this->ShowTimeDAOPDO->RemoveShowTime($date,$cineId);
+                $_SESSION['successMessage']="Horario borrado con exito de todas las salas de este cine";
+                $this->ShowModifyRoomView($roomId);
+            }
+        }
+
+        private function SoftDeleteShow($ShowId){
+            $show = $this->GetShow($ShowId);
+            $this->ShowDAOPDO->SoftDeleteShow($show);
+        }
+
+
+        
+
+
+
         public function ShowModifyRoomView($id){
             $room=$this->RoomDAOPDO->GetById($id);
             
@@ -107,7 +149,7 @@
         }
         
         public function ShowIndexView(){
-            require_once(VIEWS_PATH."index.php");
+            header("location:".FRONT_ROOT."Home/Index");
         }
 
         public function ShowModifyView($id){

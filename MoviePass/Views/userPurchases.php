@@ -12,7 +12,6 @@ include_once("navUser.php");
 
 
 <?php 
-// var_dump($purchases);
 
 foreach($purchases as $purchase){
      

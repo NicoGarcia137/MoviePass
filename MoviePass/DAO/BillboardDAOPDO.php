@@ -29,9 +29,9 @@ class BillboardDAOPDO extends Helper{
                 g.Id as GenreId,
                 g.Description as Genre
                 from moviexgenres as mg
-                Join movies as m 
+                left join movies as m 
                 on m.Id=mg.MovieId
-                join genres as g
+                left join genres as g
                 on g.Id=mg.GenreId
                 order by m.Id desc;";
 
@@ -68,7 +68,6 @@ class BillboardDAOPDO extends Helper{
         }
     
 
-   
 
     public function GetMovieById($id)
     {
@@ -86,9 +85,9 @@ class BillboardDAOPDO extends Helper{
                 g.Id as GenreId,
                 g.Description as Genre
                 from moviexgenres as mg
-                Join movies as m 
+                left join movies as m 
                 on m.Id=mg.MovieId
-                join genres as g
+                left join genres as g
                 on g.Id=mg.GenreId
                 where m.Id = ".$id."
                 order by m.Id desc;";
@@ -128,7 +127,7 @@ class BillboardDAOPDO extends Helper{
                 "select distinct
                 s.MovieId
                 from Shows as s
-                where s.MovieId is not null;";
+                where s.MovieId is not null AND s.Active=1;";
 
                 $this->connection = Connection::GetInstance();
 
@@ -195,7 +194,7 @@ class BillboardDAOPDO extends Helper{
             }
             catch(Exception $ex)
             {
-                var_dump($ex);
+                throw $ex;
             }
         }
        

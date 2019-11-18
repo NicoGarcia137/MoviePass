@@ -33,8 +33,8 @@ create table Shows (
     Id int auto_increment ,
     DateTime DateTime not null , 
     MovieId int , 
-    Tickets int,
     RoomId int not null,
+    Active boolean default true,
     constraint pk_Id primary key (Id) ,
     constraint fk_MovieId foreign key (MovieId) references Movies (Id),
     constraint fk_RoomId foreign key (RoomId) references Rooms (Id) ON DELETE CASCADE 

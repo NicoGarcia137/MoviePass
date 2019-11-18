@@ -3,9 +3,6 @@
 
     use DAO\CineDAO as CineDAOJSON;
     use Models\Cine as Cine;
-    use Models\Room as Room;
-    use Models\Show as Show;
-    use Models\Movie as Movie;
     use DAO\CineDAOPDO as CineDAOPDO;
     use DAO\RoomDAOPDO as RoomDAOPDO;
     use DAO\ShowDAOPDO as ShowDAOPDO;
@@ -37,7 +34,8 @@
 
         public function GetAllCines(){
             try{
-                return $this->CineDAO->GetAll();
+                $cines=$this->CineDAO->GetAll();
+                return $cines;
              }catch(Exception $ex){
                 $message=$ex->getMessage();
                 $_SESSION['errorMessage']=$message;
@@ -126,14 +124,25 @@
             }
         }
 
+        
+        public function GetMoviesByCine($cineId){
+            $movies=[];
+            $cine=$this->GetCine($cineId);
+            foreach($cine->getRooms() as $room){
+                foreach($room->getShows() as $show){
+                    if($show->getMovie()!=null){
+                        array_push($movies,$show->getMovie());
+                    }
+                }
+            }
+            return $movies;
+        }
+
 
         public function GetCinesAndShowsByMovie($movie){
             $cines= $this->CineDAOPDO->GetCinesAndShowsByMovie($movie);
             return $cines;
         }
-
-
-
 
 
         
@@ -162,6 +171,7 @@
 
         public function ShowListCinesAdminView(){
             $cines=$this->GetAllCines();
+            
             require_once(VIEWS_PATH."listarCinesAdmin.php");
         }
         public function ShowListCinesView(){
@@ -169,11 +179,10 @@
             require_once(VIEWS_PATH."listarCinesUsuario.php");
         }
         public function ShowIndexView(){
-            require_once(VIEWS_PATH."index.php");
+            header("location: ".FRONT_ROOT."Home/index");
         }
         public function ShowIndexAdminView(){
-            require_once(VIEWS_PATH."indexAdmin.php");
-            
+            header("location: ".FRONT_ROOT."Home/indexAdmin");
         }
     }
 ?>

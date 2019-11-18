@@ -46,7 +46,6 @@
                             
                             <input type="hidden" value="<?php echo $show->getId(); ?>" name="Id" >
                             <input type="hidden" name="MovieId" value="<?php echo $movie->getId() ?>">
-                            <input type="hidden" value="100" name="Tickets">
                             <button class="optButton optButton-block" type="submit"  >Seleccionar</button>
 
                         </form>

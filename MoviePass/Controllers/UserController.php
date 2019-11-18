@@ -68,7 +68,7 @@
         }
         public function ShowIndexView()
         {      
-            require_once(VIEWS_PATH."index.php");
+            header("location:".FRONT_ROOT."Home/Index");
         }
 
          public function ShowSignUpView()

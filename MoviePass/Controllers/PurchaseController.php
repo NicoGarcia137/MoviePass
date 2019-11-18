@@ -24,29 +24,45 @@
             try{
                 if(!empty($seats)){
                     if(isset($_SESSION['loggedUser'])){
-                        $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
-                        $show=$cine->getRooms()[0]->getShows()[0];
-                        $show->setRoom($cine->getRooms()[0]);
-                        $show->getRoom()->getCine()->setValue($cine->getValue());
-                        $purchase=new Purchase();
-                        foreach($seats as $seat){
-                            $ticket=new Ticket();
-                            // var_dump($seat);
-                            $ticket->setSeat($seat);
-                            $ticket->setShow($show);
-                            $ticket->setValue($value);
-                            $purchase->addTickets($ticket);
+                        $check=$this->PurchaseDAOPDO->CheckTicketExist($showId,$seats);
+                        if($check==0){
+                            $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
+                            $show=$cine->getRooms()[0]->getShows()[0];
+                            $show->setRoom($cine->getRooms()[0]);
+                            $show->getRoom()->getCine()->setValue($cine->getValue());
+                            $purchase=new Purchase();
+                            foreach($seats[0] as $seat){
+                                $ticket=new Ticket();
+                                $ticket->setSeat($seat);
+                                $ticket->setShow($show);
+                                $ticket->setValue($value);
+                                $purchase->addTickets($ticket);
+                            }
+                            $purchase->setCine($cine);
+                            $purchase->setDateTime(new DateTime());
+                            $purchase->setUser($_SESSION['loggedUser']);
+        
+                            $this->PurchaseDAOPDO->Add($purchase);
+                            unset($_SESSION['failPurchase']);
+                            $this->ShowUserPurchases();
+                        }else{
+                            $purchases=$this->getPurchaseByUser();
+                            foreach($purchases as $purchase){
+                                foreach($purchase->getTickets() as $ticket){
+                                    if(in_array($ticket->getSeat(),$seats[0])){
+                                        $this->ShowUserPurchases();
+                                        $check=0;
+                                    }
+                                }
+                            }
+                            if($check!=0){
+                                $_SESSION['errorMessage']= "Butaca seleccionada ya nose encuentra disponible.";
+                                $this->ShowPurchaseView($showId);
+                            }
                         }
-                        $purchase->setCine($cine);
-                        $purchase->setDateTime(new DateTime());
-                        $purchase->setUser($_SESSION['loggedUser']);
-    
-                        $this->PurchaseDAOPDO->Add($purchase);
-                        unset($_SESSION['failPurchase']);
-                        $this->ShowUserPurchases();
                     }else{
                         $show=$this->ShowDAOPDO->GetById($showId);
-                        $_SESSION['failPurchase']= array($show,$value,$seats);
+                        $_SESSION['failPurchase']= array($show,$value,$seats[0]);
                         throw new Exception("usuario invalido, necesitas estar logueado");
                     }
                 }else{
@@ -110,7 +126,10 @@
 
         public function ShowPurchaseView($showId){
             $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
-            $OccupiedSeats=$this->PurchaseDAOPDO->GetOccupiedSeatsByShowId($showId);
+            $OccupiedSeats=[];
+            foreach($this->ShowDAOPDO->GetTicketsbyShow($showId) as $ticket){
+                array_push($OccupiedSeats,$ticket->getSeat());
+            }
             require_once(VIEWS_PATH."selectSeat.php");
         }
 

@@ -1,88 +1,33 @@
 
-    <!-- Carousel de peliculas
-    Todo esto deberia trabajar en un foreach con las peliculas correspondientes -->
-
+<?php 
+    $baseurl="https://image.tmdb.org/t/p/w500"; ?>
 
 <div class="swiper-container">
     <br>
     <div class="swiper-wrapper">
-
+        <?php foreach($carousel as $movie){  ?>
         <div class="swiper-slide">
 
             <div class="imgBox">
-                <a href=""><img src="https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg" alt=""></a>
+            
+            <form action="<?php echo FRONT_ROOT."Cine/ShowCinesAndShowsByMovie"?>" method="post">
+                        
+                            <button type="submit" name="show" value="<?php echo $movie->getId();?>">
+                                <a href="">
+                                    <img src="<?php echo $baseurl . $movie->getImage();?>"alt="">          
+                                </a>
+                            </button>
+
+                        </form>
+                
             </div>  
             <div class="details">
-                <h3>Joker</h3>
+                <h3><?php echo $movie->getName(); ?></h3>
             </div>
 
         </div>
+        <?php } ?>
 
-        <div class="swiper-slide">
-
-            <div class="imgBox">
-                <img src="https://image.tmdb.org/t/p/w500/ePXuKdXZuJx8hHMNr2yM4jY2L7Z.jpg" alt="">
-            </div>
-            <div class="details">
-                    <h3>El Camino: A Breaking Bad Movie</h3>
-            </div>
-
-        </div>
-
-        <div class="swiper-slide">
-
-            <div class="imgBox">
-                <img src="https://image.tmdb.org/t/p/w500/uTALxjQU8e1lhmNjP9nnJ3t2pRU.jpg" alt="">
-            </div>
-            <div class="details">
-                <h3>Gemini Man</h3>
-            </div>
-            
-        </div>
-
-        <div class="swiper-slide">
-
-            <div class="imgBox">
-                <img src="https://image.tmdb.org/t/p/w500/zfE0R94v1E8cuKAerbskfD3VfUt.jpg" alt="">
-            </div>
-            <div class="details">
-                <h3>It Chapter Two</h3>
-            </div>
-            
-        </div>
-
-        <div class="swiper-slide">
-
-            <div class="imgBox">
-                <img src="https://image.tmdb.org/t/p/w500/w9kR8qbmQ01HwnvK4alvnQ2ca0L.jpg" alt="">
-            </div>
-            <div class="details">
-                <h3>Toy Story 4</h3>
-            </div>
-            
-        </div>
-
-        <div class="swiper-slide">
-
-            <div class="imgBox">
-                <img src="https://image.tmdb.org/t/p/w500/tBuabjEqxzoUBHfbyNbd8ulgy5j.jpg" alt="">
-            </div>
-            <div class="details">
-                <h3>Maleficent: Mistress of Evil</h3>
-            </div>
-            
-        </div>
-
-        <div class="swiper-slide">
-
-            <div class="imgBox">
-                <img src="https://image.tmdb.org/t/p/w500/8j58iEBw9pOXFD2L0nt0ZXeHviB.jpg" alt="">
-            </div>
-            <div class="details">
-                <h3>Once Upon a Time... in Hollywood</h3>
-            </div>
-            
-        </div>
 
     </div>
 
