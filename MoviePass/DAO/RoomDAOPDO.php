@@ -21,7 +21,6 @@ class RoomDAOPDO extends Helper{
             r.CineId as CineIdRoom,
             s.Id as ShowId,
             s.DateTime,
-            s.Tickets,
             m.Id as MovieId,
             m.Name as MovieName,
             m.Duration,
@@ -30,15 +29,15 @@ class RoomDAOPDO extends Helper{
             g.Description as Genre,
             g.Id as GenreId
             from Rooms as r
-            left join Shows as s
-            on s.RoomId=r.Id
-            left join Movies as m
+             left join Shows as s
+            on s.RoomId=r.Id AND s.Active=1 
+             left join Movies as m
             on s.MovieId=m.Id
-            left join MovieXGenres as mg
+             left join MovieXGenres as mg
             on mg.MovieId=m.Id
-            left join Genres as g
+             left join Genres as g
             on mg.GenreId = g.Id
-            where r.Id = ".$Id."
+            where r.Id = ".$Id."  
             order by r.Id,s.Id,m.Id,g.Id;";
 
             $this->connection = Connection::GetInstance();
@@ -52,6 +51,7 @@ class RoomDAOPDO extends Helper{
             throw $ex;
         }
     }
+
 
     public function GetCineIdByRoomId($roomId){
         $query = "select

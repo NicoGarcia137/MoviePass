@@ -30,6 +30,31 @@ class ShowTimeDAOPDO extends Helper{
             throw $ex;
         }
     }
+
+    
+    public function GetAllByCine($cineId)
+    {
+        try
+        {   
+            $showTimes=[];
+            $query = "select distinct
+            s.ShowTime as ShowTime
+            from ShowTimes as s
+            where s.CineId= " .$cineId." ;";
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query);
+            
+  
+            return $resultSet;
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
+
     
     public function RemoveShowTime($showTime,$CineId)
     {
@@ -37,7 +62,6 @@ class ShowTimeDAOPDO extends Helper{
         {
             
             $query = "DELETE FROM ShowTimes WHERE ShowTime = :ShowTime  AND CineId= :CineId ;";
-
 
             $parameters['ShowTime']=$showTime->Format('H:i');
             $parameters['CineId']=$CineId;
@@ -66,7 +90,7 @@ class ShowTimeDAOPDO extends Helper{
         }
         catch(Exception $ex)
         {
-            var_dump($ex);
+            throw $ex;
         }
     }
 

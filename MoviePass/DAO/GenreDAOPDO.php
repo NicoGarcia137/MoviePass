@@ -114,7 +114,7 @@ class GenreDAOPDO {
             }
             catch(Exception $ex)
             {
-                var_dump($ex);
+                throw $ex;
             }
         }
  } 

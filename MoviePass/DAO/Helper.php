@@ -236,7 +236,6 @@ abstract class Helper{
         $newShow->setId($show['ShowId']);
         $date= new DateTime($show['DateTime']);
         $newShow->setDateTime($date);
-        $newShow->setTickets($show['Tickets']);
         $newShow->setMovie($movie);
         $room= new Room();
         if(isset($show['RoomIdShow'])){

@@ -116,7 +116,7 @@ class MovieXGenreDAOPDO {
             }
             catch(Exception $ex)
             {
-                var_dump($ex);
+                throw $ex;
             }
         }
  } 

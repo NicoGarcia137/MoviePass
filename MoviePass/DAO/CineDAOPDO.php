@@ -31,7 +31,6 @@ class CineDAOPDO extends Helper implements ICineDAO{
                 r.Name as RoomName,
                 s.Id as ShowId,
                 s.DateTime,
-                s.Tickets,
                 m.Id as MovieId,
                 m.Name as MovieName,
                 m.Duration,
@@ -40,15 +39,15 @@ class CineDAOPDO extends Helper implements ICineDAO{
                 g.Description as Genre,
                 g.Id as GenreId
                 from Cines as c
-                left join Rooms as r
+                 left join Rooms as r
                 on r.CineId=c.Id
-                left join Shows as s
-                on s.RoomId=r.Id
-                left join Movies as m
+                 left join Shows as s
+                on s.RoomId=r.Id AND s.Active=1
+                 left join Movies as m
                 on s.MovieId=m.Id
-                left join MovieXGenres as mg
+                 left join MovieXGenres as mg
                 on mg.MovieId=m.Id
-                left join Genres as g
+                 left join Genres as g
                 on mg.GenreId = g.Id
                 order by c.Id ,r.Id,s.Id,m.Id,g.Id;";
 
@@ -83,7 +82,6 @@ class CineDAOPDO extends Helper implements ICineDAO{
                 r.Name as RoomName,
                 s.Id as ShowId,
                 s.DateTime,
-                s.Tickets,
                 m.Id as MovieId,
                 m.Name as MovieName,
                 m.Duration,
@@ -92,17 +90,17 @@ class CineDAOPDO extends Helper implements ICineDAO{
                 g.Description as Genre,
                 g.Id as GenreId
                 from Cines as c
-                left join Rooms as r
+                 left join Rooms as r
                 on r.CineId=c.Id
-                left join Shows as s
-                on s.RoomId=r.Id
-                left join Movies as m
+                 left join Shows as s
+                on s.RoomId=r.Id AND s.Active=1   
+                 left join Movies as m
                 on s.MovieId=m.Id
-                left join MovieXGenres as mg
+                 left join MovieXGenres as mg
                 on mg.MovieId=m.Id
-                left join Genres as g
+                 left join Genres as g
                 on mg.GenreId = g.Id
-                where m.Id=".$id."
+                where m.Id=".$id." 
                 order by c.Id ,r.Id,s.Id,m.Id,g.Id;";
 
                 $this->connection = Connection::GetInstance();
@@ -157,7 +155,6 @@ class CineDAOPDO extends Helper implements ICineDAO{
             r.Name as RoomName,
             s.Id as ShowId,
             s.DateTime,
-            s.Tickets,
             m.Id as MovieId,
             m.Name as MovieName,
             m.Duration,
@@ -166,17 +163,17 @@ class CineDAOPDO extends Helper implements ICineDAO{
             g.Description as Genre,
             g.Id as GenreId
             from Cines as c
-            left join Rooms as r
+             left join Rooms as r
             on r.CineId=c.Id
-            left join Shows as s
-            on s.RoomId=r.Id
-            left join Movies as m
+             left join Shows as s
+            on s.RoomId=r.Id AND s.Active=1 
+             left join Movies as m
             on s.MovieId=m.Id
-            left join MovieXGenres as mg
+             left join MovieXGenres as mg
             on mg.MovieId=m.Id
-            left join Genres as g
+             left join Genres as g
             on mg.GenreId = g.Id
-            where c.Id = ".$id."
+            where c.Id = ".$id."  
             order by c.Id ,r.Id,s.Id,m.Id,g.Id;";
 
             $this->connection = Connection::GetInstance();
@@ -249,7 +246,7 @@ class CineDAOPDO extends Helper implements ICineDAO{
             }
             catch(Exception $ex)
             {
-                var_dump($ex);
+                throw $ex;
             }
         }
  } 

@@ -9,24 +9,6 @@ class PurchaseDAOPDO extends Helper{
     private $connection;
     
 
-    public function getTicketsByShowId($Id)
-    {
-        try
-        {         
-
-            $query = "select Id from tickets where ShowId=".$Id.";";
-
-            $this->connection = Connection::GetInstance();
-            $resultSet = $this->connection->Execute($query);
-            
-  
-            return $resultSet;
-        }
-        catch(Exception $ex)
-        {
-            throw $ex;
-        }
-    }
 
     public function getPurchaseByUser($user){
         try
@@ -53,27 +35,32 @@ class PurchaseDAOPDO extends Helper{
         }
     }
 
-    public function GetOccupiedSeatsByShowId($showId){
+    public function CheckTicketExist($showId,$seats){
         try
         {         
-            
-            $query = "select Seat from tickets where ShowId=".$showId.";";
+            $query = "SELECT COUNT(*) as tickets FROM Tickets as t
+                     WHERE t.ShowId= :ShowId AND t.Seat IN (:Seats);";
+
+
+            $parameters["ShowId"]=$showId;
+            $seats=implode(",", $seats[0]);
+            $parameters["Seats"] =$seats;
 
             $this->connection = Connection::GetInstance();
             
-            $resultSet = $this->connection->Execute($query);
-            $occupiedSeats=[];
-            foreach($resultSet as $row){
-                array_push($occupiedSeats,$row['Seat']);
+            $resultSet = $this->connection->Execute($query,$parameters);
+            $result=0;
+            if($resultSet[0]['tickets']!=0){
+                $result=$seats[0];
             }
-
-            return $occupiedSeats;
+            return $result;
         }
         catch(Exception $ex)
         {
             throw $ex;
         }
     }
+
   
     public function Add($Purchase)
     {

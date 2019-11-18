@@ -76,6 +76,18 @@
              require_once(VIEWS_PATH."showBillboard.php");
          }
 
+         public function ShowMoviesInShowsByCineId($cineId){
+            
+            $Billboard= $this->BillboardDAOPDO->ShowMoviesInShowsByCineId($cineId);
+            require_once(VIEWS_PATH."showBillboard.php");
+        }
+
+        public function ShowMoviesInShowsByRoomId($roomId){
+            
+            $Billboard= $this->BillboardDAOPDO->ShowMoviesInShowsByCineId($roomId);
+            require_once(VIEWS_PATH."showBillboard.php");
+        }
+
 
 
       

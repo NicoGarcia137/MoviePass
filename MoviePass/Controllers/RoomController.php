@@ -49,6 +49,8 @@
                     $Room->setCine($cine);
                     $Room->setName($Name);
                     $this->RoomDAOPDO->Add($Room);
+                    $Room->setId($this->RoomDAOPDO->GetLastId()-1);
+                    $this->AddShows($Room);
                     $_SESSION['successMessage']="Exito al crear la sala";
                     $this->CineViewRefresh($cineId);
                 }else{
@@ -61,6 +63,59 @@
                 $this->RoomIndexView();
                }
             }
+
+        private function AddShows($room){
+            $date=new DateTime();
+            $ShowTimes=$this->ShowTimeDAOPDO->GetAllByCine($room->getCine()->getId());
+            foreach($ShowTimes as $ShowTime){
+                $time=explode(":",$ShowTime[0]);
+                date_time_set($date,$time[0],$time[1]);
+                for($x=0;$x<7;$x++){
+                $show=new Show();
+                $show->setRoom($room);
+                $show->setMovie(null);
+                $show->setDateTime($date);
+                $this->ShowDAOPDO->Add($show);
+                $date->modify('+1 day');
+            }
+                $date->modify('-7 day');
+            }
+        }
+
+        private function UpdateShows(){
+           
+            $OldestShowTime=$this->ShowDAOPDO->GetOldestShowTime();
+            if(!empty($OldestShowTime)){
+
+                $OldestShowTime=new DateTime($OldestShowTime[0]);
+                $now=new DateTime();
+                $days=date_diff($OldestShowTime, $now);
+
+                if($days->format('%a')>0){
+                    $shows=$this->ShowDAOPDO->GetAllActiveShows();
+                    foreach($shows as $show){
+                        $dateTime=new DateTime($show->getDateTime());
+
+                        if($dateTime->format('Y-m-d')<$now->format('Y-m-d')){
+                            $this->SoftDeleteShow($show);
+                            
+                            $dateTime->modify('+7 day');
+                            $newShow=new Show();
+                            $newShow->setRoom($show->getRoom()->getId());
+                            $newShow->setMovie(null);
+                            $newShow->setDateTime($dateTime);
+                            $this->ShowDAOPDO->Add($newShow);
+
+                        }
+                    }
+                    $_SESSION['successMessage']="Funciones actualizadas al dia de la fecha";
+                }
+            }
+        }
+
+
+
+
 
             public function RemoveRoom($cineId,$id){
                 try{
@@ -134,7 +189,7 @@
         
         public function ShowModifyRoomView($id){
             $room=$this->GetRoom($id);
-            
+            $this->UpdateShows();
             require_once(VIEWS_PATH."ModifyRoom.php");
         }
 
