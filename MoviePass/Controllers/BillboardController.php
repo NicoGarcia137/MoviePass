@@ -7,7 +7,6 @@
     use Models\MovieXGenre as MovieXGenre;
     use DAO\BillboardDAOPDO as BillboardDAOPDO;
     use DAO\GenreDAOPDO as GenreDAOPDO;
-    use DAO\MovieXGenreDAOPDO as MovieXGenreDAOPDO;
 
     class BillboardController
     {
@@ -20,7 +19,6 @@
         {
             $this->GenreDAOPDO=new GenreDAOPDO();
             $this->BillboardDAOPDO=new BillboardDAOPDO();
-            $this->MovieXGenreDAOPDO=new MovieXGenreDAOPDO();
         }
 
 
@@ -48,13 +46,19 @@
              }
          }
 
-         public function ShowBillboard(){
+         public function UpdateBillboardFromApi(){
             $this->GetMoviesFromApi();
             $this->GetMovieGenresFromApi();
-
-            $Billboard= $this->GetAllMovies();
-             require_once(VIEWS_PATH."moviesApi.php");
+            $_SESSION['successMessage']="Cartelera actualizada con exito";
+            $this->ShowBillboard();
          }
+
+         public function ShowBillboard(){
+            $Billboard= $this->GetAllMovies();
+            require_once(VIEWS_PATH."moviesApi.php");
+         }
+
+         
 
          public function GetAllMoviesInshows(){
             $movies=[];
@@ -68,20 +72,21 @@
 
          public function ShowMoviesInShows(){
             
-            $Billboard= $this->GetAllMoviesInshows();
-             $genres=$this->GenreDAOPDO->GetAll();
-
-             $array_days[0] = "Monday";
-             $array_days[1] = "Tuesday";
-             $array_days[2] = "Wednesday";
-             $array_days[3] = "Thursday";
-             $array_days[4] = "Friday";
-             $array_days[5] = "Saturday";
-             $array_days[6] = "Sunday";
-             
-
+             $Billboard= $this->GetAllMoviesInshows();
              require_once(VIEWS_PATH."showBillboard.php");
          }
+
+         public function ShowMoviesInShowsByCineId($cineId){
+            
+            $Billboard= $this->BillboardDAOPDO->ShowMoviesInShowsByCineId($cineId);
+            require_once(VIEWS_PATH."showBillboard.php");
+        }
+
+        public function ShowMoviesInShowsByRoomId($roomId){
+            
+            $Billboard= $this->BillboardDAOPDO->ShowMoviesInShowsByCineId($roomId);
+            require_once(VIEWS_PATH."showBillboard.php");
+        }
 
 
 
@@ -126,8 +131,8 @@
                 $MoviesIdsInShows=$this->BillboardDAOPDO->GetAllMoviesInshows();
 
                 foreach($new_array as $movieId){
-                    if(!in_array($movieId->getId(),$MoviesIdsInShows)){
-                    $this->RemoveMovie($movieId->getId());
+                    if(!in_array($movieId,$MoviesIdsInShows)){
+                    $this->RemoveMovie($movieId);
                     }
                 }
         }
