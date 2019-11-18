@@ -3,8 +3,11 @@
 
     use Models\Room as Room;
     use Models\Show as Show;
+    use Models\Cine as Cine;
+    use DAO\CineDAOPDO as CineDAOPDO;
     use DAO\RoomDAOPDO as RoomDAOPDO;
     use DAO\ShowDAOPDO as ShowDAOPDO;
+    use DAO\ShowTimeDAOPDO as ShowTimeDAOPDO;
     use \Exception as Exception;
     use Controllers\ShowController as ShowController;
     use \DateTime as DateTime;
@@ -13,12 +16,17 @@
     {
         private $RoomDAOPDO;
         private $ShowDAOPDO;
+        private $CineDAOPDO;
+        private $ShowTimeDAOPDO;
         private $ShowController;
 
         public function __construct()
         {
             $this->RoomDAOPDO=new RoomDAOPDO();
             $this->ShowDAOPDO=new ShowDAOPDO();
+            $this->CineDAOPDO=new CineDAOPDO();
+            $this->ShowTimeDAOPDO=new ShowTimeDAOPDO();
+            
             $this->ShowController=new ShowController();
         }
 
@@ -31,14 +39,97 @@
             return $Room;
          }
 
-        
+         public function AddRoom($Capacity,$Name,$cineId)
+            {
+               try{
+                $cine = $this->CineDAOPDO->GetById($cineId);
+                if($this->RoomDAOPDO->NameCheck($Name)){
+                    $Room = new Room();
+                    $Room->setCapacity($Capacity);
+                    $Room->setCine($cine);
+                    $Room->setName($Name);
+                    $this->RoomDAOPDO->Add($Room);
+                    $_SESSION['successMessage']="Exito al crear la sala";
+                    $this->CineViewRefresh($cineId);
+                }else{
+                    $_SESSION['errorMessage']="Error, Ya se encuentra una sala con ese nombre";
+                    $this->CineViewRefresh($cineId);
+                }
+               }catch(Exception $ex){
+                $message=$ex->getMessage();
+                $_SESSION['errorMessage']=$message;
+                $this->RoomIndexView();
+               }
+            }
 
-        public function ModifyRoom($Id, $Capacity){
-            $Room= $this->GetRoom($Id);
-            $Room->setCapacity($Capacity);
+            public function RemoveRoom($cineId,$id){
+                try{
+                    $Room=$this->RoomDAOPDO->GetById($id);
+                    $cine = $this->CineDAOPDO->GetById($cineId);
+                    if($Room != null){
+                        if($this->CheckShowsByRoom($Room)){
+                            $this->RoomDAOPDO->RemoveRoom($Room);
+                            $_SESSION['successMessage']="Exito al remover la sala";
+                            $this->CineViewRefresh($cineId);   
+                        }else{
+                            $_SESSION['errorMessage']="Error, Procure que no haya shows con peliculas asignadas dentro de la sala que desea borrar";
+                            $this->CineViewRefresh($cineId);
+                        }
+                    }else{
+                        throw new Exception("Error, no se encuentra sala con esa Id en el sistema");
+                    }
+                    }catch(Exception $ex){
+                    $message=$ex->getMessage();
+                    echo "<script>if(confirm('$message'));</script>";
+                    $this->RoomIndexView();
+                }
+            }
 
-            $this->RoomDAOPDO->ModifyRoom($Room);
-            $this->ShowModifyCineView($Room->getCine()->getId());
+            public function CheckShowsByRoom(Room $room){
+                $result=true;
+                foreach($room->getShows() as $show){
+                    if($show->getMovie()!=null){
+                        $result=false;
+                    }
+                }
+                return $result;
+            }
+
+        public function ModifyRoom($id,$name, $capacity){
+            try{
+                if($this->RoomDAOPDO->NameCheck($name,$id)){
+                    $Room = $this->GetRoom($id);
+                    $Room->setName($name);
+                    $Room->setCapacity($capacity);
+                    
+
+                    $this->RoomDAOPDO->ModifyRoom($Room);
+                    $_SESSION['successMessage']="Exito al modificar la sala";
+                    $this->ShowModifyRoomView($id);
+                 }else{
+                    throw new Exception("Error, Ya se encuentra una sala con ese nombre");
+                }
+            }catch(Exception $ex){
+                $message=$ex->getMessage();
+                $_SESSION['errorMessage']=$message;
+                $this->RoomIndexView();
+            }
+        }
+
+        public function ShowModifyCineView(){
+            if(isset($_SESSION['cineId'])){
+                $cine=$this->CineDAOPDO->GetById($_SESSION['cineId']);
+                unset($_SESSION['cineId']);
+                require_once(VIEWS_PATH."modifyCine.php");
+            }else{
+                $_SESSION['errorMessage']="Error, se necesita un cine id para entrar a esta seccion";
+                $this->RoomIndexView();
+            }
+        }
+
+        private function CineViewRefresh($cineId){
+            $_SESSION['cineId']=$cineId;
+            header("location: ".FRONT_ROOT."Room/ShowModifyCineView");
         }
         
         public function ShowModifyRoomView($id){
@@ -47,15 +138,8 @@
             require_once(VIEWS_PATH."ModifyRoom.php");
         }
 
-        public function ShowModifyCineView($id)
-        {
-            $cine=$this->GetCine($id);
-            require_once(VIEWS_PATH."modifyCine.php");
-        }
-
-
         public function RoomIndexView(){
-            require_once(VIEWS_PATH."index.php");
+            header("location: ".FRONT_ROOT."Home/indexAdmin");
         }
     }
 ?>
