@@ -66,7 +66,6 @@
 
         private function AddShows($room){
             $date=new DateTime();
-            $date->modify('-2 day');
             $ShowTimes=$this->ShowTimeDAOPDO->GetAllByCine($room->getCine()->getId());
             foreach($ShowTimes as $ShowTime){
                 $time=explode(":",$ShowTime[0]);
