@@ -10,18 +10,21 @@ include_once("navUser.php");
     </div>
 </div>
 
+<form action="<?php echo FRONT_ROOT."Purchase/ShowUserPurchases" ?>" method="post">
+        <button class="optButton optButton-block" type="submit" name="orderBy" value="date">Ordernar Por Fecha</button>
+</br>
+        <button class="optButton optButton-block" type="submit" name="orderBy" value="movie">Ordernar Por Peliculas</button>
+</form>
 
 <?php 
-
 foreach($purchases as $purchase){
-     
 ?>
 
-<div class="box" >
-    <div class="border-right">
-        <div class="border-left">
-            <div class="inner">
-                <div class="fleft">
+    <div class="box" >
+        <div class="border-right">
+            <div class="border-left">
+                <div class="inner">
+                    <div class="fleft">
                     <div class="address">
                         <div class="fleft" >
                    
@@ -37,31 +40,33 @@ foreach($purchases as $purchase){
 
                         </div> <!-- /fleft -->
                     </div> <!-- /address -->
-                </div>
+                    </div>
 
-                <button type="button" class="ticketCollapsible" > <span>Tickets</span> </button>
+                    <button type="button" class="collapsible" > <span>Tickets</span> </button>
 
-                <div class="ticketBox">
-                    <br><hr><br> <!-- Barra superior -->
+                    <div class="ticketBox">
+                        <br><hr><br> <!-- Barra superior -->
 <?php
+
     foreach($purchase->getTickets() as $ticket){
 ?>                 
-                    <h5><span> Sala: </span> <?php echo $purchase->getCine()->getRooms()[0]->getName(); ?> </h5>
-                    <h5><span> Pelicula: </span> <?php echo $ticket->getShow()->getMovie()->getName(); ?> </h5>
-                    <h5><span> Fecha: </span> <?php echo $ticket->getShow()->getDateTime()->format('Y-m-d'); ?> </h5>
-                    <h5><span> Hora: </span> <?php echo $ticket->getShow()->getDateTime()->format('H:i'); ?> </h5>
-                    <h5><span> Asiento: </span> <?php echo $ticket->getSeat(); ?> </h5>
-                    <h5><span> Valor: $</span> <?php echo $ticket->getValue(); ?> </h5>
+                        <h5><span> Sala: </span> <?php echo $purchase->getCine()->getRooms()[0]->getName(); ?> </h5>
+                        <h5><span> Pelicula: </span> <?php echo $ticket->getShow()->getMovie()->getName(); ?> </h5>
+                        <h5><span> Fecha: </span> <?php echo $ticket->getShow()->getDateTime()->format('Y-m-d'); ?> </h5>
+                        <h5><span> Hora: </span> <?php echo $ticket->getShow()->getDateTime()->format('H:i'); ?> </h5>
+                        <h5><span> Asiento: </span> <?php echo $ticket->getSeat(); ?> </h5>
+                        <h5><span> Valor: $</span> <?php echo $ticket->getValue(); ?> </h5>
 
-                    <br><hr><br> <!-- Barra inferior -->          
+                        <br><hr><br> <!-- Barra inferior -->          
 <?php
     }
 ?>
-                </div> <!-- /ticketBox -->
-            </div> <!-- /inner -->
-        </div> <!-- /border-left -->
-    </div> <!-- /border-right -->
-</div> <!-- /box -->
+                    </div> <!-- /ticketBox -->
+                    
+                </div> <!-- /inner -->
+            </div> <!-- /border-left -->
+        </div> <!-- /border-right -->
+    </div> <!-- /box -->
 
     <br>
 
@@ -70,20 +75,20 @@ foreach($purchases as $purchase){
 ?>
 
 <script>
-    var coll = document.getElementsByClassName("ticketCollapsible");
-    var i;
+var coll = document.getElementsByClassName("collapsible");
+var i;
 
-    for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.maxHeight){
-        content.style.maxHeight = null;
-        } else {
-        content.style.maxHeight = content.scrollHeight + "px";
-        } 
-    });
-    }
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
 </script>
 
 <?php 

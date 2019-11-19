@@ -11,11 +11,14 @@
     </div>
 </div>
 
+
 <div class="box">
     <div class="border-right">
         <div class="border-left">
             <div class="inner">
+
                 <div class="form">
+        
                     <div class="tab-content">
                         <div id="signup">   
                         
@@ -52,7 +55,6 @@
                                 <button class="button button-block">Create account</button>
                             
                             </form>
-
                             <br>
                             
                             <form action="<?php echo FRONT_ROOT."User/FacebookAdd" ?>">
@@ -64,6 +66,7 @@
                         </div>
                     </div><!-- tab-content -->
                 </div> <!-- /form -->
+
             </div>
         </div>
     </div>

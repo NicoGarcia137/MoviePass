@@ -16,12 +16,11 @@ include_once("navUser.php");
               <div class="wrapper"><a href="#" class="link1"><span><span>Learn More</span></span></a></div>
             </div>
           </div>
-          
+          <?php include("movieCarousel.php"); ?>
           <div class="box">
             <div class="border-right">
               <div class="border-left">
                 <div class="inner">
-                <?php include("movieCarousel.php"); ?>
                   <h3>Welcome to <b>Cinema</b> <span>World</span></h3>
                   <p>Felitsed vel inte vivamus ant sed sapientesque ero id auctor tincidunt. Enimin ulla mi et nibh turien augue habitudin platea sed orci. Intedonec quis sed condis donec urna lacilis leo quismodo wisi quis.</p>
                   <div class="img-box1"><img src="images/1page-img1.jpg" alt="" />Fauctororci cursuspendrerisque ipsum elit congue nibh proin nulla eu urna et. Tordolorem metus fringilla sem facinia sapien in in malesuada vitae quismodo. Ipsumut tellentegest nunc pede id sem gravida natis justo maecenas eu. </div>
@@ -55,6 +54,24 @@ include_once("navUser.php");
           </ul>
         </div>
       </div>
+
+
+      
+<!-- 
+
+<div class="box">
+    <div class="border-right">
+        <div class="border-left">
+            <div class="inner">
+
+
+
+            </div>
+        </div>
+    </div>
+</div> 
+
+-->
 
       <?php 
 include_once("footer.php");
