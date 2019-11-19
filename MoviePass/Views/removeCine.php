@@ -24,7 +24,6 @@
                             <label class="log-label" for="name">Id Cine</label>
                             <input class="log-input" type="number" name="name" required>
                         </div>
-                        
 
                         <input type=submit class="button button-block" value="Elminar">
 

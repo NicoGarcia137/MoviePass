@@ -50,6 +50,8 @@ ul, ol {
 	float:left;
 }
 .fright {
+	margin-right: 10px;
+	margin-bottom: 10px;
 	float:right;
 }
 .col-1, .col-2, .col-3 {
@@ -524,8 +526,8 @@ a {
 	--white: #ffffff;
 
 	--main: #7e0e0e;
-	--main-light: lighten($main,5%);
-	--main-dark: darken($main,5%);
+	--main-light: lighten(var(--main),5%);
+	--main-dark: darken(var(--main),5%);
 		
 	--gray-light: #a0b3b0;
 	--gray: #ddd;
@@ -708,6 +710,40 @@ a {
 }
 
 /* -------------------------------- */
+/* -------- Slog Button ------------ */
+
+.slogButton {
+	position:absolute;
+
+	right:10px;
+	bottom:10px;
+
+
+	border: 0;
+    outline: none;
+    border-radius:0;
+    padding: 10px 10px;
+    font-size: 12px;
+    font-weight: var(--bold);
+	text-transform: uppercase;
+	text-align: center;
+    letter-spacing: .1em;
+    background: rgb(68, 125, 160);
+    color: rgb(41, 41, 41);
+    transition: all.5s ease;
+    -webkit-appearance: none;
+}
+
+.slogButton:hover, .slogButton:focus {
+	background:var(--main-dark);
+}
+
+.slogButton-block {
+	display:block;
+	width:25%;
+}
+
+/* -------------------------------- */
 
 .movieImg {
 	width: 200px;
@@ -746,12 +782,12 @@ body .swiper-container{
 	font-size: 18px;
 	width: 100%;
 	height: 400px;
-	/* background: #161616; */
+	 /* background: #161616; */ 
 	/* Center slide text vertically */
-	/* display: -webkit-box;
+	 /* display: -webkit-box;
 	display: -ms-flexbox;
 	display: -webkit-flex;
-	display: flex;
+
 	-webkit-box-pack: center;
 	-ms-flex-pack: center;
 	-webkit-justify-content: center;
@@ -759,22 +795,24 @@ body .swiper-container{
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	-webkit-align-items: center;
-	align-items: center; */
+	align-items: center;  */
 }
 
 .swiper-slide .imgBox {
 	width: 100%;
 	height: 300px;
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 
 .swiper-slide .imgBox img {
+	border-radius:2%;
 	width: 80%;
+	cursor: pointer;
 }
 
 .swiper-slide .details {
 	box-sizing: border-box;
-	padding: 20px;
+	padding: 0 5px;
 	text-align: center;
 }
 
@@ -782,6 +820,26 @@ body .swiper-container{
 	margin: 0;
 	padding: 0;
 	font-size: 20px;
+}
+
+.imgButton {
+	border:0;
+	border-radius:2%;
+	padding:15px 0;
+	background:rgb(15, 15, 15);
+	color:var(--white);
+	transition:all.5s ease;
+	-webkit-appearance: none;
+}
+
+.imgButton:hover, .imgButton:focus {
+	background:var(--main-dark);
+	cursor: pointer;
+}
+
+.imgButton-block {
+	display:block;
+	width:100%;
 }
 
 /* -------------------------------- */
@@ -943,25 +1001,31 @@ table.calendarTable{
 	background:url(../images/seatOpen.png) ;
 }
 
-.ticketBox {
-	padding: 0 18px;
+/***************Collapsibles***************/
+
+
+
+/* -------------------------- MODIFY COLLAPSIBLE -------------------------- */
+
+.modifyBox{
+	
+	width: 100%;
 	/* display: none; */
 	max-height: 0;
 	overflow: hidden;
 	transition: max-height 0.2s ease-out;
 
 	background-color: rgba(15, 15, 15, 0.76);
-	margin-left: 5%;
-	margin-right: 60%;
+
 }
 
-.ticketBox h5 {
+.modifyBox h5 {
 	margin-left: 5%;
 }
 
 /* Style the button that is used to open and close the collapsible content */
-.collapsible {
-	width: 35%;
+.modifyCollapsible {
+	width: 100%;
 	background-color: black;
 	color: #444;
 	cursor: pointer;
@@ -969,22 +1033,21 @@ table.calendarTable{
 	border: none;
 	text-align: left;
 	outline: none;
-	font-size: 15px;
+	font-size: 30px;
 
-	margin-left: 5%;
-	margin-right: 60%;
+
 }
 
-.collapsible span {
+.modifyCollapsible span {
 	color: rgb(177, 24, 24);
 }
   
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active, .collapsible:hover {
+.active, .modifyCollapsible:hover {
 	background-color: rgba(15, 15, 15, 0.76);
 }
 
-.collapsible:after {
+.modifyCollapsible:after {
 	content: '\002B';
 	color: white;
 	font-weight: bold;
@@ -1006,6 +1069,77 @@ table.calendarTable{
 
 }
 
+/* ------------------------------------------------------------------------ */
+
+/* -------------------------- TICKET COLLAPSIBLE -------------------------- */
+
+.ticketBox {
+	padding: 0 18px;
+	/* display: none; */
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+
+	background-color: rgba(15, 15, 15, 0.76);
+	margin-left: 5%;
+	margin-right: 60%;
+}
+
+.ticketBox h5 {
+	margin-left: 5%;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.ticketCollapsible {
+	width: 35%;
+	background-color: black;
+	color: #444;
+	cursor: pointer;
+	padding: 10px 10px 5px 10px;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+
+	margin-left: 5%;
+	margin-right: 60%;
+}
+
+.ticketCollapsible span {
+	color: rgb(177, 24, 24);
+}
+  
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .ticketCollapsible:hover {
+	background-color: rgba(15, 15, 15, 0.76);
+}
+
+.ticketCollapsible:after {
+	content: '\002B';
+	color: white;
+	font-weight: bold;
+	float: right;
+	margin-left: 5px;
+  }
+  
+  .active:after {
+	content: "\2212";
+  }
+  
+/* Style the collapsible content. Note: hidden by default */
+.content {
+	padding: 0 18px;
+	display: none;
+	overflow: hidden;
+	background-color: #f1f1f1;
+
+
+}
+
+/* ------------------------------------------------------------------------ */
+
+
+/*-------------------------- Mensajes de notificacion --------------------------*/
 
 .correcto, .error, .validation {
     border: 1px solid;
@@ -1028,3 +1162,5 @@ table.calendarTable{
     background-color: #FFBABA;
     background-image: url('imagenes/error.jpg');
 }
+
+/***************************************/

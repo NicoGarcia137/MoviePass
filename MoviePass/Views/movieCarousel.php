@@ -5,34 +5,36 @@
 <div class="swiper-container">
     <br>
     <div class="swiper-wrapper">
+        
         <?php foreach($carousel as $movie){  ?>
-        <div class="swiper-slide">
 
-            <div class="imgBox">
-            
-            <form action="<?php echo FRONT_ROOT."Cine/ShowCinesAndShowsByMovie"?>" method="post">
-                        
-                            <button type="submit" name="show" value="<?php echo $movie->getId();?>">
-                                <a href="">
-                                    <img src="<?php echo $baseurl . $movie->getImage();?>"alt="">          
-                                </a>
-                            </button>
+            <div class="swiper-slide">
 
-                        </form>
+                <div class="imgBox">
                 
-            </div>  
-            <div class="details">
-                <h3><?php echo $movie->getName(); ?></h3>
-            </div>
+                    <form action="<?php echo FRONT_ROOT."Cine/ShowCinesAndShowsByMovie"?>" method="post">
+                                
+                        <button class="imgButton imgButton-block" type="submit" name="show" value="<?php echo $movie->getId();?>">
+                                <img src="<?php echo $baseurl . $movie->getImage();?>"alt="">          
+                        </button>
 
-        </div>
-        <?php } ?>
+                    </form>
+                    
+                </div>  
+
+                <div class="details">
+                    <h3><?php echo $movie->getName(); ?></h3>
+                </div>
+
+            </div>
+        <?php 
+        } 
+        ?>
 
 
     </div>
 
     <!-- Add Pagination -->
-    <br>
     <div class="swiper-pagination"></div>
 
     <!-- Add Arrows -->
@@ -47,11 +49,12 @@
 <!-- Initialize Swiper -->
 <script>
     var swiper = new Swiper('.swiper-container', {
-    slidesPerView: 3,
-    spaceBetween: 20,
-    slidesPerGroup: 3,
+    
+    slidesPerView: 4,
+    spaceBetween: 16,
+    slidesPerGroup: 4,
     loop: true,
-    loopFillGroupWithBlank: false,
+    loopFillGroupWithBlank: true,
     pagination: {
         el: '.swiper-pagination',
         clickable: true,
