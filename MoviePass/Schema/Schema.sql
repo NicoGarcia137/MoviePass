@@ -22,6 +22,7 @@ create table Rooms (
 create table Movies (
      Id int DEFAULT '0',
      Name varchar (60) not null ,
+     Active boolean default true,
      Duration int not null ,
      Language varchar (50) not null ,
      Image varchar (200) not null , 

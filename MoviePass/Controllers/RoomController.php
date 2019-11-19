@@ -121,12 +121,17 @@
                     $Room=$this->RoomDAOPDO->GetById($id);
                     $cine = $this->CineDAOPDO->GetById($cineId);
                     if($Room != null){
+                        
+                        var_dump($this->CheckShowsByRoom($Room));
                         if($this->CheckShowsByRoom($Room)){
                             $this->RoomDAOPDO->RemoveRoom($Room);
+                            foreach($Room->getShows() as $show){
+                                $this->ShowDAOPDO->RemoveShow($show);
+                            }
                             $_SESSION['successMessage']="Exito al remover la sala";
                             $this->CineViewRefresh($cineId);   
                         }else{
-                            $_SESSION['errorMessage']="Error, Procure que no haya shows con peliculas asignadas dentro de la sala que desea borrar";
+                            $_SESSION['errorMessage']="Error al borrar la sala, hay entradas vendidas para shows de esta sala";
                             $this->CineViewRefresh($cineId);
                         }
                     }else{
@@ -142,7 +147,7 @@
             public function CheckShowsByRoom(Room $room){
                 $result=true;
                 foreach($room->getShows() as $show){
-                    if($show->getMovie()!=null){
+                    if(!empty($this->ShowDAOPDO->GetTicketsbyShow($show->getId()))){
                         $result=false;
                     }
                 }
