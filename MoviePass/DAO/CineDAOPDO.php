@@ -44,6 +44,56 @@ class CineDAOPDO extends Helper implements ICineDAO{
                  left join Shows as s
                 on s.RoomId=r.Id AND s.Active=1
                  left join Movies as m
+                on s.MovieId=m.Id AND m.Active=1 
+                 left join MovieXGenres as mg
+                on mg.MovieId=m.Id
+                 left join Genres as g
+                on mg.GenreId = g.Id
+                order by c.Id ,r.Id,s.Id,m.Id,g.Id;";
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query);
+                $CineList=$this->GenerateClass($resultSet);
+
+                return $CineList;
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+
+        public function GetAllHistory()
+        {
+            try
+            {
+                $CineList = array();
+
+                $query = "Select 
+                c.Id as CineId,
+                c.Name as CineName,
+                c.Address,
+                c.Capacity as CineCapacity,
+                c.Value,
+                r.Id as RoomId,
+                r.Capacity as RoomCapacity,
+                r.Name as RoomName,
+                s.Id as ShowId,
+                s.DateTime,
+                m.Id as MovieId,
+                m.Name as MovieName,
+                m.Duration,
+                m.Language,
+                m.Image,
+                g.Description as Genre,
+                g.Id as GenreId
+                from Cines as c
+                 left join Rooms as r
+                on r.CineId=c.Id
+                 left join Shows as s
+                on s.RoomId=r.Id
+                 left join Movies as m
                 on s.MovieId=m.Id
                  left join MovieXGenres as mg
                 on mg.MovieId=m.Id
@@ -95,12 +145,12 @@ class CineDAOPDO extends Helper implements ICineDAO{
                  left join Shows as s
                 on s.RoomId=r.Id AND s.Active=1   
                  left join Movies as m
-                on s.MovieId=m.Id
+                on s.MovieId=m.Id AND m.Active=1 
                  left join MovieXGenres as mg
                 on mg.MovieId=m.Id
                  left join Genres as g
                 on mg.GenreId = g.Id
-                where m.Id=".$id." 
+                where m.Id=".$id." AND r.Capacity>(select count(*) from tickets as t where t.ShowId=s.Id)
                 order by c.Id ,r.Id,s.Id,m.Id,g.Id;";
 
                 $this->connection = Connection::GetInstance();
@@ -168,7 +218,7 @@ class CineDAOPDO extends Helper implements ICineDAO{
              left join Shows as s
             on s.RoomId=r.Id AND s.Active=1 
              left join Movies as m
-            on s.MovieId=m.Id
+            on s.MovieId=m.Id AND m.Active=1 
              left join MovieXGenres as mg
             on mg.MovieId=m.Id
              left join Genres as g

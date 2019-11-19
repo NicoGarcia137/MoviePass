@@ -44,12 +44,7 @@
         public function GetShow($Id){
             return $this->ShowDAOPDO->GetById($Id);
         }
-  
-        public function RemoveShow($ShowId){
-            $Show= $this->GetShow($ShowId);
-            $this->ShowDAOPDO->RemoveShow($Show);
-            $this->ShowListShowsAdminView();
-        }
+
 
         public function ModifyShow($Id,$MovieId){
             $Show=$this->GetShow($Id);
@@ -123,7 +118,7 @@
             }
             if($showsToDelete!=0){
                 foreach($showsToDelete as $showId){
-                    $this->SoftDeleteShow($showId);
+                    $this->RemoveShow($showId);
                 }
                 
                 $this->ShowTimeDAOPDO->RemoveShowTime($date,$cineId);
@@ -132,9 +127,9 @@
             }
         }
 
-        private function SoftDeleteShow($ShowId){
+        private function RemoveShow($ShowId){
             $show = $this->GetShow($ShowId);
-            $this->ShowDAOPDO->SoftDeleteShow($show);
+            $this->ShowDAOPDO->RemoveShow($show);
         }
 
 

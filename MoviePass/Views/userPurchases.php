@@ -9,7 +9,12 @@ include_once("navUser.php");
         <p>Historial de todas las compras realizadas.</p>
     </div>
 </div>
-
+</br></br>
+<form action="<?php echo FRONT_ROOT."Purchase/ShowUserPurchases" ?>" method="post">
+        <button class="optButton optButton-block" type="submit" name="orderBy" value="date">Ordernar Por Fecha</button>
+</br>
+        <button class="optButton optButton-block" type="submit" name="orderBy" value="movie">Ordernar Por Peliculas</button>
+</form>
 
 <?php 
 

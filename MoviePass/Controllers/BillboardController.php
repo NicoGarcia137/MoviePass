@@ -57,19 +57,29 @@
             }
             return $movies;
          }
+
+         public function GetAllMoviesInshowsByDateTime(){
+            $movies=[];
+            $movieIds= $this->BillboardDAOPDO->GetAllMoviesInshows();
+            foreach($movieIds as $id){
+                $movie=$this->GetMovie($id);
+                array_push($movies,$movie);
+            }
+            return $movies;
+         }
+
+         public function GetAllMoviesInshowsByGenre(){
+            $movies=[];
+            $movieIds= $this->BillboardDAOPDO->GetAllMoviesInshows();
+            foreach($movieIds as $id){
+                $movie=$this->GetMovie($id);
+                array_push($movies,$movie);
+            }
+            return $movies;
+         }
+
          public function ShowMoviesInShows(){
-            
-             
             $Billboard= $this->GetAllMoviesInshows();
-            $genres=$this->GenreDAOPDO->GetAll();
-            $array_days[0] = "Monday";
-            $array_days[1] = "Tuesday";
-            $array_days[2] = "Wednesday";
-            $array_days[3] = "Thursday";
-            $array_days[4] = "Friday";
-            $array_days[5] = "Saturday";
-            $array_days[6] = "Sunday";
-            
             require_once(VIEWS_PATH."showBillboard.php");
             
          }
@@ -88,9 +98,6 @@
             $url="https://api.themoviedb.org/3/movie/now_playing?api_key=659f1569858f26bfcf78a91dd24bec94&page=1";
             $moviesJson=file_get_contents($url);
             $moviesInc=json_decode($moviesJson,true);   
-            
-            
-                
             
                 foreach($moviesInc['results'] as $movie){
                     if($this->getMovie($movie['id'])==null)

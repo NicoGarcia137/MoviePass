@@ -32,7 +32,7 @@ class RoomDAOPDO extends Helper{
              left join Shows as s
             on s.RoomId=r.Id AND s.Active=1 
              left join Movies as m
-            on s.MovieId=m.Id
+            on s.MovieId=m.Id AND m.Active=1 
              left join MovieXGenres as mg
             on mg.MovieId=m.Id
              left join Genres as g

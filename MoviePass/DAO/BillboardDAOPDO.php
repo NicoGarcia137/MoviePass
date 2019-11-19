@@ -30,7 +30,7 @@ class BillboardDAOPDO extends Helper{
                 g.Description as Genre
                 from moviexgenres as mg
                 left join movies as m 
-                on m.Id=mg.MovieId
+                on m.Id=mg.MovieId AND m.Active=1 
                 left join genres as g
                 on g.Id=mg.GenreId
                 order by m.Id desc;";
@@ -86,7 +86,7 @@ class BillboardDAOPDO extends Helper{
                 g.Description as Genre
                 from moviexgenres as mg
                 left join movies as m 
-                on m.Id=mg.MovieId
+                on m.Id=mg.MovieId AND m.Active=1 
                 left join genres as g
                 on g.Id=mg.GenreId
                 where m.Id = ".$id."
@@ -127,6 +127,8 @@ class BillboardDAOPDO extends Helper{
                 "select distinct
                 s.MovieId
                 from Shows as s
+                join Rooms as r
+                on r.Id=s.RoomId 
                 where s.MovieId is not null AND s.Active=1;";
 
                 $this->connection = Connection::GetInstance();
@@ -150,9 +152,9 @@ class BillboardDAOPDO extends Helper{
     public function RemoveMovie($Movie)
     {
         try
-        { //FIJARSE EL NOMBRE DE LA TABLA POR TABLENAME
+        { 
             
-            $query = "Delete from Movies where Id=".$Movie->getId().";";
+            $query = "Update Movies set Active=false where Id=".$Movie->getId().";";
 
             $this->connection = Connection::GetInstance();
 

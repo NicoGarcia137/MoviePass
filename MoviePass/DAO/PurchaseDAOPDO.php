@@ -35,25 +35,20 @@ class PurchaseDAOPDO extends Helper{
         }
     }
 
+    
+
+
     public function CheckTicketExist($showId,$seats){
         try
         {         
-            $query = "SELECT COUNT(*) as tickets FROM Tickets as t
-                     WHERE t.ShowId= :ShowId AND t.Seat IN (:Seats);";
-
-
-            $parameters["ShowId"]=$showId;
-            $seats=implode(",", $seats[0]);
-            $parameters["Seats"] =$seats;
+            $query = "SELECT t.Id as tickets FROM Tickets as t
+                     WHERE t.ShowId= ".$showId." AND t.Seat IN (".implode(",",$seats[0]).");";
 
             $this->connection = Connection::GetInstance();
             
-            $resultSet = $this->connection->Execute($query,$parameters);
-            $result=0;
-            if($resultSet[0]['tickets']!=0){
-                $result=$seats[0];
-            }
-            return $result;
+            $resultSet = $this->connection->Execute($query);
+            
+            return $resultSet;
         }
         catch(Exception $ex)
         {

@@ -26,7 +26,7 @@ class ShowDAOPDO extends Helper{
             g.Id as GenreId
             from Shows as s
              left join Movies as m
-            on s.MovieId=m.Id
+            on s.MovieId=m.Id AND m.Active=1 
              left join MovieXGenres as mg
             on mg.MovieId=m.Id
              left join Genres as g
@@ -87,7 +87,6 @@ class ShowDAOPDO extends Helper{
 
 
 
-
     public function GetTicketInfoByShowId($id){
        
         try
@@ -116,7 +115,7 @@ class ShowDAOPDO extends Helper{
              left join Shows as s
             on s.RoomId=r.Id AND s.Active=1
              left join Movies as m
-            on s.MovieId=m.Id
+            on s.MovieId=m.Id AND m.Active=1 
              left join MovieXGenres as mg
             on mg.MovieId=m.Id
              left join Genres as g
@@ -155,7 +154,7 @@ class ShowDAOPDO extends Helper{
             g.Id as GenreId
             from Shows as s
              left join Movies as m
-            on s.MovieId=m.Id
+            on s.MovieId=m.Id AND m.Active=1 
              left join MovieXGenres as mg
             on mg.MovieId=m.Id
              left join Genres as g
@@ -221,6 +220,22 @@ class ShowDAOPDO extends Helper{
                 throw $ex;
             }
         }
+
+        public function RemoveShow($show){
+            try
+            { 
+                $query = "Delete from Shows WHERE Id= ".$show->getId().";";
+
+                $this->connection = Connection::GetInstance();
+
+                $this->connection->ExecuteNonQuery($query);
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+
   
     public function Add($Show)
     {
