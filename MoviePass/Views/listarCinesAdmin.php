@@ -35,10 +35,11 @@ include_once("navAdmin.php");
                                     <span>Direccion:</span> <?php echo $cine->getAddress() ?> <br>
                                     <span>Capacidad:</span> <?php echo $cine->getCapacity() ?> <br>
                                     <span>Tarifa:</span> <?php echo "$" . $cine->getValue() ?>
+                                    
                                 </div>
-
                                 <br><br>
-                                <h3>Peliculas disponibles </span> </h3> 
+                                <h3><span>Peliculas</span>disponibles</h3> 
+                                
 
                             </div>
 

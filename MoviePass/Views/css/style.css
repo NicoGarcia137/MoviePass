@@ -743,6 +743,37 @@ a {
 	width:25%;
 }
 
+.slogButton2 {
+	position:absolute;
+
+	right:10px;
+	bottom:50px;
+
+
+	border: 0;
+    outline: none;
+    border-radius:0;
+    padding: 10px 10px;
+    font-size: 12px;
+    font-weight: var(--bold);
+	text-transform: uppercase;
+	text-align: center;
+    letter-spacing: .1em;
+    background: rgb(68, 125, 160);
+    color: rgb(41, 41, 41);
+    transition: all.5s ease;
+    -webkit-appearance: none;
+}
+
+.slogButton2:hover, .slogButton2:focus {
+	background:var(--main-dark);
+}
+
+.slogButton2-block {
+	display:block;
+	width:25%;
+}
+
 /* -------------------------------- */
 
 .movieImg {
@@ -823,6 +854,7 @@ body .swiper-container{
 }
 
 .imgButton {
+	text-align: center;
 	border:0;
 	border-radius:2%;
 	padding:15px 0;
@@ -992,6 +1024,10 @@ table.calendarTable{
 	display: none;
 }
 
+.checkeable input:checked {
+	border: #2c6d9a;
+}
+
 .checkeable img {
 	width: 50px;
 	height: 50px;
@@ -1001,9 +1037,124 @@ table.calendarTable{
 	background:url(../images/seatOpen.png) ;
 }
 
+.checkeableRad input{
+	/* display: none; */
+}
+
+.checkeableRad input:checked {
+	border-color: 2px solid red ;
+}
+
+
+.checkeableRad img {
+	cursor: pointer;
+}
+
+.checkeableRad input:checked + img {
+	border-color: 2px solid red ;
+	border: red;
+}
+
 /***************Collapsibles***************/
 
+.form hr {
+	border: 1px solid rgb(61, 61, 61);
+}
 
+.address .left {
+	float: left;
+	margin-left: 10%;
+}
+
+.address .right {
+	float: right;
+	margin-right: 10%;
+}
+
+/* -------------------------- info COLLAPSIBLE -------------------------- */
+
+.infoBox {
+	 
+	padding: 0px;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+	background-color: rgba(15, 15, 15, 0.76);
+	text-align: justify;
+	
+}
+
+.infoBox .left {
+	float: left;
+}
+
+.infoBox .right {
+	float: right;
+}
+
+.infoBox h5 {
+	margin-left: 5%;
+}
+
+.infoBox hr {
+	border: 1px solid rgb(61, 61, 61);
+	margin: 10px 13px 10px 13px;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.infoCollapsible {
+	padding: 10px;
+	width: 300px;
+	background-color: rgba(10, 10, 10, 0.76);
+	color: #444;
+	cursor: pointer;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+}
+
+.infoCollapsible .left {
+	float: left;
+}
+
+.infoCollapsible .right {
+	float: right;
+}
+
+
+.infoCollapsible span {
+	color: rgb(177, 24, 24);
+}
+  
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .infoCollapsible:hover {
+	background-color: rgba(15, 15, 15, 0.76);
+}
+
+.infoCollapsible:after {
+	content: '\002B';
+	color: white;
+	font-weight: bold;
+	float: right;
+	margin-left: 5px;
+  }
+  
+  .active:after {
+	content: "\2212";
+  }
+  
+/* Style the collapsible content. Note: hidden by default */
+.content {
+	padding: 0 18px;
+	display: none;
+	overflow: hidden;
+	background-color: #f1f1f1;
+
+
+}
+
+/* ------------------------------------------------------------------------ */
 
 /* -------------------------- MODIFY COLLAPSIBLE -------------------------- */
 
@@ -1019,9 +1170,18 @@ table.calendarTable{
 
 }
 
+.modifyBox .left {
+	float: left;
+}
+
+.modifyBox .right {
+	float: right;
+}
+
 .modifyBox h5 {
 	margin-left: 5%;
 }
+
 
 /* Style the button that is used to open and close the collapsible content */
 .modifyCollapsible {
