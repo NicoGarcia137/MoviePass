@@ -3,6 +3,7 @@
 use Models\Purchase as Purchase;
 use DAO\Connection as Connection;
 use DAO\Helper as Helper;
+use Models\Cine as Cine;
 class PurchaseDAOPDO extends Helper{
 
   
@@ -35,6 +36,87 @@ class PurchaseDAOPDO extends Helper{
         }
     }
 
+    public function getAllPurchasesForCine($date1,$date2){
+        try
+        {         
+            
+            $query = "select
+            sum(p.TotalValue) as Value,
+            p.CineId as Cine
+            from purchases as p
+            where p.DateTime >= '".$date1->format('Y-m-d H:m:s')."' AND p.DateTime <= '".$date2->format('Y-m-d H:m:s')."'
+            group by p.CineId;";
+
+            $this->connection = Connection::GetInstance();
+            
+            $resultSet = $this->connection->Execute($query);
+
+            
+            return $resultSet;
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
+
+    public function getAllPurchasesForMovie($date1,$date2){
+        try
+        {         
+            
+            $query = "select
+            sum(t.Value) as Value,
+            m.Id as Movie
+            from tickets as t
+            join shows as s
+            on s.Id=t.ShowId
+            join movies as m
+            on m.Id=s.MovieId
+            join purchases as p
+            on p.Id=t.PurchaseId
+            where p.DateTime >= '".$date1->format('Y-m-d H:m:s')."' AND p.DateTime <= '".$date2->format('Y-m-d H:m:s')."'
+            group by s.MovieId";
+
+            $this->connection = Connection::GetInstance();
+            
+            $resultSet = $this->connection->Execute($query);
+    
+            
+            return $resultSet;
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
+
+    private function getCineByIdForParchuse($id){
+        try
+        {         
+            
+            $query = "Select 
+            c.Id as CineId,
+            c.Name as CineName,
+            c.Address,
+            c.Value
+            from cines as c
+            where c.Id =".$id.";";
+            
+            $resultSet = $this->connection->Execute($query);
+            $cine=$resultSet[0];
+            $newCine=new Cine();
+            $newCine->setId($cine["CineId"]);
+            $newCine->setName($cine["CineName"]);
+            $newCine->setAddress($cine["Address"]);
+            $newCine->setValue($cine["Value"]);
+
+            return $newCine;
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
     
 
 

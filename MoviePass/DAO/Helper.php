@@ -28,12 +28,12 @@ abstract class Helper{
 
             $result=$this->GenerateRoom($resultSet,$x,$y);
 
-        }else if(isset($resultSet[$x]['ShowId'])){
-
-            $result=$this->GenerateShow($resultSet,$x,$y);
         }else if(isset($resultSet[$x]['PurchaseId'])){
 
             $result=$this->GeneratePurchase($resultSet,$x,$y);
+        }else if(isset($resultSet[$x]['ShowId'])){
+
+            $result=$this->GenerateShow($resultSet,$x,$y);
         }
         
         return $result;
@@ -46,6 +46,9 @@ abstract class Helper{
             $tickets=[];
             while($x<$y&&$purchase->getId()==$resultSet[$x]['PurchaseId']){
                 $ticket= $this->CreateTicket($resultSet[$x]);
+                if(isset($resultSet[$x]['ShowId'])){
+                    $ticket->setShow($this->CreateTicket($resultSet[$x]));
+                }
                 $purchase->addTickets($ticket);
                 $x++;
             }
