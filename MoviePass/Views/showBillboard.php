@@ -18,7 +18,7 @@ Filtrar Por Fecha
 <form action="<?php echo FRONT_ROOT."Billboard/GetAllMoviesInshowsByDateTime" ?>" method="post">
             <select name="date" required>
                 <?php $date=new DateTime(); for($x=0;$x<7;$x++){ ?> 
-                    <option value="<?php echo $date->format('Y-m-d');?>"><?php echo $this->translator($date);  ?></option> 
+                    <option value="<?php echo $date->format('Y-m-d');?>"><?php echo Translator::Translate($date);  ?></option> 
               <?php $date->modify('+1 day');   }  ?>   
             </select>        
 

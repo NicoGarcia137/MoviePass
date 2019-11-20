@@ -64,7 +64,7 @@ $dates=[];
             $date=new DateTime(); 
             for($x=0;$x<7;$x++){ ?>
 
-                <th scope="col" abbr="Starter"><?php echo $this->translator($date); ?></th>
+                <th scope="col" abbr="Starter"><?php echo Translator::Translate($date); ?></th>
 
             <?php 
                 $date->modify('+1 day');  
