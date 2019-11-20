@@ -2,6 +2,7 @@
     include_once("header.php");
     include_once("navUser.php");
     $baseurl="https://image.tmdb.org/t/p/w500";
+
 ?>
 
 <div id="signupSlogan">
@@ -10,6 +11,30 @@
         <p>Seleccione la pelicula que desea ver</p>
     </div>
 </div>
+
+
+</br></br>
+Filtrar Por Fecha
+<form action="<?php echo FRONT_ROOT."Billboard/GetAllMoviesInshowsByDateTime" ?>" method="post">
+            <select name="date" required>
+                <?php $date=new DateTime(); for($x=0;$x<7;$x++){ ?> 
+                    <option value="<?php echo $date->format('Y-m-d');?>"><?php echo $this->translator($date);  ?></option> 
+              <?php $date->modify('+1 day');   }  ?>   
+            </select>        
+
+        <input type=submit class="optButton optButton-block">
+</form>
+</br>
+
+Filtrar Por Genero
+<form action="<?php echo FRONT_ROOT."Billboard/GetAllMoviesInshowsByGenre" ?>" method="post">
+<?php   foreach($genres as $genre){ ?>
+            <?php echo $genre->getDescription() ?> <input  type="checkbox" name="genres[]" value="<?php echo $genre->getId() ?>">
+ <?php     } ?>
+ <input type=submit class="optButton optButton-block">
+</form>
+
+
 
 <?php 
     foreach($Billboard as $movie)
