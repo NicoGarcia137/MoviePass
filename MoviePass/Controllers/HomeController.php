@@ -36,7 +36,7 @@
             $date1=new DateTime();
             $date2=new DateTime();
             $date1->modify('-1 day');
-            $this->ShowPurchasesStats($date1->format('Y-m-d H:m:s'),$date2->('Y-m-d H:m:s'));
+            $this->ShowPurchasesStats($date1->format('Y-m-d H:m:s'),$date2->format('Y-m-d H:m:s'));
         }
 
         private function GetAllMoviesInshows(){

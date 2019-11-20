@@ -123,6 +123,7 @@ class PurchaseDAOPDO extends Helper{
     public function CheckTicketExist($showId,$seats){
         try
         {         
+            
             $query = "SELECT t.Id as tickets FROM Tickets as t
                      WHERE t.ShowId= ".$showId." AND t.Seat IN (".implode(",",$seats[0]).");";
 

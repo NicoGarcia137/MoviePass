@@ -24,46 +24,54 @@
             $this->CineDAOPDO=new CineDAOPDO();
         }
         
-        public function CreatePurchase($showId,$value,...$seats){
+        public function CreatePurchase($showId,$value,$creditCard,$type,...$seats){
             try{
+                
                 if(!empty($seats)){
                     if(isset($_SESSION['loggedUser'])){
-                        $check=$this->PurchaseDAOPDO->CheckTicketExist($showId,$seats);
-                        if(empty($check)){
-                            $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
-                            $show=$cine->getRooms()[0]->getShows()[0];
-                            $show->setRoom($cine->getRooms()[0]);
-                            $show->getRoom()->getCine()->setValue($cine->getValue());
-                            $purchase=new Purchase();
-                            foreach($seats[0] as $seat){
-                                $ticket=new Ticket();
-                                $ticket->setSeat($seat);
-                                $ticket->setShow($show);
-                                $ticket->setValue($value);
-                                $purchase->addTickets($ticket);
-                            }
-                            $purchase->setCine($cine);
-                            $purchase->setDateTime(new DateTime());
-                            $purchase->setUser($_SESSION['loggedUser']);
-                            $_SESSION['successMessage']= "Compra exitosa.";
-                           
-                            $this->PurchaseDAOPDO->Add($purchase);
-                            unset($_SESSION['failPurchase']);
-                            $this->ShowUserPurchases();
-                        }else{
-                            $purchases=$this->getPurchaseByUser();
-                            foreach($purchases as $purchase){
-                                foreach($purchase->getTickets() as $ticket){
-                                    if(in_array($ticket->getSeat(),$seats[0])){
-                                        $this->ShowUserPurchases();
-                                        $check=0;
+                        
+                        if($this->ValidCreditcard($creditCard,$type)){
+                            $check=$this->PurchaseDAOPDO->CheckTicketExist($showId,$seats);
+                       
+                            if(empty($check)){
+                                $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
+                                $show=$cine->getRooms()[0]->getShows()[0];
+                                $show->setRoom($cine->getRooms()[0]);
+                                $show->getRoom()->getCine()->setValue($cine->getValue());
+                                $purchase=new Purchase();
+                                foreach($seats[0] as $seat){
+                                    $ticket=new Ticket();
+                                    $ticket->setSeat($seat);
+                                    $ticket->setShow($show);
+                                    $ticket->setValue($value);
+                                    $purchase->addTickets($ticket);
+                                }
+                                $purchase->setCine($cine);
+                                $purchase->setDateTime(new DateTime());
+                                $purchase->setUser($_SESSION['loggedUser']);
+                                $_SESSION['successMessage']= "Compra exitosa.";
+                            
+                                $this->PurchaseDAOPDO->Add($purchase);
+                                unset($_SESSION['failPurchase']);
+                                $this->ShowUserPurchases();
+                            }else{
+                                $purchases=$this->getPurchaseByUser();
+                                foreach($purchases as $purchase){
+                                    foreach($purchase->getTickets() as $ticket){
+                                        if(in_array($ticket->getSeat(),$seats[0])){
+                                            $this->ShowUserPurchases();
+                                            $check=0;
+                                        }
                                     }
                                 }
+                                if($check!=0){
+                                    $_SESSION['errorMessage']= "Butaca seleccionada ya nose encuentra disponible.";
+                                    $this->ShowPurchaseView($showId);
+                                }
                             }
-                            if($check!=0){
-                                $_SESSION['errorMessage']= "Butaca seleccionada ya nose encuentra disponible.";
-                                $this->ShowPurchaseView($showId);
-                            }
+                        }else{
+                            $_SESSION['errorMessage']= "Error, Tarjeta de credito ".$type." no corresponde.";
+                            $this->ShowConfirmPurchase($showId,$seats[0]);
                         }
                     }else{
                         $show=$this->ShowDAOPDO->GetById($showId);
@@ -81,6 +89,123 @@
                 require_once(VIEWS_PATH."login.php");
             }
         }
+
+
+
+        private function luhn($number)
+{
+   //Force the value to be a string as this method uses string functions.
+   //Converting to an integer may pass PHP_INT_MAX and result in an error!
+    $number = (string)$number;
+
+    if (!ctype_digit($number)) {
+       //Luhn can only be used on numbers!
+        return FALSE;
+    }
+
+   //Check number length
+    $length = strlen($number);
+
+   //Checksum of the card number
+    $checksum = 0;
+
+    for ($i = $length - 1; $i >= 0; $i -= 2) {
+       //Add up every 2nd digit, starting from the right
+        $checksum += substr($number, $i, 1);
+    }
+
+    for ($i = $length - 2; $i >= 0; $i -= 2) {
+       //Add up every 2nd digit doubled, starting from the right
+        $double = substr($number, $i, 1) * 2;
+
+       //Subtract 9 from the double where value is greater than 10
+        $checksum += ($double >= 10) ? ($double - 9) : $double;
+    }
+
+   //If the checksum is a multiple of 10, the number is valid
+    return ($checksum % 10 === 0);
+}
+
+private function ValidCreditcard($number,$type)
+{
+    $card_array = array(
+        'default' => array(
+            'length' => '13,14,15,16,17,18,19',
+            'prefix' => '',
+            'luhn' => TRUE,
+        ),
+        'american express' => array(
+            'length' => '15',
+            'prefix' => '3[47]',
+            'luhn' => TRUE,
+        ),
+        'diners club' => array(
+            'length' => '14,16',
+            'prefix' => '36|55|30[0-5]',
+            'luhn' => TRUE,
+        ),
+        'discover' => array(
+            'length' => '16',
+            'prefix' => '6(?:5|011)',
+            'luhn' => TRUE,
+        ),
+        'jcb' => array(
+            'length' => '15,16',
+            'prefix' => '3|1800|2131',
+            'luhn' => TRUE,
+        ),
+        'maestro' => array(
+            'length' => '16,18',
+            'prefix' => '50(?:20|38)|6(?:304|759)',
+            'luhn' => TRUE,
+        ),
+        'mastercard' => array(
+            'length' => '16',
+            'prefix' => '5[1-5]',
+            'luhn' => TRUE,
+        ),
+        'visa' => array(
+            'length' => '13,16',
+            'prefix' => '4',
+            'luhn' => TRUE,
+        ),
+    );
+
+   //Remove all non-digit characters from the number
+    if (($number = preg_replace('/\D+/', '', $number)) === '')
+        return FALSE;
+
+
+    $cards = $card_array;
+
+   //Check card type
+    $type = strtolower($type);
+
+    if (!isset($cards[$type]))
+        return FALSE;
+
+   //Check card number length
+    $length = strlen($number);
+
+   //Validate the card length by the card type
+    if (!in_array($length, preg_split('/\D+/', $cards[$type]['length'])))
+        return FALSE;
+
+   //Check card number prefix
+    if (!preg_match('/^' . $cards[$type]['prefix'] . '/', $number))
+        return FALSE;
+
+   //No Luhn check required
+    if ($cards[$type]['luhn'] == FALSE)
+        return TRUE;
+
+    return $this->luhn($number);
+
+}
+       
+
+
+
 
 
 
@@ -113,7 +238,7 @@
                         }
                      }
                      if($orderBy=="date"){
-                        uasort($purchases, function($a, $b){return strcasecmp($a->getDateTime() , $b->getDateTime());});
+                        uasort($purchases, function($a, $b){return strcasecmp($b->getDateTime() , $a->getDateTime());});
                      }else if($orderBy=="movie"){
                         uasort($purchases, function($a, $b){return strcasecmp($a->getTickets()[0]->getShow()->getMovie()->getName() , $b->getTickets()[0]->getShow()->getMovie()->getName());});
                     }
@@ -129,62 +254,6 @@
             }
         }
 
-        public function ShowPurchasesStats(){
-            $cines= $this->CineDAOPDO->getAll();
-            $moviesStats=array();
-            $moviesStats['movie']=array();
-            $moviesStats['sold']=array();
-            $moviesStats['unsold']=array();
-
-            $cinesSats=array();
-            $cinesSats['cine']=array();
-            $cinesSats['sold']=array();
-            $cinesSats['unsold']=array();
-
-            foreach($cines as $cine){
-                $count=0;
-                foreach($cine->getRooms() as $room){
-                    foreach($room->getShows() as $show){
-                        $tickets=$this->ShowDAOPDO->GetTicketsbyShow($show->getId());
-                        foreach($tickets as $ticket){
-                            $show->addTickets($ticket);
-                            $count++;
-                        }
-                        if(!empty($show->getMovie())){
-                            var_dump($show->getMovie()->getName());
-                            array_push($moviesStats['movie'],$show->getMovie());
-                            array_push($moviesStats['sold'],count($tickets));
-                            array_push($moviesStats['unsold'],$room->getCapacity()-count($tickets));
-                        }
-                    }
-                }
-
-                array_push($cinesSats['cine'],$cine);
-                array_push($cinesSats['sold'],$count);
-                array_push($cinesSats['unsold'],$cine->getCapacity()-$count);
-            }
-
-            for($x=0;$x<count($moviesStats['movie']);$x++){
-                for($y=0;$y<count($moviesStats['movie']);$y++){
-                    if($x!=$y && isset($moviesStats['movie'][$y]) && isset($moviesStats['movie'][$y]) && $moviesStats['movie'][$x]==$moviesStats['movie'][$y]){
-                       
-                        
-                        $moviesStats['unsold'][$x]+=$moviesStats['unsold'][$y];
-                        $moviesStats['sold'][$x]+=$moviesStats['sold'][$y];
-                        unset($moviesStats['movie'][$y]);
-                        unset($moviesStats['sold'][$y]);
-                       unset($moviesStats['unsold'][$y]);
-                       sort($moviesStats['movie']); 
-                       sort($moviesStats['sold']); 
-                       sort($moviesStats['unsold']); 
-
-                    }   
-                }
-            }
-        }
-
-
-
         public function AbortPurchase(){
             unset($_SESSION['failPurchase']);
             header("location:".FRONT_ROOT."Home/Index");
@@ -192,15 +261,19 @@
 
         public function ShowConfirmPurchase($showId,...$seats){
             $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
-            $room=array_shift($cine->getRooms());
-            $show=array_shift($room->getShows());
+            $room=$cine->getRooms()[0];
+            $show=$room->getShows()[0];
             $value=$cine->getValue();
-            $day=new DateTime('l');
+            $day=new DateTime();
             $array=array("Tuesday","Wednesday");
+            $discount=false;
             $seats=$seats[0];
-            if(count($seats)>=2 && in_array($day,$array)){
+            if(count($seats)>=2 && in_array($day->format('l'),$array)){
+                var_dump($day);
                 $value=$value * 0.75;
+                $discount=true;
             }
+            
             require_once(VIEWS_PATH."confirmPurchase.php");
         }
 
