@@ -73,7 +73,6 @@ class BillboardDAOPDO extends Helper{
     {
         try
             {
-                $MovieList = array();
 
                 $query = 
                 "Select 
@@ -121,15 +120,99 @@ class BillboardDAOPDO extends Helper{
     public function GetAllMoviesInshows(){
         try
             {
-                $MovieList = array();
 
                 $query = 
                 "select distinct
                 s.MovieId
                 from Shows as s
-                join Rooms as r
-                on r.Id=s.RoomId 
                 where s.MovieId is not null AND s.Active=1;";
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query);
+                
+                $MovieIds=[];
+                foreach($resultSet as $movieId){
+                    array_push($MovieIds,$movieId['MovieId']);
+                }
+                
+                return $MovieIds;
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+    }
+
+    public function GetAllMoviesInshowsByDateTime($date){
+        try
+            {
+
+                $query = 
+                "select distinct
+                s.MovieId
+                from Shows as s
+                where s.MovieId is not null AND s.Active=1 AND DATE(s.DateTime) = '".$date->format('Y-m-d')."';";
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query);
+                
+                $MovieIds=[];
+                foreach($resultSet as $movieId){
+                    array_push($MovieIds,$movieId['MovieId']);
+                }
+                
+                return $MovieIds;
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+    }
+
+
+public function GetAllGenres(){
+        try
+            {
+
+                $query = 
+                "select 
+                g.Id as GenreId,
+                g.Description as Description
+                from Genres as g;";
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query);
+                
+                $Genres=[];
+                foreach($resultSet as $Genre){
+                    $newGenre= new Genre();
+                    $newGenre->setId($Genre['GenreId']);
+                    $newGenre->setDescription($Genre['Description']);
+                    array_push($Genres,$newGenre);
+                }
+                
+                return $Genres;
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+    }
+
+
+    public function GetAllMoviesInshowsByGenres(...$genres){
+        try
+            {
+                $query = 
+                "select distinct
+                s.MovieId
+                from Shows as s
+                join moviexgenres as mg
+                on s.MovieId=mg.MovieId
+                where s.MovieId is not null AND s.Active=1 AND mg.GenreId IN (".implode(",",$genres[0]).");";
 
                 $this->connection = Connection::GetInstance();
 
