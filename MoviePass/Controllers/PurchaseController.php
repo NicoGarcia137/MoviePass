@@ -52,6 +52,11 @@
                                 $_SESSION['successMessage']= "Compra exitosa.";
                             
                                 $this->PurchaseDAOPDO->Add($purchase);
+                                
+
+
+                                include_once('sendMail.php');
+
                                 unset($_SESSION['failPurchase']);
                                 $this->ShowUserPurchases();
                             }else{

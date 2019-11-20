@@ -144,8 +144,5 @@
             }
             return $MoviesXMoney;
         }
-
-
-
     }
 ?>

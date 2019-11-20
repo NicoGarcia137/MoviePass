@@ -21,7 +21,10 @@ include_once("navUser.php");
             <div class="border-right">
               <div class="border-left">
                 <div class="inner">
+                  <h3><b>Nuestra cartelera</b></h3>
                 <?php include("movieCarousel.php"); ?>
+
+
                   <h3>Welcome to <b>Cinema</b> <span>World</span></h3>
                   <p>Felitsed vel inte vivamus ant sed sapientesque ero id auctor tincidunt. Enimin ulla mi et nibh turien augue habitudin platea sed orci. Intedonec quis sed condis donec urna lacilis leo quismodo wisi quis.</p>
                   <div class="img-box1"><img src="images/1page-img1.jpg" alt="" />Fauctororci cursuspendrerisque ipsum elit congue nibh proin nulla eu urna et. Tordolorem metus fringilla sem facinia sapien in in malesuada vitae quismodo. Ipsumut tellentegest nunc pede id sem gravida natis justo maecenas eu. </div>
@@ -30,7 +33,7 @@ include_once("navUser.php");
               </div>
             </div>
           </div>
-        <div class="content">
+        <!-- <div class="content">
           <h3>Fresh <span>Movies</span></h3>
           <ul class="movies">
             <li>
@@ -53,7 +56,7 @@ include_once("navUser.php");
             </li>
             <li class="clear">&nbsp;</li>
           </ul>
-        </div>
+        </div> -->
       </div>
 
       <?php 

@@ -3,87 +3,202 @@
     include_once("navAdmin.php");
 ?>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div id="signupSlogan">
+    <div class="inside">
+        <h2>Informacion<span>del sistema</span></h2>
+        <p>Listado de cines disponibles para su utilización.</p>
+    </div>
+</div>
 
-Sats de Funciones Activas con Peliculas Asignadas: <br><br><br>
+<div class="box">
+    <div class="border-right">
+        <div class="border-left">
+            <div class="inner">
+                <div class="address">
 
-Cines: <br><br><br>
-<?php for($x=0;$x<count($cinesStats['cine']);$x++){ ?>
-    Cine: <?php echo $cinesStats['cine'][$x]->getName(); ?> <br>
-    Entradas Vendidas: <?php echo $cinesStats['sold'][$x]; ?> <br>
-    Entradas No Vendidas: <?php echo $cinesStats['unsold'][$x]; ?> <br>
-    <br>
-    
-<?php } ?>
-<br><br>
-Peliculas: <br><br>
-<?php for($x=0;$x<count($moviesStats['movie']);$x++){ ?>
-    Pelicula: <?php echo $moviesStats['movie'][$x]->getName(); ?> <br>
-    Entradas Vendidas: <?php echo $moviesStats['sold'][$x]; ?> <br>
-    Entradas No Vendidas: <?php echo $moviesStats['unsold'][$x]; ?> <br>
-    <br>
-    
-<?php } ?>
+                    <h4><span>Info funciones activas</span></h4><br>
+
+                    <div class="left" >
+                        <button type="button" class="infoCollapsible" > <span>Cines</span> </button>
+                        <div class="infoBox" >
+                            <hr>
+                            <?php for($x=0;$x<count($cinesStats['cine']);$x++){ ?>
+                                <h5><?php echo $cinesStats['cine'][$x]->getName(); ?> </h5>
+                                <span>Entradas Vendidas:</span> <?php echo $cinesStats['sold'][$x]; ?> <br>
+                                <span>Entradas No Vendidas:</span> <?php echo $cinesStats['unsold'][$x]; ?> <br>
+                                <hr>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                    <div class="right" >
+                        <button type="button" class="infoCollapsible" > <span>Peliculas</span> </button>
+                        <div class="infoBox" >
+                            <hr>
+                            <?php for($x=0;$x<count($moviesStats['movie']);$x++){ ?>
+                                <h5><?php echo $moviesStats['movie'][$x]->getName(); ?> </h5>
+                                <span>Entradas Vendidas:</span> <?php echo $moviesStats['sold'][$x]; ?> <br>
+                                <span>Entradas No Vendidas:</span> <?php echo $moviesStats['unsold'][$x]; ?> <br>
+                                <hr>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div> 
+
+<br>
+
+<div class="box">
+    <div class="border-right">
+        <div class="border-left">
+            <div class="inner">
+                <div class="address" >
+
+                    <h4><span>Info historica funciones</span></h4><br>
+
+                    <div class="left">
+                        <button type="button" class="infoCollapsible" > <span>Cines</span> </button>
+                        <div class="infoBox" >
+                            <hr>
+                            <?php for($x=0;$x<count($cinesStatsHistory['cine']);$x++){ ?>
+                                <h5><?php echo $cinesStatsHistory['cine'][$x]->getName(); ?> </h5>
+                                <span>Entradas Vendidas:</span> <?php echo $cinesStatsHistory['sold'][$x]; ?> <br>
+                                <span>Entradas No Vendidas:</span> <?php echo $cinesStatsHistory['unsold'][$x]; ?> <br>
+                                <hr>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                    <div class="right">
+                        <button type="button" class="infoCollapsible" > <span>Peliculas</span> </button>
+                        <div class="infoBox" >
+                            <hr>
+                            <?php for($x=0;$x<count($moviesStatsHistory['movie']);$x++){ ?>
+                                <h5><?php echo $moviesStatsHistory['movie'][$x]->getName(); ?> </h5>
+                                <span>Entradas Vendidas:</span> <?php echo $moviesStatsHistory['sold'][$x]; ?> <br>
+                                <span>Entradas No Vendidas:</span> <?php echo $moviesStatsHistory['unsold'][$x]; ?> <br>
+                                <hr>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<br>
+
+<div class="box">
+    <div class="border-right">
+        <div class="border-left">
+            <div class="inner">
+                <div class="address" >
+
+                    <h4><span>Ventas</span></h4><br>
+
+                    <div class="left" >
+                        <button type="button" class="infoCollapsible" > <span>Cines</span> </button>
+                        <div class="infoBox" >
+                            <hr>
+                            <?php for($x=0;$x<count($CinesXMoney['cine']);$x++){ ?>
+                            <h5><?php echo $CinesXMoney['cine'][$x]->getName(); ?> </h5>
+                            <span>Ventas:</span> $ <?php echo $CinesXMoney['value'][$x]; ?> <br>
+                            <hr>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                    <div class="right" >
+                        <button type="button" class="infoCollapsible" > <span>Peliculas</span> </button>
+                        <div class="infoBox" >
+                            <hr>
+                            <?php $total=0; for($x=0;$x<count($MoviesXMoney['movie']);$x++){ $total+=$MoviesXMoney['value'][$x]; ?>
+                            <h5> <?php echo $MoviesXMoney['movie'][$x]->getName(); ?> </h5>
+                            <span>Ventas:</span> $ <?php echo $MoviesXMoney['value'][$x];  ?> <br>
+                            <hr>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <div class="field-wrap">
+                    <span>Total <h3>$ <?php echo $total; ?></h3></span>
+                </div>
+                
+                <div class="form">
+                    <span>Seleccionar periodo de ventas</span>
+                    <hr><br>
+                    <form action="<?php echo FRONT_ROOT."Home/ShowPurchasesStats"?>" method="post">
+
+                        <div class="fleft">
+                            <input class="imgButton imgButton-block" type="datetime-local" name="date1" value=""></input>
+                            
+                        </div>
+
+                        <div class="fleft">
+                            > ><br>> ><br>> >
+                        </div>
+
+                        <div class="fleft">
+                            <input class="imgButton imgButton-block" type="datetime-local" name="date2" value=""></input>
+                        </div>
+
+                        <div class="fright">
+                            <input type=submit class="optButton optButton-block" value="Seleccionar">
+                        </div>
+                        <br> 
+                        
+                    </form>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+</div> 
 
 
+<script>
+    var coll = document.getElementsByClassName("modifyCollapsible");
+    var i;
 
-Sats de Funciones de toda la historia con Peliculas Asignadas: <br><br><br>
+    for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight){
+        content.style.maxHeight = null;
+        } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+        } 
+    });
+    }
+</script>
 
-Cines: <br><br><br>
-<?php for($x=0;$x<count($cinesStatsHistory['cine']);$x++){ ?>
-    Cine: <?php echo $cinesStatsHistory['cine'][$x]->getName(); ?> <br>
-    Entradas Vendidas: <?php echo $cinesStatsHistory['sold'][$x]; ?> <br>
-    Entradas No Vendidas: <?php echo $cinesStatsHistory['unsold'][$x]; ?> <br>
-    <br>
-    
-<?php } ?>
-<br><br>
-Peliculas: <br><br>
-<?php for($x=0;$x<count($moviesStatsHistory['movie']);$x++){ ?>
-    Pelicula: <?php echo $moviesStatsHistory['movie'][$x]->getName(); ?> <br>
-    Entradas Vendidas: <?php echo $moviesStatsHistory['sold'][$x]; ?> <br>
-    Entradas No Vendidas: <?php echo $moviesStatsHistory['unsold'][$x]; ?> <br>
-    <br>
- 
-<?php } ?>
+<script>
+    var coll = document.getElementsByClassName("infoCollapsible");
+    var i;
 
-
-<br><br><br><br><br><br><br><br><br>
-
-
-Dinero Acumulado por Cine <br><br>
-<?php for($x=0;$x<count($CinesXMoney['cine']);$x++){ ?>
-Cine: <?php echo $CinesXMoney['cine'][$x]->getName(); ?> <br>
-Acumulado: $ <?php echo $CinesXMoney['value'][$x]; ?> <br>
-<br><br>
-<?php } ?>
-
-<br><br><br><br><br><br>
-
-Dinero Acumulado por Pelicula <br><br>
-<?php $total=0; for($x=0;$x<count($MoviesXMoney['movie']);$x++){ $total+=$MoviesXMoney['value'][$x]; ?>
-Movie: <?php echo $MoviesXMoney['movie'][$x]->getName(); ?> <br>
-Acumulado: $ <?php echo $MoviesXMoney['value'][$x];  ?> <br>
-<br><br>
-<?php } ?>
-<br><br>
-Total Acumulado = <?php echo $total; ?>
-
-
-<form action="<?php echo FRONT_ROOT."Home/ShowPurchasesStats"?>" method="post">
-                                
-<input class="imgButton imgButton-block" type="datetime-local" name="date1" value=""></input>
-<input class="imgButton imgButton-block" type="datetime-local" name="date2" value=""></input>
-    
-<input type=submit class="button button-block" value="Elija Rango de fechas para ver las ganancias">
-</form>
-
-
-
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
+    for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight){
+        content.style.maxHeight = null;
+        } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+        } 
+    });
+    }
+</script>
 
 
 <?php include_once("footer.php") ?>

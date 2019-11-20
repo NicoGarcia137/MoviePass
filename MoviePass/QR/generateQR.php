@@ -11,7 +11,7 @@ $qr->text($idTicket);
 
 // display QR code image
 // save QR code image
-$qr->qrCode(350,__DIR__.'/img/'.$idTicket.'.png');
+$qr->qrCode(250,__DIR__.'/img/'.$idTicket.'.png');
 
 ?>
 

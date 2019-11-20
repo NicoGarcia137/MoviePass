@@ -12,29 +12,64 @@
     </div>
 </div>
 
+<br>
 
-</br></br>
-Filtrar Por Fecha
-<form action="<?php echo FRONT_ROOT."Billboard/GetAllMoviesInshowsByDateTime" ?>" method="post">
+
+<div class="fright" >
+    <form action="<?php echo FRONT_ROOT."Billboard/GetAllMoviesInshowsByDateTime" ?>" method="post">
+        <div class="select">
             <select name="date" required>
-                <?php $date=new DateTime(); for($x=0;$x<7;$x++){ ?> 
-                    <option value="<?php echo $date->format('Y-m-d');?>"><?php echo Translator::Translate($date);  ?></option> 
-              <?php $date->modify('+1 day');   }  ?>   
-            </select>        
+                <?php 
+                $date=new DateTime(); 
+                for($x=0;$x<7;$x++){ ?> 
 
-        <input type=submit class="optButton optButton-block">
-</form>
+                    <option value="<?php echo $date->format('Y-m-d');?>"><?php echo Translator::Translate($date);  ?></option> 
+
+                <?php 
+                $date->modify('+1 day');  
+                }  ?>   
+            </select>        
+        </div>
+        <div class="selectButton">
+            <input type=submit class="optButton optButton-block" value="Filtrar">
+        </div>
+    </form>
+    </div>
+
+
 </br>
 
-Filtrar Por Genero
-<form action="<?php echo FRONT_ROOT."Billboard/GetAllMoviesInshowsByGenre" ?>" method="post">
-<?php   foreach($genres as $genre){ ?>
-            <?php echo $genre->getDescription() ?> <input  type="checkbox" name="genres[]" value="<?php echo $genre->getId() ?>">
- <?php     } ?>
- <input type=submit class="optButton optButton-block">
-</form>
 
+<div class="tableContainer" >
+    <form action="<?php echo FRONT_ROOT."Billboard/GetAllMoviesInshowsByGenre" ?>" method="post">
+        <table>
 
+            <?php $cant = 0;  
+            
+                foreach($genres as $genre){ $cant++;?>
+                    <td>
+                        <label class="containerCheck">
+                        <?php echo $genre->getDescription() ?> <input  type="checkbox" name="genres[]" value="<?php echo $genre->getId() ?>">
+                        <span class="checkmark"></span>
+                        </label>
+                    </td>
+            <?php if($cant == 4){
+                $cant = 0;
+                echo "<tr></tr>";
+            }
+        
+                } ?>
+
+        </table>
+
+        <div class="selectButton">
+                <input type=submit class="optButton optButton-block" value="Filtrar">
+        </div>
+        
+
+    </form>
+</div>
+<br>
 
 <?php 
     foreach($Billboard as $movie)

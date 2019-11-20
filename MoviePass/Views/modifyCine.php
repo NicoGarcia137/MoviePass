@@ -117,6 +117,10 @@ foreach($rooms as $room){
                 <div class="modifyBox" >
 
                     <div class="address">
+                        <div class="fleft" >
+                        <br>
+                        <span>Capacidad: <?php echo $room->getCapacity() ?></span>
+                        </div>
 
                 
                         <!-- <div class="fleft">

@@ -1,6 +1,7 @@
 <?php 
     include_once("header.php");
     include_once("navUser.php");
+    $baseurl="https://image.tmdb.org/t/p/w500";
 
     if(isset($_SESSION['failPurchase'])){
         $show=$_SESSION['failPurchase'][0];
@@ -11,25 +12,51 @@
     }
 ?>
 
-<br>
-        <h3>Antes de loguearse le quedo una compra pendiente para la siguiente funcion: <h3><br>
-        <h3>Pelicula: <?php echo $show->getMovie()->getName(); ?></h3>
-        <h3>Fecha: <?php echo $show->getDateTime()->format('Y-m-d'); ?></h3>
-        <h3>Hora: <?php echo $show->getDateTime()->format('H:i'); ?></h3>
-        <h3>Asientos: <?php foreach($seats as $seat){ echo "/".$seat;} echo "/" ?></h3>
-        <h3>Valor: <?php echo $value*count($seats); ?></h3>
-        <h3>Desea continuarla?  </h3><br>
-        <form action="<?php echo FRONT_ROOT."Purchase/ShowPurchaseView" ?>" method="post">
+<div class="box">
 
-            <input type="hidden" value="<?php echo $show->getId() ?>" name="showId" >
+    <div class="inner">
+
+        <h2>AVISO:</h2>
+        <h3>Previo a su inicio de sesion, usted tenia una compra en curso<h3>
+
+
+        <div class="form" >
+
+            <div class="movieText">
+               
+                <span>Pelicula: </span><?php echo $show->getMovie()->getName(); ?><br>
+                <span>Fecha:</span> <?php echo $show->getDateTime()->format('Y-m-d'); ?><br>
+                <span>Hora:</span> <?php echo $show->getDateTime()->format('H:i'); ?><br>
+                <span>Cantidad de entradas: </span><?php echo count($seats);  ?><br>
+                <span>Butacas:</span> <?php echo implode("-",$seats) ?><br>
+                <span>Valor Final: </span>$<?php echo $value*count($seats);?> <br>
+          
+            </div>
+        </div>
+
+        <h3>Desea continuarla?  </h3>
+        <div class="form">
+            <form  action="<?php echo FRONT_ROOT."Purchase/ShowPurchaseView" ?>" method="post">
+
+                <input type="hidden" value="<?php echo $show->getId() ?>" name="showId" >
             
-            <button class="optButton optButton-block" type="submit"  > Confirmar</button>
-        </form>
+                <button class="optButton optButton-block" type="submit"  > Confirmar</button>
+            </form>
+            <br>
+            <form  action="<?php echo FRONT_ROOT."Purchase/AbortPurchase" ?>">
+                <button class="optButton optButton-block" type="submit"  > Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+</div> 
+
+        
 
     
             
 
-<br>
+
 
 
 
