@@ -21,10 +21,9 @@ include_once("navUser.php");
         <div class="border-left">
             <div class="inner">
 
-<form action="<?php echo FRONT_ROOT."Purchase/CreatePurchase" ?>" method="post">
+<form action="<?php echo FRONT_ROOT."Purchase/ShowConfirmPurchase" ?>" method="post">
 
     <input type="hidden" value="<?php echo $show->getId(); ?>" name="showId" >
-    <input type="hidden" value="<?php echo $cine->getValue(); ?>" name="value">
 
     <div>
         <table class="seatsTable">
