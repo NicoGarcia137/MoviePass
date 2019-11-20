@@ -6,6 +6,8 @@
     use DAO\BillboardDAOPDO as BillboardDAOPDO;
     use DAO\ShowDAOPDO as ShowDAOPDO;
     use DAO\CineDAOPDO as CineDAOPDO;
+    use DAO\PurchaseDAOPDO as PurchaseDAOPDO;
+    use \DateTime as DateTime;
 
     class HomeController
     {
@@ -13,6 +15,7 @@
         private $BillboardDAOPDO;
         private $ShowDAOPDO;
         private $CineDAOPDO;
+        private $PurchaseDAOPDO;
 
         public function __construct()
         {
@@ -20,6 +23,7 @@
             $this->BillboardDAOPDO=new BillboardDAOPDO();
             $this->ShowDAOPDO=new ShowDAOPDO();
             $this->CineDAOPDO=new CineDAOPDO();
+            $this->PurchaseDAOPDO=new PurchaseDAOPDO();
         }
 
         public function Index($message = "")
@@ -29,7 +33,10 @@
         }
 
         public function IndexAdmin(){
-            $this->ShowPurchasesStats();
+            $date1=new DateTime();
+            $date2=new DateTime();
+            $date1->modify('-1 day');
+            $this->ShowPurchasesStats($date1,$date2);
         }
 
         private function GetAllMoviesInshows(){
@@ -93,7 +100,9 @@
          }
 
          
-        public function ShowPurchasesStats(){
+        public function ShowPurchasesStats($date1,$date2){
+            $date1=new DateTime($date1);
+            $date2=new DateTime($date2);
             $cines= $this->CineDAOPDO->getAll();
 
             $result=$this->StatsShows($cines);
@@ -105,9 +114,35 @@
             $moviesStatsHistory=$resultHistory[0];
             $cinesStatsHistory=$resultHistory[1];
 
-
+            $CinesXMoney=$this->getAllPurchasesForCine($date1,$date2);
+            $MoviesXMoney=$this->getAllPurchasesForMovie($date1,$date2);
             
             require_once(VIEWS_PATH."indexAdmin.php");
+        }
+
+        private function getAllPurchasesForCine($date1,$date2){
+            $ResultCine=$this->PurchaseDAOPDO->getAllPurchasesForCine($date1,$date2);
+            $CinesXMoney=array();
+            $CinesXMoney['cine']=array();
+            $CinesXMoney['value']=array();
+            
+            foreach($ResultCine as $CineXMoney){
+                array_push($CinesXMoney['cine'],$this->CineDAOPDO->GetById($CineXMoney['Cine']));
+                array_push($CinesXMoney['value'],$CineXMoney['Value']);
+            }
+            return $CinesXMoney;
+        }
+
+        private function getAllPurchasesForMovie($date1,$date2){
+            $ResultMovie=$this->PurchaseDAOPDO->getAllPurchasesForMovie($date1,$date2);
+            $MoviesXMoney=array();
+            $MoviesXMoney['movie']=array();
+            $MoviesXMoney['value']=array();
+            foreach($ResultMovie as $MovieXMoney){
+                array_push($MoviesXMoney['movie'],$this->BillboardDAOPDO->GetMovieById($MovieXMoney['Movie']));
+                array_push($MoviesXMoney['value'],$MovieXMoney['Value']);
+            }
+            return $MoviesXMoney;
         }
     }
 ?>
