@@ -26,12 +26,19 @@
             $this->PurchaseDAOPDO=new PurchaseDAOPDO();
         }
 
+        /** Obtiene todas las peliculas que tinen show asignados para mostrar el carousel
+         * de cartelera y llama al index View
+         */
         public function Index($message = "")
         {
             $carousel=$this->GetAllMoviesInshows();
             require_once(VIEWS_PATH."index.php");
         }
 
+        /** Crea dos date time y al primero se le resta un dia para poder mostrar los stats 
+         * desde el dia de ayer por default y llama al metodo ShowPurchasesStats enviando 
+         * dichas fechas por parametro
+         */
         public function IndexAdmin(){
             $date1=new DateTime();
             $date2=new DateTime();
@@ -39,6 +46,7 @@
             $this->ShowPurchasesStats($date1->format('Y-m-d H:m:s'),$date2->format('Y-m-d H:m:s'));
         }
 
+        /**Obtiene todas las movies que tienen shows asignados y los retorna */
         private function GetAllMoviesInshows(){
             $movies=[];
             $movieIds= $this->BillboardDAOPDO->GetAllMoviesInshows();
@@ -49,6 +57,10 @@
             return $movies;
          }
 
+         /**Recibe una lista de cines y crea una matriz en la cual introducir todas las movies
+          * con sus respectivos Stats, (entradas vendidas y no vendidas de cada movie)
+          * y tambien obtiene todos los cines con sus stats(entradas vendidas y no vendidas de cada cine)
+          */
          public function StatsShows($cines){
 
             $moviesStats=array();
@@ -99,7 +111,9 @@
             return $result;
          }
 
-         
+         /** Obtiene todas las peliculas con sus ganancias filtrado por las fechas que llegan por parametro
+          * y lo mismo con las movies, Tambien obtiene dichos datos pero historicos, sin filtro de fecha
+          */
         public function ShowPurchasesStats($date1,$date2){
             $date1=new DateTime($date1);
             $date2=new DateTime($date2);
@@ -120,6 +134,9 @@
             require_once(VIEWS_PATH."indexAdmin.php");
         }
 
+        /** Obtiene todos los cines con sus ganancias filtrado por las fechas que 
+         * llegan por parametro y los retorna
+         */
         private function getAllPurchasesForCine($date1,$date2){
             $ResultCine=$this->PurchaseDAOPDO->getAllPurchasesForCine($date1,$date2);
             $CinesXMoney=array();
@@ -133,6 +150,9 @@
             return $CinesXMoney;
         }
 
+        /** Obtiene todos las movies con sus ganancias filtrado por las fechas que 
+         * llegan por parametro y los retorna
+         */
         private function getAllPurchasesForMovie($date1,$date2){
             $ResultMovie=$this->PurchaseDAOPDO->getAllPurchasesForMovie($date1,$date2);
             $MoviesXMoney=array();
