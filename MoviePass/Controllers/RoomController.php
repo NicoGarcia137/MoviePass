@@ -26,18 +26,19 @@
             $this->ShowDAOPDO=new ShowDAOPDO();
             $this->CineDAOPDO=new CineDAOPDO();
             $this->ShowTimeDAOPDO=new ShowTimeDAOPDO();
+            
             $this->ShowController=new ShowController();
         }
 
-        /**Obtiene Una sala dependiendo del id que recibe por parametro */
+        public function GetAllRooms(){
+           $rooms= $this->RoomDAOPDO->GetAll();
+        }
+
         public function GetRoom($id){
             $Room = $this->RoomDAOPDO->GetById($id);
             return $Room;
          }
 
-         /**Recibe por parametro la capacidad, el nombre y el cine id para crear una nueva sala
-          * con esos datos y genera los shows correspondientes.
-          */
          public function AddRoom($Capacity,$Name,$cineId)
             {
                try{
@@ -63,8 +64,6 @@
                }
             }
 
-        /** Recibe por parametro una sala para obtener todos showTimes segun el cine
-         * al que pertenece esa sala, luego crea los 7 shows de las semana por cada showTime*/
         private function AddShows($room){
             $date=new DateTime();
             $ShowTimes=$this->ShowTimeDAOPDO->GetAllByCine($room->getCine()->getId());
@@ -83,9 +82,6 @@
             }
         }
 
-        /** Actualiza los shows, hace un borrado logico de los shows que ya pasaron
-         * y crea otro en la misma hora, mismo dia y con la misma movie la semana que viene
-         */
         private function UpdateShows(){
            
             $OldestShowTime=$this->ShowDAOPDO->GetOldestShowTime();
@@ -115,17 +111,18 @@
                 }
             }
         }
-            /** Hace un borrado logica de una sala segun el Id, 
-             * recibe por parametro el cineId(para tener los datos correspondiende 
-             * del cineViewRefresh) y el RoomId 
-             */
+
+
+
+
+
             public function RemoveRoom($cineId,$id){
                 try{
                     $Room=$this->RoomDAOPDO->GetById($id);
                     $cine = $this->CineDAOPDO->GetById($cineId);
                     if($Room != null){
                         
-                        var_dump($this->CheckShowsByRoom($Room));
+                        
                         if($this->CheckShowsByRoom($Room)){
                             $this->RoomDAOPDO->RemoveRoom($Room);
                             foreach($Room->getShows() as $show){
@@ -147,9 +144,6 @@
                 }
             }
 
-            /**Recibe una sala por parametro, y chequea que no haya tickets vendidos
-             * de ninguno de sus shows
-            */
             public function CheckShowsByRoom(Room $room){
                 $result=true;
                 foreach($room->getShows() as $show){
@@ -160,7 +154,6 @@
                 return $result;
             }
 
-         /** Recibe por parametro el Room Id , su nombre y capacidad para modificar la sala*/
         public function ModifyRoom($id,$name, $capacity){
             try{
                 if($this->RoomDAOPDO->NameCheck($name,$id)){
@@ -182,7 +175,10 @@
             }
         }
 
-        /** Muestra la vista de modifyCine */
+     
+
+
+
         public function ShowModifyCineView(){
             if(isset($_SESSION['cineId'])){
                 $cine=$this->CineDAOPDO->GetById($_SESSION['cineId']);
@@ -194,22 +190,17 @@
             }
         }
 
-        /**Actualiza la vista llamando al metodo showModifyCineView y guardando el CineId en session */
         private function CineViewRefresh($cineId){
             $_SESSION['cineId']=$cineId;
             header("location: ".FRONT_ROOT."Room/ShowModifyCineView");
         }
         
-        /**Muestra la vista de modifyRoom segun el id de la sala que recibe por parametro.
-         * Actualiza los shows cada vez que se muestra esta vista.
-         */
         public function ShowModifyRoomView($id){
             $this->UpdateShows();
             $room=$this->GetRoom($id);
             require_once(VIEWS_PATH."ModifyRoom.php");
         }
 
-        /**Muestra el Index View */
         public function RoomIndexView(){
             header("location: ".FRONT_ROOT."Home/indexAdmin");
         }

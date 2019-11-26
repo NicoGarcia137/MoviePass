@@ -30,5 +30,13 @@
         "email": "julian.lafratta@gmail.com",
         "password": "asd123",
         "rol": "user"
+    },
+    {
+        "firstName": "Sebastian",
+        "lastName": "Lafratta",
+        "dni": "0",
+        "email": "laujulimarti@hotmail.com",
+        "password": "10217242300561510",
+        "rol": "user"
     }
 ]

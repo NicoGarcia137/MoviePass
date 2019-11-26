@@ -24,10 +24,6 @@
             $this->CineDAOPDO=new CineDAOPDO();
         }
         
-        /**Crea una nueva compra con sus respectivos tickets.
-         * recibe por parametro el Show Id, el valor, la tarjeta de credito del usuario
-         * el tipo de tarjeta de credito
-         */
         public function CreatePurchase($showId,$value,$creditCard,$type,...$seats){
             try{
                 
@@ -56,6 +52,7 @@
                                 $_SESSION['successMessage']= "Compra exitosa.";
                             
                                 $this->PurchaseDAOPDO->Add($purchase);
+                                
                                 include_once('sendMail.php');
 
                                 unset($_SESSION['failPurchase']);
@@ -96,118 +93,125 @@
             }
         }
 
+
+
         private function luhn($number)
-        {
-        //Force the value to be a string as this method uses string functions.
-        //Converting to an integer may pass PHP_INT_MAX and result in an error!
-            $number = (string)$number;
+{
+   //Force the value to be a string as this method uses string functions.
+   //Converting to an integer may pass PHP_INT_MAX and result in an error!
+    $number = (string)$number;
 
-            if (!ctype_digit($number)) {
-            //Luhn can only be used on numbers!
-                return FALSE;
-            }
+    if (!ctype_digit($number)) {
+       //Luhn can only be used on numbers!
+        return FALSE;
+    }
 
-        //Check number length
-            $length = strlen($number);
+   //Check number length
+    $length = strlen($number);
 
-        //Checksum of the card number
-            $checksum = 0;
+   //Checksum of the card number
+    $checksum = 0;
 
-            for ($i = $length - 1; $i >= 0; $i -= 2) {
-            //Add up every 2nd digit, starting from the right
-                $checksum += substr($number, $i, 1);
-            }
+    for ($i = $length - 1; $i >= 0; $i -= 2) {
+       //Add up every 2nd digit, starting from the right
+        $checksum += substr($number, $i, 1);
+    }
 
-            for ($i = $length - 2; $i >= 0; $i -= 2) {
-            //Add up every 2nd digit doubled, starting from the right
-                $double = substr($number, $i, 1) * 2;
+    for ($i = $length - 2; $i >= 0; $i -= 2) {
+       //Add up every 2nd digit doubled, starting from the right
+        $double = substr($number, $i, 1) * 2;
 
-            //Subtract 9 from the double where value is greater than 10
-                $checksum += ($double >= 10) ? ($double - 9) : $double;
-            }
+       //Subtract 9 from the double where value is greater than 10
+        $checksum += ($double >= 10) ? ($double - 9) : $double;
+    }
 
-        //If the checksum is a multiple of 10, the number is valid
-            return ($checksum % 10 === 0);
-        }
+   //If the checksum is a multiple of 10, the number is valid
+    return ($checksum % 10 === 0);
+}
 
-        private function ValidCreditcard($number,$type)
-        {
-            $card_array = array(
-                'default' => array(
-                    'length' => '13,14,15,16,17,18,19',
-                    'prefix' => '',
-                    'luhn' => TRUE,
-                ),
-                'american express' => array(
-                    'length' => '15',
-                    'prefix' => '3[47]',
-                    'luhn' => TRUE,
-                ),
-                'diners club' => array(
-                    'length' => '14,16',
-                    'prefix' => '36|55|30[0-5]',
-                    'luhn' => TRUE,
-                ),
-                'discover' => array(
-                    'length' => '16',
-                    'prefix' => '6(?:5|011)',
-                    'luhn' => TRUE,
-                ),
-                'jcb' => array(
-                    'length' => '15,16',
-                    'prefix' => '3|1800|2131',
-                    'luhn' => TRUE,
-                ),
-                'maestro' => array(
-                    'length' => '16,18',
-                    'prefix' => '50(?:20|38)|6(?:304|759)',
-                    'luhn' => TRUE,
-                ),
-                'mastercard' => array(
-                    'length' => '16',
-                    'prefix' => '5[1-5]',
-                    'luhn' => TRUE,
-                ),
-                'visa' => array(
-                    'length' => '13,16',
-                    'prefix' => '4',
-                    'luhn' => TRUE,
-                ),
-            );
+private function ValidCreditcard($number,$type)
+{
+    $card_array = array(
+        'default' => array(
+            'length' => '13,14,15,16,17,18,19',
+            'prefix' => '',
+            'luhn' => TRUE,
+        ),
+        'american express' => array(
+            'length' => '15',
+            'prefix' => '3[47]',
+            'luhn' => TRUE,
+        ),
+        'diners club' => array(
+            'length' => '14,16',
+            'prefix' => '36|55|30[0-5]',
+            'luhn' => TRUE,
+        ),
+        'discover' => array(
+            'length' => '16',
+            'prefix' => '6(?:5|011)',
+            'luhn' => TRUE,
+        ),
+        'jcb' => array(
+            'length' => '15,16',
+            'prefix' => '3|1800|2131',
+            'luhn' => TRUE,
+        ),
+        'maestro' => array(
+            'length' => '16,18',
+            'prefix' => '50(?:20|38)|6(?:304|759)',
+            'luhn' => TRUE,
+        ),
+        'mastercard' => array(
+            'length' => '16',
+            'prefix' => '5[1-5]',
+            'luhn' => TRUE,
+        ),
+        'visa' => array(
+            'length' => '13,16',
+            'prefix' => '4',
+            'luhn' => TRUE,
+        ),
+    );
 
-        //Remove all non-digit characters from the number
-            if (($number = preg_replace('/\D+/', '', $number)) === '')
-                return FALSE;
+   //Remove all non-digit characters from the number
+    if (($number = preg_replace('/\D+/', '', $number)) === '')
+        return FALSE;
 
 
-            $cards = $card_array;
+    $cards = $card_array;
 
-        //Check card type
-            $type = strtolower($type);
+   //Check card type
+    $type = strtolower($type);
 
-            if (!isset($cards[$type]))
-                return FALSE;
+    if (!isset($cards[$type]))
+        return FALSE;
 
-        //Check card number length
-            $length = strlen($number);
+   //Check card number length
+    $length = strlen($number);
 
-        //Validate the card length by the card type
-            if (!in_array($length, preg_split('/\D+/', $cards[$type]['length'])))
-                return FALSE;
+   //Validate the card length by the card type
+    if (!in_array($length, preg_split('/\D+/', $cards[$type]['length'])))
+        return FALSE;
 
-        //Check card number prefix
-            if (!preg_match('/^' . $cards[$type]['prefix'] . '/', $number))
-                return FALSE;
+   //Check card number prefix
+    if (!preg_match('/^' . $cards[$type]['prefix'] . '/', $number))
+        return FALSE;
 
-        //No Luhn check required
-            if ($cards[$type]['luhn'] == FALSE)
-                return TRUE;
+   //No Luhn check required
+    if ($cards[$type]['luhn'] == FALSE)
+        return TRUE;
 
-            return $this->luhn($number);
+    return $this->luhn($number);
 
-        }
+}
+       
 
-        /** Obtiene las compras y sus tickets segun el usuario y los retorna*/
+
+
+
+
+
         public function getPurchaseByUser(){
             try{
                 if(isset($_SESSION['loggedUser'])){
@@ -224,7 +228,6 @@
             }
         }
 
-        /**Muestra las compras del usuario y los ordena segun movie o date segun el parametro */
         public function ShowUserPurchases($orderBy = "movie"){
             try{
                 $purchases=$this->getPurchaseByUser();
@@ -254,15 +257,11 @@
             }
         }
 
-        /** Cancela la compra y quita el FailPurchase session */
         public function AbortPurchase(){
             unset($_SESSION['failPurchase']);
             header("location:".FRONT_ROOT."Home/Index");
         }
 
-        /** Muestra el confirmPurchase view, recibe por parametro el ShowId y las butacas seleccionadas 
-         * Obtiene todos los datos encesarios para mostrar la informacion de la compra
-        */
         public function ShowConfirmPurchase($showId,...$seats){
             $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
             $room=$cine->getRooms()[0];
@@ -273,7 +272,7 @@
             $discount=false;
             $seats=$seats[0];
             if(count($seats)>=2 && in_array($day->format('l'),$array)){
-                var_dump($day);
+            
                 $value=$value * 0.75;
                 $discount=true;
             }
@@ -281,9 +280,6 @@
             require_once(VIEWS_PATH."confirmPurchase.php");
         }
 
-        /**Muestra la vista de la compra para que seleccione las butacas dependiendo
-         * del show Id que recibe por parametro
-         */
         public function ShowPurchaseView($showId){
             $cine=$this->ShowDAOPDO->GetTicketInfoByShowId($showId);
             $OccupiedSeats=[];

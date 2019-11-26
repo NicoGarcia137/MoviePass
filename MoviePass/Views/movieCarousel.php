@@ -54,7 +54,7 @@
     spaceBetween: 16,
     slidesPerGroup: 4,
     loop: true,
-    loopFillGroupWithBlank: true,
+    loopFillGroupWithBlank: false,
     pagination: {
         el: '.swiper-pagination',
         clickable: true,

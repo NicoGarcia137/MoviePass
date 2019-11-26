@@ -19,6 +19,8 @@ $dates=[];
         <div class="border-left">
             <div class="inner">
 
+        
+
                 <button type="button" class="modifyCollapsible" > <span>Sala info</span> </button>
 
                 <div class="modifyBox" >

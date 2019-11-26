@@ -13,7 +13,6 @@ class LoginController
             $this->UserDAO = new UserDAO();
         }
 
-    /** Login con facebook */
     public function FacebookLogin()
     {
         include_once("fb-Login.php");
@@ -23,7 +22,6 @@ class LoginController
         }
     }
 
-    /** Login con la base de datos */
     public function Login($email, $password)
     {
         $user = $this->UserDAO->GetByEmail($email);
@@ -49,7 +47,6 @@ class LoginController
       
     }
 
-    /**Desloguea el Usuario haciendo un SessionDestroy */
     public function Logout()
     {
         session_destroy();
@@ -58,22 +55,23 @@ class LoginController
         header("location: ".FRONT_ROOT."Home/index");
     }
 
-    /**Muestra la vista del login */
     public function ShowLoginView(){
         require_once(VIEWS_PATH."login.php");
     }
 
-    /** Muestra la vista de Index User */
     private function ShowUserView(){
         $_SESSION['successMessage']="Usuario logueado con exito";
         header("location: ".FRONT_ROOT."Home/index");
     }
 
-    /**Muestra la vista del index Admin */
     private function ShowAdminView(){
         $_SESSION['successMessage']="Usuario Admin logueado con exito";
         header("location: ".FRONT_ROOT."Home/indexAdmin");
     }
+
+
+    
+
 }
 
 ?>

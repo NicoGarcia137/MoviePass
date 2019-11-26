@@ -12,9 +12,10 @@ if(isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]->getRol()->getDescr
           <ul>
             <li><a href="<?php echo FRONT_ROOT."Home/indexAdmin" ?>">Home</a></li>
             <li><a href="<?php echo FRONT_ROOT."Cine/ShowAddView" ?>">Añadir cine</a></li>
-            <li><a href="<?php echo FRONT_ROOT."Cine/ShowRemoveView" ?>">Eliminar cine</a></li>
+            <!-- <li><a href="<?php echo FRONT_ROOT."Cine/ShowRemoveView" ?>">Eliminar cine</a></li> -->
             <li><a href="<?php echo FRONT_ROOT."Billboard/ShowBillboard" ?>">Cartelera Api</a></li>
-            <li class="last"><a href="<?php echo FRONT_ROOT."Cine/ShowListCinesAdminView" ?>">Cines</a></li>
+            <li ><a href="<?php echo FRONT_ROOT."Cine/ShowListCinesAdminView" ?>">Cines</a></li>
+            <li class="last"><a href="#"></a></li>
           </ul>
         </div>
       </div>
