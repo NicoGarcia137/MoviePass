@@ -2,6 +2,8 @@
 
 use Models\MovieXGenre as MovieXGenre;
 use DAO\Connection as Connection;
+use \Exception as Exception;
+
 class MovieXGenreDAOPDO {
 
   

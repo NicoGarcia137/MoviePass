@@ -60,16 +60,24 @@
             public function Add($name, $address,$value)
             {
                try{
+
                    if($this->CineDAOPDO->NameCheck($name)){
-                    $Cine = new Cine();
-                    $Cine->setName($name);
-                    $Cine->setAddress($address);
-                    $Cine->setValue($value);
-        
-                    $this->CineDAO->Add($Cine);
-                    $_SESSION['successMessage']="Exito al crear el cine";
-        
-                    $this->ShowAddView();
+                       
+                        if($value < 0){
+
+                            $Cine = new Cine();
+                            $Cine->setName($name);
+                            $Cine->setAddress($address);
+                            $Cine->setValue($value);
+                
+                            $this->CineDAO->Add($Cine);
+                            $_SESSION['successMessage']="Exito al crear el cine";
+                
+                            $this->ShowAddView();
+                        }
+                        else {
+                            throw new Exception("Error, El valor de la tarifa no puede ser negativo");
+                        }
                    }else{
                     throw new Exception("Error, Ya se encuentra un cine con ese nombre");
                    }

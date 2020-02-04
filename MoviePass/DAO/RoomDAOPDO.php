@@ -3,6 +3,8 @@
 use Models\Room as Room;
 use DAO\Connection as Connection;
 use DAO\Helper as Helper;
+use \Exception as Exception;
+
 class RoomDAOPDO extends Helper{
 
   

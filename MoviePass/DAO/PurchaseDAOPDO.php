@@ -4,6 +4,8 @@ use Models\Purchase as Purchase;
 use DAO\Connection as Connection;
 use DAO\Helper as Helper;
 use Models\Cine as Cine;
+use \Exception as Exception;
+
 class PurchaseDAOPDO extends Helper{
 
   

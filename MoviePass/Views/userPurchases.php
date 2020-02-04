@@ -76,6 +76,11 @@ foreach($purchases as $purchase){
 }
 ?>
 
+<?php 
+include_once("footer.php");
+?>
+
+
 <script>
     var coll = document.getElementsByClassName("ticketCollapsible");
     var i;
@@ -93,7 +98,4 @@ foreach($purchases as $purchase){
     }
 </script>
 
-<?php 
-include_once("footer.php");
-?>
 

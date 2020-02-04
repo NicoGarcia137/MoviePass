@@ -219,7 +219,7 @@ private function ValidCreditcard($number,$type)
                     $purchase= $this->PurchaseDAOPDO->getPurchaseByUser($user);
                     return $purchase;
                 }else{
-                    throw new Exception("usuario invalido, necesitas estar logueado");
+                    throw new Exception("Necesitas estar logueado para acceder a esta sección.");
                 }
             }catch(Exception $ex){
                 $message=$ex->getMessage();

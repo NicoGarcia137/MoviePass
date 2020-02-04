@@ -30,9 +30,9 @@
             $this->ShowController=new ShowController();
         }
 
-        public function GetAllRooms(){
-           $rooms= $this->RoomDAOPDO->GetAll();
-        }
+        // public function GetAllRooms(){
+        //    $rooms= $this->RoomDAOPDO->GetAll();
+        // }
 
         public function GetRoom($id){
             $Room = $this->RoomDAOPDO->GetById($id);
@@ -44,6 +44,8 @@
                try{
                 $cine = $this->CineDAOPDO->GetById($cineId);
                 if($this->RoomDAOPDO->NameCheck($Name)){
+                    if($Capacity < 0 ){
+
                     $Room = new Room();
                     $Room->setCapacity($Capacity);
                     $Room->setCine($cine);
@@ -53,6 +55,11 @@
                     $this->AddShows($Room);
                     $_SESSION['successMessage']="Exito al crear la sala";
                     $this->CineViewRefresh($cineId);
+                    }
+                    else{
+                        $_SESSION['errorMessage']="Error, No puede ingresarse una capacidad negativa";
+                        $this->CineViewRefresh($cineId);
+                    }
                 }else{
                     $_SESSION['errorMessage']="Error, Ya se encuentra una sala con ese nombre";
                     $this->CineViewRefresh($cineId);

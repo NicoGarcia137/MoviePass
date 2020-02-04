@@ -37,9 +37,9 @@
             $this->CineDAOPDO=new CineDAOPDO();
         }
 
-        public function GetAllByRoom($RoomId){
-           return $this->ShowDAOPDO->GetAllByRoom($RoomId);
-        }
+        // public function GetAllByRoom($RoomId){
+        //    return $this->ShowDAOPDO->GetAllByRoom($RoomId);
+        // }
 
         public function GetShow($Id){
             return $this->ShowDAOPDO->GetById($Id);

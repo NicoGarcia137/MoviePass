@@ -2,6 +2,8 @@
 
 use Models\Genre as Genre;
 use DAO\Connection as Connection;
+use \Exception as Exception;
+
 class GenreDAOPDO {
 
   

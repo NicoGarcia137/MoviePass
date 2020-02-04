@@ -43,7 +43,7 @@ include_once("navAdmin.php");
 
                                 <div class="field-wrap">
                                     <label class="log-label" for="name">Tarifa</label>
-                                    <input class="log-input" type="number" name="value" value="<?php echo $cine->getValue(); ?>"required>
+                                    <input class="log-input" type="number" name="value" min="0" value="<?php echo $cine->getValue(); ?>"required>
                                 </div>
                                 <br>
                                 <input type=submit class="button button-block" value="Modificar">
@@ -76,7 +76,7 @@ include_once("navAdmin.php");
                             <form action="<?php echo FRONT_ROOT."Room/AddRoom" ?>" method="post">
                                 <div class="field-wrap">
                                     <label class="log-label" for="name">Capacidad</label>
-                                    <input class="log-input" type="number" name="Capacity" value=""required>    
+                                    <input class="log-input" type="number" name="Capacity" min="0" value=""required>    
                                 </div>
                                 
                                 <div class="field-wrap">

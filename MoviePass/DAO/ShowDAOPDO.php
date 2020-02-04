@@ -3,6 +3,8 @@
 use Models\Show as Show;
 use DAO\Connection as Connection;
 use DAO\Helper as Helper;
+use \Exception as Exception;
+
 class ShowDAOPDO extends Helper{
 
   
