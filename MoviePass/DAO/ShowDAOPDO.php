@@ -3,6 +3,8 @@
 use Models\Show as Show;
 use DAO\Connection as Connection;
 use DAO\Helper as Helper;
+use \Exception as Exception;
+
 class ShowDAOPDO extends Helper{
 
   
@@ -13,12 +15,9 @@ class ShowDAOPDO extends Helper{
     {
         try
         {
-           
-
             $query = "select
             s.Id as ShowId,
             s.DateTime,
-            s.Tickets,
             s.RoomId as RoomIdShow,
             m.Id as MovieId,
             m.Name as MovieName,
@@ -28,28 +27,67 @@ class ShowDAOPDO extends Helper{
             g.Description as Genre,
             g.Id as GenreId
             from Shows as s
-            left join Movies as m
-            on s.MovieId=m.Id
-            left join MovieXGenres as mg
+             left join Movies as m
+            on s.MovieId=m.Id AND m.Active=1 
+             left join MovieXGenres as mg
             on mg.MovieId=m.Id
-            left join Genres as g
+             left join Genres as g
             on mg.GenreId = g.Id
-            where s.Id =".$Id."
+            where s.Id =".$Id."  
             order by s.Id,m.Id,g.Id;";
 
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
             $show=$this->GenerateClass($resultSet);
-        
+            
+            if(!empty($show)){
+                $tickets=$this->GetTicketsbyShow($show[0]->getId());
+                foreach($tickets as $ticket){
+                    
+                    $show[0]->addTickets($ticket);
+                }
+            }
   
-            return $show[0];
+            return array_shift($show);
         }
         catch(Exception $ex)
         {
             throw $ex;
         }
     }
+
+    public function GetTicketsbyShow($showId){
+        try
+        {
+            $tickets=[];
+
+            $query ="select
+            t.Id as TicketId,
+            t.ShowId as ShowIdTicket,
+            t.Value,
+            t.Seat
+            from tickets as t
+            where t.ShowId= ".$showId.";";
+
+            $this->connection = Connection::GetInstance();
+            $resultSet = $this->connection->Execute($query);
+            
+            foreach($resultSet as $row){
+                $ticket= $this->CreateTicket($row);
+                array_push($tickets,$ticket);
+            }
+            
+  
+            return $tickets;
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
+
+
 
     public function GetTicketInfoByShowId($id){
        
@@ -66,7 +104,6 @@ class ShowDAOPDO extends Helper{
             r.Name as RoomName,
             s.Id as ShowId,
             s.DateTime,
-            s.Tickets,
             m.Id as MovieId,
             m.Name as MovieName,
             m.Duration,
@@ -75,17 +112,17 @@ class ShowDAOPDO extends Helper{
             g.Description as Genre,
             g.Id as GenreId
             from Cines as c
-            left join Rooms as r
+             left join Rooms as r
             on r.CineId=c.Id
-            left join Shows as s
-            on s.RoomId=r.Id
-            left join Movies as m
-            on s.MovieId=m.Id
-            left join MovieXGenres as mg
+             left join Shows as s
+            on s.RoomId=r.Id AND s.Active=1
+             left join Movies as m
+            on s.MovieId=m.Id AND m.Active=1 
+             left join MovieXGenres as mg
             on mg.MovieId=m.Id
-            left join Genres as g
+             left join Genres as g
             on mg.GenreId = g.Id
-            where s.Id = ".$id."
+            where s.Id = ".$id."  
             order by c.Id ,r.Id,s.Id,m.Id,g.Id;";
 
             $this->connection = Connection::GetInstance();
@@ -94,7 +131,7 @@ class ShowDAOPDO extends Helper{
             $cine=$this->GenerateClass($resultSet);
             
   
-            return $cine[0];
+            return array_shift($cine);
         }
         catch(Exception $ex)
         {
@@ -102,12 +139,59 @@ class ShowDAOPDO extends Helper{
         }
     }
     
+
+    public function GetAllActiveShows(){
+        try
+        {
+            $query = "select
+            s.Id as ShowId,
+            s.DateTime,
+            s.RoomId as RoomIdShow,
+            m.Id as MovieId,
+            m.Name as MovieName,
+            m.Duration,
+            m.Language,
+            m.Image,
+            g.Description as Genre,
+            g.Id as GenreId
+            from Shows as s
+             left join Movies as m
+            on s.MovieId=m.Id AND m.Active=1 
+             left join MovieXGenres as mg
+            on mg.MovieId=m.Id
+             left join Genres as g
+            on mg.GenreId = g.Id
+            where s.Active=1 
+            order by s.Id,m.Id,g.Id;";
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query);
+            $shows=$this->GenerateClass($resultSet);
+            return $shows;
+        }catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
+
+    public function GetOldestShowTime(){
+        $query = "select
+            MIN(s.DateTime)
+            from Shows as s
+            where s.Active =1 ;";
+
+            $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+                $result=$resultSet[0];
+                return $result;
+    }
+    
+
     public function ModifyShow($Show)
         {
             try
             {
-                //$query = "UPDATE Shows SET DateTime= "."'".$Show->getDateTime()."'"." ,MovieId= "."'".$Show->getMovie()."'"." ,Tickets= ".$Show->getTickets()." WHERE Id= ".$Show->getId().";";
-                
                 if($Show->GetMovie()==null){
                     $query = "UPDATE Shows SET MovieId= null WHERE Shows.Id =".$Show->getId().";";
                 }else{
@@ -122,34 +206,54 @@ class ShowDAOPDO extends Helper{
                 throw $ex;
             }
         }
-    public function RemoveShow($Show)
-    {
-        try
-        { //FIJARSE EL NOMBRE DE LA TABLA POR TABLENAME
-            
-            $query = "DELETE FROM Shows WHERE Id="."'".$Show->getId()."'".";";
 
-            $this->connection = Connection::GetInstance();
 
-            $this->connection->ExecuteNonQuery($query);
+        public function SoftDeleteShow($show){
+            try
+            { 
+                $query = "UPDATE Shows SET Active=0 WHERE Id= ".$show->getId().";";
+
+                $this->connection = Connection::GetInstance();
+
+                $this->connection->ExecuteNonQuery($query);
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
         }
-        catch(Exception $ex)
-        {
-            throw $ex;
+
+        public function RemoveShow($show){
+            try
+            { 
+                $query = "Delete from Shows WHERE Id= ".$show->getId().";";
+
+                $this->connection = Connection::GetInstance();
+
+                $this->connection->ExecuteNonQuery($query);
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
         }
-    }
+
   
     public function Add($Show)
     {
         try
         {
-            $query = "INSERT INTO Shows (DateTime, MovieId, Tickets,RoomId) VALUES (:DateTime, :MovieId, :Tickets, :RoomId);";
-            
+            $query = "INSERT INTO Shows (DateTime, MovieId,RoomId) VALUES (:DateTime, :MovieId, :RoomId);";
+
             $date=$Show->getDateTime();
             $parameters["DateTime"] =$date->format('Y-m-d H:i:s');
-            $parameters["MovieId"] = $Show->getMovie();
-            $parameters["Tickets"] = $Show->getTickets();
-            $parameters["RoomId"] = $Show->getRoom();
+            if($Show->getMovie()!=null){
+                $parameters["MovieId"] = $Show->getMovie()->getId();
+            }else{
+                $parameters["MovieId"] = null;
+            }
+
+            $parameters["RoomId"] = $Show->getRoom()->getId();
             
             $this->connection = Connection::GetInstance();                
             $this->connection->ExecuteNonQuery($query, $parameters);
@@ -157,7 +261,7 @@ class ShowDAOPDO extends Helper{
         }
         catch(Exception $ex)
         {
-            var_dump($ex);
+            throw $ex;
         }
     }
 

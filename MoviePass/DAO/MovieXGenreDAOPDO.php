@@ -2,6 +2,8 @@
 
 use Models\MovieXGenre as MovieXGenre;
 use DAO\Connection as Connection;
+use \Exception as Exception;
+
 class MovieXGenreDAOPDO {
 
   
@@ -116,7 +118,7 @@ class MovieXGenreDAOPDO {
             }
             catch(Exception $ex)
             {
-                var_dump($ex);
+                throw $ex;
             }
         }
  } 

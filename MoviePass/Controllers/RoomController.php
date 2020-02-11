@@ -30,9 +30,9 @@
             $this->ShowController=new ShowController();
         }
 
-        public function GetAllRooms(){
-           $rooms= $this->RoomDAOPDO->GetAll();
-        }
+        // public function GetAllRooms(){
+        //    $rooms= $this->RoomDAOPDO->GetAll();
+        // }
 
         public function GetRoom($id){
             $Room = $this->RoomDAOPDO->GetById($id);
@@ -44,13 +44,22 @@
                try{
                 $cine = $this->CineDAOPDO->GetById($cineId);
                 if($this->RoomDAOPDO->NameCheck($Name)){
+                    if($Capacity < 0 ){
+
                     $Room = new Room();
                     $Room->setCapacity($Capacity);
                     $Room->setCine($cine);
                     $Room->setName($Name);
                     $this->RoomDAOPDO->Add($Room);
+                    $Room->setId($this->RoomDAOPDO->GetLastId()-1);
+                    $this->AddShows($Room);
                     $_SESSION['successMessage']="Exito al crear la sala";
                     $this->CineViewRefresh($cineId);
+                    }
+                    else{
+                        $_SESSION['errorMessage']="Error, No puede ingresarse una capacidad negativa";
+                        $this->CineViewRefresh($cineId);
+                    }
                 }else{
                     $_SESSION['errorMessage']="Error, Ya se encuentra una sala con ese nombre";
                     $this->CineViewRefresh($cineId);
@@ -62,17 +71,74 @@
                }
             }
 
+        private function AddShows($room){
+            $date=new DateTime();
+            $ShowTimes=$this->ShowTimeDAOPDO->GetAllByCine($room->getCine()->getId());
+            foreach($ShowTimes as $ShowTime){
+                $time=explode(":",$ShowTime[0]);
+                date_time_set($date,$time[0],$time[1]);
+                for($x=0;$x<7;$x++){
+                $show=new Show();
+                $show->setRoom($room);
+                $show->setMovie(null);
+                $show->setDateTime($date);
+                $this->ShowDAOPDO->Add($show);
+                $date->modify('+1 day');
+            }
+                $date->modify('-7 day');
+            }
+        }
+
+        private function UpdateShows(){
+           
+            $OldestShowTime=$this->ShowDAOPDO->GetOldestShowTime();
+            if(!empty($OldestShowTime)){
+
+                $OldestShowTime=new DateTime($OldestShowTime[0]);
+                $now=new DateTime();
+                $days=date_diff($OldestShowTime, $now);
+
+                if($days->format('%a')>0){
+                    $shows=$this->ShowDAOPDO->GetAllActiveShows();
+                    foreach($shows as $show){
+                        $dateTime=$show->getDateTime();
+                        if($dateTime->format('Y-m-d')<$now->format('Y-m-d')){
+                            $this->ShowDAOPDO->SoftDeleteShow($show);
+                            $dateTime->modify('+7 day');
+                            $newShow=new Show();
+                            $newShow->setRoom($show->getRoom());
+                            if(!empty($show->getMovie())){
+                                $newShow->setMovie($show->getMovie());
+                            }
+                            $newShow->setDateTime($dateTime);
+                            $this->ShowDAOPDO->Add($newShow);
+                        }
+                    }
+                    $_SESSION['successMessage']="Funciones actualizadas al dia de la fecha";
+                }
+            }
+        }
+
+
+
+
+
             public function RemoveRoom($cineId,$id){
                 try{
                     $Room=$this->RoomDAOPDO->GetById($id);
                     $cine = $this->CineDAOPDO->GetById($cineId);
                     if($Room != null){
+                        
+                        
                         if($this->CheckShowsByRoom($Room)){
                             $this->RoomDAOPDO->RemoveRoom($Room);
+                            foreach($Room->getShows() as $show){
+                                $this->ShowDAOPDO->RemoveShow($show);
+                            }
                             $_SESSION['successMessage']="Exito al remover la sala";
                             $this->CineViewRefresh($cineId);   
                         }else{
-                            $_SESSION['errorMessage']="Error, Procure que no haya shows con peliculas asignadas dentro de la sala que desea borrar";
+                            $_SESSION['errorMessage']="Error al borrar la sala, hay entradas vendidas para shows de esta sala";
                             $this->CineViewRefresh($cineId);
                         }
                     }else{
@@ -88,7 +154,7 @@
             public function CheckShowsByRoom(Room $room){
                 $result=true;
                 foreach($room->getShows() as $show){
-                    if($show->getMovie()!=null){
+                    if(!empty($this->ShowDAOPDO->GetTicketsbyShow($show->getId()))){
                         $result=false;
                     }
                 }
@@ -116,6 +182,10 @@
             }
         }
 
+     
+
+
+
         public function ShowModifyCineView(){
             if(isset($_SESSION['cineId'])){
                 $cine=$this->CineDAOPDO->GetById($_SESSION['cineId']);
@@ -133,8 +203,8 @@
         }
         
         public function ShowModifyRoomView($id){
+            $this->UpdateShows();
             $room=$this->GetRoom($id);
-            
             require_once(VIEWS_PATH."ModifyRoom.php");
         }
 

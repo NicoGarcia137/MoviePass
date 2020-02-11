@@ -52,7 +52,16 @@ include_once("navUser.php");
 
                         </div>
 
-                        <?php include("movieCarousel.php");?>
+                        <?php 
+                        $carousel=[];
+                        foreach($cine->getRooms() as $room){
+                            foreach($room->getShows() as $show){
+                                if($show->getMovie()!=null){
+                                    array_push($carousel,$show->getMovie());
+                                }
+                            }
+                        }
+                        include("movieCarousel.php"); ?>
 
                     </div>
 

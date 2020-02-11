@@ -22,6 +22,7 @@ create table Rooms (
 create table Movies (
      Id int DEFAULT '0',
      Name varchar (60) not null ,
+     Active boolean default true,
      Duration int not null ,
      Language varchar (50) not null ,
      Image varchar (200) not null , 
@@ -33,8 +34,8 @@ create table Shows (
     Id int auto_increment ,
     DateTime DateTime not null , 
     MovieId int , 
-    Tickets int,
     RoomId int not null,
+    Active boolean default true,
     constraint pk_Id primary key (Id) ,
     constraint fk_MovieId foreign key (MovieId) references Movies (Id),
     constraint fk_RoomId foreign key (RoomId) references Rooms (Id) ON DELETE CASCADE 
@@ -55,6 +56,34 @@ create table MovieXGenres
    constraint pk_MovieIdXGenre primary key (Id),
    constraint fk_MovieXGenre_MovieId foreign key (MovieId) references Movies (Id), 
    constraint fk_MovieXGenre_GenreId foreign key (GenreId) references Genres (Id) 
+);
+
+create table Purchases(
+    Id int auto_increment,
+    UserEmail varchar(100) not null,
+    CineId int not null,
+    DateTime DateTime not null,
+    TotalValue float not null,
+    constraint pk_Purchase primary key (Id),
+    constraint fk_Purchase_Cine foreign key (CineId) references Cines (Id)
+);
+
+create table Tickets(
+    Id int auto_increment,
+    ShowId int not null,
+    PurchaseId int not null,
+    Seat int not null,
+    Value float not null,
+    constraint pk_Purchase primary key (Id),
+    constraint fk_Tickets_Purchase foreign key (PurchaseId) references Purchases (Id),
+    constraint fk_Tickets_Show foreign key (ShowId) references Shows (Id)
+);
+
+create table ShowTimes(
+    ShowTime varchar(10),
+    CineId int,
+    constraint pk_ShowTimes primary key(showTime,CineId),
+    constraint fk_CineId foreign key (CineId) references Cines (Id) ON DELETE CASCADE 
 );
 
 create table Users
@@ -86,13 +115,15 @@ create table Profile_Users
     constraint pk_Profile primary key (Id),
     constraint fk_User foreign key (UserId) references Users (Id)
 );
+
 --echo "<script>if(confirm('echo $query'));</script>";
-
-insert into Users (Email,Password,RolId,Profile_UserId) values ("a@a","a",1,1);
-insert into Profile_Users (FirstName,LastName,DNI,UserId) values ("Nicol","qwe",123,1);
-
 insert into Rol (Description) values ("admin");
 insert into Rol (Description) values ("user");
+
+insert into Users (Email,Password,RolId,Profile_UserId) values ("a@a","a",1,1);
+insert into Profile_Users (FirstName,LastName,DNI,UserId) values ("Nico","Garcia",123,1);
+
+
 
 
 insert into UserProfile () values () ;

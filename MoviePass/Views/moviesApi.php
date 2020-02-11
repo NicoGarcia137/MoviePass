@@ -9,8 +9,10 @@ $baseurl="https://image.tmdb.org/t/p/w500";
     <div class="inside">
         <h2>Peliculas<span>Disponibles</span></h2>
         <p>Listado de peliculas disponibles para su utilización.</p>
+        <a class="slogButton slogButton-block" href="<?php echo FRONT_ROOT."Billboard/UpdateBillboardFromApi" ?>" >Actualizar Cartelera</a>
     </div>
 </div>
+
 
 <?php 
     foreach($Billboard as $movie)
@@ -21,7 +23,6 @@ $baseurl="https://image.tmdb.org/t/p/w500";
         <div class="border-right">
             <div class="border-left">
                 <div class="inner">
-
                     <div class="address">
 
                         <div class="fleft">
@@ -44,10 +45,7 @@ $baseurl="https://image.tmdb.org/t/p/w500";
 
                         </div>
 
-                        
-
                     </div>
-
                 </div>
             </div>
         </div>

@@ -1,22 +1,22 @@
 <?php
     namespace Controllers;
 
-    use DAO\UserDAOPDO as UserDAOPDO;
+    use DAO\UserDAOPDO as UserDAO;
     use Models\Usuario as User;
     use Models\PerfilUsuario as PerfilUsuario;
     use Models\Rol as Rol;
 
     class UserController
     {
-        private $UserDAOPDO;
+        private $UserDAO;
 
         public function __construct()
         {
-            $this->UserDAOPDO = new UserDAOPDO();
+            $this->UserDAO = new UserDAO();
         }
 
         public function getUserByEmail($email){
-            $user = $this->UserDAOPDO->GetByEmail($email);
+            $user = $this->UserDAO->GetByEmail($email);
             return $user;
         }
 
@@ -48,7 +48,7 @@
                 $User->setRol($rol);
     
     
-                $this->UserDAOPDO->Add($User);
+                $this->UserDAO->Add($User);
                 
                 $this->ShowLoginView();
             }else{
@@ -68,7 +68,7 @@
         }
         public function ShowIndexView()
         {      
-            require_once(VIEWS_PATH."index.php");
+            header("location:".FRONT_ROOT."Home/Index");
         }
 
          public function ShowSignUpView()

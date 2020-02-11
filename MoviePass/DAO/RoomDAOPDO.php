@@ -3,6 +3,8 @@
 use Models\Room as Room;
 use DAO\Connection as Connection;
 use DAO\Helper as Helper;
+use \Exception as Exception;
+
 class RoomDAOPDO extends Helper{
 
   
@@ -21,7 +23,6 @@ class RoomDAOPDO extends Helper{
             r.CineId as CineIdRoom,
             s.Id as ShowId,
             s.DateTime,
-            s.Tickets,
             m.Id as MovieId,
             m.Name as MovieName,
             m.Duration,
@@ -30,27 +31,60 @@ class RoomDAOPDO extends Helper{
             g.Description as Genre,
             g.Id as GenreId
             from Rooms as r
-            left join Shows as s
-            on s.RoomId=r.Id
-            left join Movies as m
-            on s.MovieId=m.Id
-            left join MovieXGenres as mg
+             left join Shows as s
+            on s.RoomId=r.Id AND s.Active=1 
+             left join Movies as m
+            on s.MovieId=m.Id AND m.Active=1 
+             left join MovieXGenres as mg
             on mg.MovieId=m.Id
-            left join Genres as g
+             left join Genres as g
             on mg.GenreId = g.Id
-            where r.Id = ".$Id."
+            where r.Id = ".$Id."  
             order by r.Id,s.Id,m.Id,g.Id;";
 
             $this->connection = Connection::GetInstance();
             $resultSet = $this->connection->Execute($query);
             $room=$this->GenerateClass($resultSet);
   
-            return $room[0];
+            return array_shift($room);
         }
         catch(Exception $ex)
         {
             throw $ex;
         }
+    }
+
+
+    public function GetCineIdByRoomId($roomId){
+        $query = "select
+            r.CineId 
+            from Rooms as r
+            where r.Id = '".$roomId."' ;";
+
+            $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+                $result=$resultSet[0];
+                return $result;
+    }
+
+    public function NameCheck($name,...$id){
+        $query = "select
+            r.Id as RoomId,
+            r.Capacity as RoomCapacity,
+            r.Name as RoomName,
+            r.CineId as CineIdRoom
+            from Rooms as r
+            where r.Name = '".$name."' ;";
+
+            $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+                $result=false;
+                if(empty($resultSet)){
+                    $result=true;
+                }else if($id[0]==$resultSet[0]['RoomId']){
+                    $result=true;
+                }
+                return $result;
     }
 
     public function GetLastId(){
@@ -78,11 +112,14 @@ class RoomDAOPDO extends Helper{
         {
             try
             {
-                $query = "UPDATE Rooms SET Capacity= "."'".$Room->getCapacity()."'"." WHERE Id= ".$Room->getId().";";
+                $query = "UPDATE Rooms SET Name =:Name,Capacity =:Capacity WHERE Id=:Id;";
+                
+                $parameters["Id"] = $Room->getId();
+                $parameters["Name"] = $Room->getName();
+                $parameters["Capacity"] = $Room->getCapacity();
 
                 $this->connection = Connection::GetInstance();
-                echo "<script>if(confirm('echo $query'));</script>";
-                $this->connection->ExecuteNonQuery($query);
+                $this->connection->ExecuteNonQuery($query,$parameters);
             }
             catch(Exception $ex)
             {

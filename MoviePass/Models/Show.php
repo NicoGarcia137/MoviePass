@@ -4,7 +4,7 @@ namespace Models;
         private $Id;
         private $DateTime;
         private $Movie;
-        private $Tickets;
+        private $Tickets=[];
         private $Room;
 
         
@@ -53,9 +53,9 @@ namespace Models;
                 return $this->Tickets;
         }
 
-        public function setTickets($Tickets)
+        public function addTickets($ticket)
         {
-                $this->Tickets = $Tickets;
+                array_push($this->Tickets,$ticket);
         }
 
        

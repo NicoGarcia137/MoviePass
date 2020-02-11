@@ -3,9 +3,9 @@
         "firstName": "nicolas",
         "lastName": "Pafundi",
         "dni": "123",
-        "email": "qweqwe@qwewqe",
-        "password": "213213",
-        "rol": "admin"
+        "email": "b@b",
+        "password": "b",
+        "rol": "user"
     },
     {
         "firstName": "Nicol\u00e1s",
@@ -29,6 +29,22 @@
         "dni": "41307551",
         "email": "julian.lafratta@gmail.com",
         "password": "asd123",
+        "rol": "user"
+    },
+    {
+        "firstName": "Sebastian",
+        "lastName": "Lafratta",
+        "dni": "0",
+        "email": "laujulimarti@hotmail.com",
+        "password": "10217242300561510",
+        "rol": "user"
+    },
+    {
+        "firstName": "Franco Nicolas",
+        "lastName": "da",
+        "dni": "12566",
+        "email": "franconicolas.garcia@gmail.com",
+        "password": "1234",
         "rol": "user"
     }
 ]

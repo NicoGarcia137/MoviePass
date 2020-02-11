@@ -2,6 +2,8 @@
 
 use Models\Genre as Genre;
 use DAO\Connection as Connection;
+use \Exception as Exception;
+
 class GenreDAOPDO {
 
   
@@ -114,7 +116,7 @@ class GenreDAOPDO {
             }
             catch(Exception $ex)
             {
-                var_dump($ex);
+                throw $ex;
             }
         }
  } 

@@ -129,7 +129,7 @@ class BilldboardDAOPDO implements IBilldboardDAO{
             }
             catch(Exception $ex)
             {
-                var_dump($ex);
+                throw $ex;
             }
         }
  } 

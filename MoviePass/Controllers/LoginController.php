@@ -1,16 +1,16 @@
 <?php 
 namespace Controllers;
 
-use DAO\UserDAOPDO as UserDAOPDO;
+use DAO\UserDAOPDO as UserDAO;
 use Models\Usuario as Usuario;
 
 class LoginController
 {
-    private $UserDAOPDO;
+    private $UserDAO;
 
         public function __construct()
         {
-            $this->UserDAOPDO = new UserDAOPDO();
+            $this->UserDAO = new UserDAO();
         }
 
     public function FacebookLogin()
@@ -24,7 +24,7 @@ class LoginController
 
     public function Login($email, $password)
     {
-        $user = $this->UserDAOPDO->GetByEmail($email);
+        $user = $this->UserDAO->GetByEmail($email);
         if(($user != null) && ($user->getPassword() === $password))
         {
             $_SESSION["loggedUser"] = $user;
@@ -33,14 +33,15 @@ class LoginController
             if($user->getRol()->getDescripcion()==="admin"){
                 $this->ShowAdminView();
             }else{
-                $this->ShowUserView();
+                if(isset($_SESSION['failPurchase'])){
+                    require_once(VIEWS_PATH."confirmFailPurchase.php");
+                }else{
+                     $this->ShowUserView();
+                }
             }
         }
         else{
-            echo "<script> 
-            if(confirm('Usuario y/o Contraseña incorrectos')){ 
-            }
-            </script>";
+            $_SESSION['errorMessage']="Usuario y/o Contraseña incorrectos";
             $this->ShowLoginView();
         }
       
@@ -49,19 +50,23 @@ class LoginController
     public function Logout()
     {
         session_destroy();
-        $this->ShowUserView();
+        session_start();
+        $_SESSION['successMessage']="LogOut Exitoso, vuelva pronto";
+        header("location: ".FRONT_ROOT."Home/index");
     }
 
     public function ShowLoginView(){
         require_once(VIEWS_PATH."login.php");
     }
 
-    public function ShowUserView(){
-        header("location:../index.php");
+    private function ShowUserView(){
+        $_SESSION['successMessage']="Usuario logueado con exito";
+        header("location: ".FRONT_ROOT."Home/index");
     }
 
-    public function ShowAdminView(){
-        require_once(VIEWS_PATH."indexAdmin.php");
+    private function ShowAdminView(){
+        $_SESSION['successMessage']="Usuario Admin logueado con exito";
+        header("location: ".FRONT_ROOT."Home/indexAdmin");
     }
 
 

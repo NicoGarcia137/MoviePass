@@ -26,7 +26,6 @@ r.Capacity as RoomCapacity,
 r.Name as RoomName,
 s.Id as ShowId,
 s.DateTime,
-s.Tickets,
 m.Id as MovieId,
 m.Name as MovieName,
 m.Duration,
@@ -35,15 +34,15 @@ m.Image,
 g.Description as Genre,
 g.Id as GenreId
 from Cines as c
-left join Rooms as r
+ join Rooms as r
 on r.CineId=c.Id
-left join Shows as s
-on s.RoomId=r.Id
-left join Movies as m
+ join Shows as s
+on s.RoomId=r.Id AND s.Active=1
+ join Movies as m
 on s.MovieId=m.Id
-left join MovieXGenres as mg
+ join MovieXGenres as mg
 on mg.MovieId=m.Id
-left join Genres as g
+ join Genres as g
 on mg.GenreId = g.Id
 order by c.Id ,r.Id,s.Id,m.Id,g.Id;
 
@@ -59,7 +58,6 @@ r.Capacity as RoomCapacity,
 r.Name as RoomName,
 s.Id as ShowId,
 s.DateTime,
-s.Tickets,
 m.Id as MovieId,
 m.Name as MovieName,
 m.Duration,
@@ -68,15 +66,15 @@ m.Image,
 g.Description as Genre,
 g.Id as GenreId
 from Cines as c
-left join Rooms as r
+ join Rooms as r
 on r.CineId=c.Id
-left join Shows as s
-on s.RoomId=r.Id
-left join Movies as m
+ join Shows as s
+on s.RoomId=r.Id AND s.Active=1
+ join Movies as m
 on s.MovieId=m.Id
-left join MovieXGenres as mg
+ join MovieXGenres as mg
 on mg.MovieId=m.Id
-left join Genres as g
+ join Genres as g
 on mg.GenreId = g.Id
 where c.Id = 2
 order by c.Id ,r.Id,s.Id,m.Id,g.Id;
@@ -89,7 +87,6 @@ r.Capacity as RoomCapacity,
 r.Name as RoomName,
 s.Id as ShowId,
 s.DateTime,
-s.Tickets,
 m.Id as MovieId,
 m.Name as MovieName,
 m.Duration,
@@ -97,13 +94,13 @@ m.Language,
 g.Description as Genre,
 g.Id as GenreId
 from Rooms as r
-left join Shows as s
-on s.RoomId=r.Id
-left join Movies as m
+ join Shows as s
+on s.RoomId=r.Id AND s.Active=1
+ join Movies as m
 on s.MovieId=m.Id
-left join MovieXGenres as mg
+ join MovieXGenres as mg
 on mg.MovieId=m.Id
-left join Genres as g
+ join Genres as g
 on mg.GenreId = g.Id;
 
 --GetRoomById;
@@ -113,7 +110,6 @@ r.Capacity as RoomCapacity,
 r.Name as RoomName,
 s.Id as ShowId,
 s.DateTime,
-s.Tickets,
 m.Id as MovieId,
 m.Name as MovieName,
 m.Duration,
@@ -122,13 +118,13 @@ m.Image,
 g.Description as Genre,
 g.Id as GenreId
 from Rooms as r
-left join Shows as s
-on s.RoomId=r.Id
-left join Movies as m
+ join Shows as s
+on s.RoomId=r.Id AND s.Active=1
+ join Movies as m
 on s.MovieId=m.Id
-left join MovieXGenres as mg
+ join MovieXGenres as mg
 on mg.MovieId=m.Id
-left join Genres as g
+ join Genres as g
 on mg.GenreId = g.Id
 where r.Id = 2
 order by r.Id,s.Id,m.Id,g.Id;
@@ -137,7 +133,6 @@ order by r.Id,s.Id,m.Id,g.Id;
 select
 s.Id as ShowId,
 s.DateTime,
-s.Tickets,
 m.Id as MovieId,
 m.Name as MovieName,
 m.Duration,
@@ -146,11 +141,11 @@ m.Image,
 g.Description as Genre,
 g.Id as GenreId
 from Shows as s
-left join Movies as m
+ join Movies as m
 on s.MovieId=m.Id
-left join MovieXGenres as mg
+ join MovieXGenres as mg
 on mg.MovieId=m.Id
-left join Genres as g
+ join Genres as g
 on mg.GenreId = g.Id
 where s.Id = 1
 order by s.Id,m.Id,g.Id;
@@ -195,7 +190,6 @@ r.Capacity as RoomCapacity,
 r.Name as RoomName,
 s.Id as ShowId,
 s.DateTime,
-s.Tickets,
 m.Id as MovieId,
 m.Name as MovieName,
 m.Duration,
@@ -204,15 +198,15 @@ m.Image,
 g.Description as Genre,
 g.Id as GenreId
 from Cines as c
-left join Rooms as r
+ join Rooms as r
 on r.CineId=c.Id
-left join Shows as s
-on s.RoomId=r.Id
-left join Movies as m
+ join Shows as s
+on s.RoomId=r.Id AND s.Active=1
+ join Movies as m
 on s.MovieId=m.Id
-left join MovieXGenres as mg
+ join MovieXGenres as mg
 on mg.MovieId=m.Id
-left join Genres as g
+ join Genres as g
 on mg.GenreId = g.Id
 where m.Id= 578189
 order by c.Id ,r.Id,s.Id,m.Id,g.Id;
@@ -220,19 +214,6 @@ order by c.Id ,r.Id,s.Id,m.Id,g.Id;
 
 update Shows set MovieId=475557;
 
--- Traer un perfil por el email 
-select U.Email , 
-U.Password ,
-R.Description , 
-PU.FirstName ,
-PU.LastName ,
-PU.DNI 
-from Users as U 
-left join Profile_Users as PU 
-on PU.Id =U.Profile_UserId 
-left join Rol as R 
-on R.Id = U.RolId
-where U.Email= "Email" ;
 
 
 

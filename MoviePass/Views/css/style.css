@@ -50,6 +50,8 @@ ul, ol {
 	float:left;
 }
 .fright {
+	margin-right: 10px;
+	margin-bottom: 10px;
 	float:right;
 }
 .col-1, .col-2, .col-3 {
@@ -524,8 +526,8 @@ a {
 	--white: #ffffff;
 
 	--main: #7e0e0e;
-	--main-light: lighten($main,5%);
-	--main-dark: darken($main,5%);
+	--main-light: lighten(var(--main),5%);
+	--main-dark: darken(var(--main),5%);
 		
 	--gray-light: #a0b3b0;
 	--gray: #ddd;
@@ -708,6 +710,71 @@ a {
 }
 
 /* -------------------------------- */
+/* -------- Slog Button ------------ */
+
+.slogButton {
+	position:absolute;
+
+	right:10px;
+	bottom:10px;
+
+
+	border: 0;
+    outline: none;
+    border-radius:0;
+    padding: 10px 10px;
+    font-size: 12px;
+    font-weight: var(--bold);
+	text-transform: uppercase;
+	text-align: center;
+    letter-spacing: .1em;
+    background: rgb(68, 125, 160);
+    color: rgb(41, 41, 41);
+    transition: all.5s ease;
+    -webkit-appearance: none;
+}
+
+.slogButton:hover, .slogButton:focus {
+	background:var(--main-dark);
+}
+
+.slogButton-block {
+	display:block;
+	width:25%;
+}
+
+.slogButton2 {
+	position:absolute;
+
+	right:10px;
+	bottom:50px;
+
+
+	border: 0;
+    outline: none;
+    border-radius:0;
+    padding: 10px 10px;
+    font-size: 12px;
+    font-weight: var(--bold);
+	text-transform: uppercase;
+	text-align: center;
+    letter-spacing: .1em;
+    background: rgb(68, 125, 160);
+    color: rgb(41, 41, 41);
+    transition: all.5s ease;
+    -webkit-appearance: none;
+}
+
+.slogButton2:hover, .slogButton2:focus {
+	background:var(--main-dark);
+}
+
+.slogButton2-block {
+	display:block;
+	width:25%;
+}
+
+/* -------------------------------- */
 
 .movieImg {
 	width: 200px;
@@ -746,12 +813,12 @@ body .swiper-container{
 	font-size: 18px;
 	width: 100%;
 	height: 400px;
-	/* background: #161616; */
+	 /* background: #161616; */ 
 	/* Center slide text vertically */
-	/* display: -webkit-box;
+	 /* display: -webkit-box;
 	display: -ms-flexbox;
 	display: -webkit-flex;
-	display: flex;
+
 	-webkit-box-pack: center;
 	-ms-flex-pack: center;
 	-webkit-justify-content: center;
@@ -759,22 +826,24 @@ body .swiper-container{
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	-webkit-align-items: center;
-	align-items: center; */
+	align-items: center;  */
 }
 
 .swiper-slide .imgBox {
 	width: 100%;
 	height: 300px;
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 
 .swiper-slide .imgBox img {
+	border-radius:2%;
 	width: 80%;
+	cursor: pointer;
 }
 
 .swiper-slide .details {
 	box-sizing: border-box;
-	padding: 20px;
+	padding: 0 5px;
 	text-align: center;
 }
 
@@ -782,6 +851,27 @@ body .swiper-container{
 	margin: 0;
 	padding: 0;
 	font-size: 20px;
+}
+
+.imgButton {
+	text-align: center;
+	border:0;
+	border-radius:2%;
+	padding:15px 0;
+	background:rgb(15, 15, 15);
+	color:var(--white);
+	transition:all.5s ease;
+	-webkit-appearance: none;
+}
+
+.imgButton:hover, .imgButton:focus {
+	background:var(--main-dark);
+	cursor: pointer;
+}
+
+.imgButton-block {
+	display:block;
+	width:100%;
 }
 
 /* -------------------------------- */
@@ -903,3 +993,505 @@ table.calendarTable{
 }
 
 /* -------------------------------------- */
+
+.seat {
+	width:50px;
+	height: 50px;
+	/* background-size: 2%;
+	background:url(../images/butaca-cerrada.png) ; */
+	
+}
+
+.seat:hover {
+	background:url(../images/seatOpen.png) ;
+}
+
+.seat-lock {
+	width:50px;
+	height: 50px;
+}
+
+.stairs {
+	width:50px;
+	height: 50px;
+}
+
+.seatsTable {
+	margin: auto;
+}
+
+.checkeable input{
+	display: none;
+}
+
+.checkeable input:checked {
+	border: #2c6d9a;
+}
+
+.checkeable img {
+	width: 50px;
+	height: 50px;
+}
+
+.checkeable input:checked + img {
+	background:url(../images/seatOpen.png) ;
+}
+
+.checkeableRad input{
+	/* display: none; */
+}
+
+.checkeableRad input:checked {
+	border-color: 2px solid red ;
+}
+
+
+.checkeableRad img {
+	cursor: pointer;
+}
+
+.checkeableRad input:checked + img {
+	border-color: 2px solid red ;
+	border: red;
+}
+
+/***************Collapsibles***************/
+
+.form hr {
+	border: 1px solid rgb(61, 61, 61);
+}
+
+.address .left {
+	float: left;
+	margin-left: 10%;
+}
+
+.address .right {
+	float: right;
+	margin-right: 10%;
+}
+
+/* -------------------------- info COLLAPSIBLE -------------------------- */
+
+.infoBox {
+	 
+	padding: 0px;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+	background-color: rgba(15, 15, 15, 0.76);
+	text-align: justify;
+	
+}
+
+.infoBox .left {
+	float: left;
+}
+
+.infoBox .right {
+	float: right;
+}
+
+.infoBox h5 {
+	margin-left: 5%;
+}
+
+.infoBox hr {
+	border: 1px solid rgb(61, 61, 61);
+	margin: 10px 13px 10px 13px;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.infoCollapsible {
+	padding: 10px;
+	width: 300px;
+	background-color: rgba(10, 10, 10, 0.76);
+	color: #444;
+	cursor: pointer;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+}
+
+.infoCollapsible .left {
+	float: left;
+}
+
+.infoCollapsible .right {
+	float: right;
+}
+
+
+.infoCollapsible span {
+	color: rgb(177, 24, 24);
+}
+  
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .infoCollapsible:hover {
+	background-color: rgba(15, 15, 15, 0.76);
+}
+
+.infoCollapsible:after {
+	content: '\002B';
+	color: white;
+	font-weight: bold;
+	float: right;
+	margin-left: 5px;
+  }
+  
+  .active:after {
+	content: "\2212";
+  }
+  
+/* Style the collapsible content. Note: hidden by default */
+.content {
+	padding: 0 18px;
+	display: none;
+	overflow: hidden;
+	background-color: #f1f1f1;
+
+
+}
+
+/* ------------------------------------------------------------------------ */
+
+/* -------------------------- MODIFY COLLAPSIBLE -------------------------- */
+
+.modifyBox{
+	
+	width: 100%;
+	/* display: none; */
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+
+	background-color: rgba(15, 15, 15, 0.76);
+
+}
+
+.modifyBox .left {
+	float: left;
+}
+
+.modifyBox .right {
+	float: right;
+}
+
+.modifyBox h5 {
+	margin-left: 5%;
+}
+
+
+/* Style the button that is used to open and close the collapsible content */
+.modifyCollapsible {
+	width: 100%;
+	background-color: black;
+	color: #444;
+	cursor: pointer;
+	padding: 10px 10px 5px 10px;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 30px;
+
+
+}
+
+.modifyCollapsible span {
+	color: rgb(177, 24, 24);
+}
+  
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .modifyCollapsible:hover {
+	background-color: rgba(15, 15, 15, 0.76);
+}
+
+.modifyCollapsible:after {
+	content: '\002B';
+	color: white;
+	font-weight: bold;
+	float: right;
+	margin-left: 5px;
+  }
+  
+  .active:after {
+	content: "\2212";
+  }
+  
+/* Style the collapsible content. Note: hidden by default */
+.content {
+	padding: 0 18px;
+	display: none;
+	overflow: hidden;
+	background-color: #f1f1f1;
+
+
+}
+
+/* ------------------------------------------------------------------------ */
+
+/* -------------------------- TICKET COLLAPSIBLE -------------------------- */
+
+.ticketBox {
+	padding: 0 18px;
+	/* display: none; */
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+
+	background-color: rgba(15, 15, 15, 0.76);
+	margin-left: 5%;
+	margin-right: 60%;
+}
+
+.ticketBox h5 {
+	margin-left: 5%;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.ticketCollapsible {
+	width: 35%;
+	background-color: black;
+	color: #444;
+	cursor: pointer;
+	padding: 10px 10px 5px 10px;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+
+	margin-left: 5%;
+	margin-right: 60%;
+}
+
+.ticketCollapsible span {
+	color: rgb(177, 24, 24);
+}
+  
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .ticketCollapsible:hover {
+	background-color: rgba(15, 15, 15, 0.76);
+}
+
+.ticketCollapsible:after {
+	content: '\002B';
+	color: white;
+	font-weight: bold;
+	float: right;
+	margin-left: 5px;
+  }
+  
+  .active:after {
+	content: "\2212";
+  }
+  
+/* Style the collapsible content. Note: hidden by default */
+.content {
+	padding: 0 18px;
+	display: none;
+	overflow: hidden;
+	background-color: #f1f1f1;
+
+
+}
+
+/* ------------------------------------------------------------------------ */
+
+
+/*-------------------------- Mensajes de notificacion --------------------------*/
+
+.correcto, .error, .validation {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding:15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:13px;
+    text-align:left;
+    width:auto;
+}
+.correcto {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    background-image:url('imagenes/correcto.JPG');
+}
+.error {
+    color: #D8000C;
+    background-color: #FFBABA;
+    background-image: url('imagenes/error.jpg');
+}
+
+/***************************************/
+
+/*************** Select ****************/
+
+/* body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background: #f39c12;
+} */
+/* h1 {
+	margin: 0 0 0.25em;
+} */
+  /* Reset Select */
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+	outline: 0;
+	box-shadow: none;
+	border: 0 !important;
+	background: #2c3e50;
+	background-image: none;
+}
+  /* Remove IE arrow */
+select::-ms-expand {
+	display: none;
+}
+  /* Custom Select */
+.select {
+	position: relative;
+	display: flex;
+	width: 20em;
+	height: 3em;
+	line-height: 3;
+	background: #2c3e50;
+	overflow: hidden;
+	border-radius: .25em;
+}
+select {
+	flex: 1;
+	padding: 0 .5em;
+	color: #fff;
+	cursor: pointer;
+
+}
+  /* Arrow */
+.select::after {
+	content: '\25BC';
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0 1em;
+	background: #34495e;
+	cursor: pointer;
+	pointer-events: none;
+	-webkit-transition: .25s all ease;
+	-o-transition: .25s all ease;
+	transition: .25s all ease;
+}
+  /* Transition */
+.select:hover::after {
+	color: #f39c12;
+}
+
+.selectButton {
+	width: 20em;
+	height: 3em;
+}
+
+.selectButton .optButton {
+	background: #2c3e50;
+	cursor: pointer;
+	border-radius: .25em;
+	padding: 8px;
+	margin: 2px 0;
+	transition: all.5s ease;
+	font-size: 12px;
+}
+
+.selectButton .optButton:hover{
+	background:var(--main-dark);
+}
+
+  /***************************************/
+  /*************** Checkbox **************/
+
+.tableContainer{
+	margin-top: -15px;
+	background: #2c3e50;
+	width: 60%;
+	height: 50%;
+	
+	border-radius: .25em;
+}
+
+  /* The container */
+.containerCheck {
+	margin-top: 10px;
+	margin: 10px;
+	display: block;
+	position: relative;
+	padding-left: 35px;
+	margin-bottom: 12px;
+	cursor: pointer;
+	font-size: 16px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+  }
+
+  .containerCheck:hover{
+	background: #34495e;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .containerCheck input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 20px;
+	width: 20px;
+	background-color: #eee;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .containerCheck:hover input ~ .checkmark {
+	background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .containerCheck input:checked ~ .checkmark {
+	background-color: #2196F3;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+	content: "";
+	position: absolute;
+	display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .containerCheck input:checked ~ .checkmark:after {
+	display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .containerCheck .checkmark:after {
+	left: 9px;
+	top: 5px;
+	width: 5px;
+	height: 10px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+  }

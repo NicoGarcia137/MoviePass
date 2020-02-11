@@ -30,9 +30,9 @@
           <div class="fleft"><a href="#">Movie <span>Pass</span></a></div>  <!-- Cambiar el href mas adelante -->
             
             <ul>
-              <?php if(!$_SESSION){ ?>
-              <li><a href="<?php echo FRONT_ROOT."Login/ShowLoginView"?>">LogIn</a></li>
-              <li><a href="<?php echo FRONT_ROOT."User/ShowSignUpView"?>">SignUp</a></li>
+            <?php if(!isset($_SESSION['loggedUser'])){ ?>
+              <li><a href="<?php echo FRONT_ROOT."Login/ShowLoginView"?>">Iniciar sesión</a></li>
+              <li><a href="<?php echo FRONT_ROOT."User/ShowSignUpView"?>">Registrarse</a></li>
               <?php }else{ ?>
                 <li><a href="<?php echo FRONT_ROOT."Login/Logout"?>">LogOut</a></li>
               <?php } ?>

@@ -2,9 +2,11 @@
 namespace Models;
     class Purchase{
         private $id;
-        private $tickets;
+        private $tickets=[];
         private $dateTime;
         private $totalValue;
+        private $user;
+        private $cine;
      
         public function getId()
         {
@@ -21,19 +23,19 @@ namespace Models;
                 return $this->tickets;
         }
 
-        public function setTickets($tickets)
+        public function addTickets($ticket)
         {
-                $this->tickets = $tickets;
+                array_push($this->tickets,$ticket);
         }
 
 
         public function getTotalValue()
         {
-                $result=0;
+                $totalValue=0;
                 foreach($this->tickets as $ticket){
-                        $result+=$ticket->getValue();
+                        $totalValue+=$ticket->getValue();
                 }
-                return $result;
+                return $totalValue;
         }
 
         public function getDateTime()
@@ -44,6 +46,26 @@ namespace Models;
         public function setDateTime($dateTime)
         {
                 $this->dateTime = $dateTime;
+        }
+
+        public function getUser()
+        {
+                return $this->user;
+        }
+
+        public function setUser($user)
+        {
+                $this->user = $user;
+        }
+
+        public function getCine()
+        {
+                return $this->cine;
+        }
+
+        public function setCine($cine)
+        {
+                $this->cine = $cine;
         }
     }
 

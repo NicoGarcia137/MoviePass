@@ -30,13 +30,8 @@
                         </div>
 
                         <div class="field-wrap">
-                            <label class="log-label" for="capacity">Capacidad</label>
-                            <input class="log-input" type="number" name="capacity"required>
-                        </div>
-
-                        <div class="field-wrap">
                             <label class="log-label" for="value">Tarifa</label>
-                            <input class="log-input" type="number" name="value"required>
+                            <input class="log-input" type="number" min="0" name="value"required>
                         </div>
 
                         <br><br>

@@ -1,4 +1,5 @@
 <?php
+use Models\Room as Room;
 namespace Models;
     class Cine{
         private $id;
@@ -39,18 +40,15 @@ namespace Models;
         public function setAddress($address)
         {
                 $this->Address = $address;
-
         }
 
         public function getCapacity()
         {
+                $this->Capacity=0;
+                foreach($this->Rooms as $room){
+                        $this->Capacity+=$room->getCapacity();
+                }
                 return $this->Capacity;
-        }
-
-        public function setCapacity($capacity)
-        {
-                $this->Capacity = $capacity;
-
         }
 
         public function getValue()

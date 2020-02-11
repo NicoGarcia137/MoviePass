@@ -1,6 +1,5 @@
 <?php namespace DAO;
 
-
 use Models\Usuario as User; 
 use Models\PerfilUsuario as PerfilUsuario; 
 use Models\Rol as Rol; 
@@ -62,20 +61,43 @@ class UserDAOPDO extends Helper {
       }
     }
 
+    public function AddProfile($profileUser,$UserId)
+    {
+        try{
 
+
+            $query ="INSERT INTO Profile_Users (UserId,FirstName,LastName,DNI) Values (:UserId, :FirstName, :LastName, :DNI);";
+            $parameters["UserId"]=$UserId;
+             $parameters["FirstName"] = $profileUser->getFirstName();
+             $parameters["LastName"] = $profileUser->getLastName();
+             $parameters["DNI"] =$profileUser->getDni();
+
+             $this->connection = Connection::GetInstance();                
+             $this->connection->ExecuteNonQuery($query, $parameters);
+             
+          }
+          catch(Exception $EX){
+              throw $EX;
+   
+          }
+    }
+    
     public function Add($User)
     {
        try{
          $query ="INSERT INTO Users (Email,Password,RolId,Profile_UserId) Values (:Email, :Password, :RolId, :Profile_UserId);";
           $parameters["Email"] = $User->getEmail();
           $parameters["Password"] = $User->getPassword();
-          $parameters["RolId"] =2; //1 PARA ADMIN 2 PARA USER
+          $parameters["RolId"] =2; // 2 PARA USER
           $parameters["Profile_UserId"] =$this->IdProfileInsert();
-         var_dump($parameters);
+
+         
           $this->connection = Connection::GetInstance();                
           $this->connection->ExecuteNonQuery($query, $parameters);
-
-           AddProfile($User->getPerfilUsuario());
+       
+          $this->AddProfile($User->getPerfilUsuario(),$this->IdProfileInsert());
+         
+          
 
           
        }
@@ -107,29 +129,9 @@ class UserDAOPDO extends Helper {
     }
 
     }
-    public function AddProfile($profileUser)
-    {
-        try{
-
-
-            $query ="INSERT INTO Profile_Users (Email,Password,RolId,Profile_UserId) Values (:Email, :Password, :RolId, :Profile_UserId);";
-             $parameters["FirstName"] = $profileUser->getFirstName();
-             $parameters["LastName"] = $profileUser->getLastName();
-             $parameters["DNI"] =$profileUser->getDni();
-
-             $this->connection = Connection::GetInstance();                
-             $this->connection->ExecuteNonQuery($query, $parameters);
-             
-          }
-          catch(Exception $EX){
-              throw $EX;
    
-          }
-    }
-    
 
 }
-
 
 
 

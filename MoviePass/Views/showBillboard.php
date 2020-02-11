@@ -1,10 +1,8 @@
-<?php
-
-use Models\Genre;
-
-include_once("header.php");
+<?php 
+    include_once("header.php");
     include_once("navUser.php");
     $baseurl="https://image.tmdb.org/t/p/w500";
+
 ?>
 
 <div id="signupSlogan">
@@ -14,102 +12,67 @@ include_once("header.php");
     </div>
 </div>
 
+<br>
 
 
+<div class="fright" >
+    <form action="<?php echo FRONT_ROOT."Billboard/GetAllMoviesInshowsByDateTime" ?>" method="post">
+        <div class="select">
+            <select name="date" required>
+                <?php 
+                $date=new DateTime(); 
+                for($x=0;$x<7;$x++){ ?> 
 
-<div  class="box"> 
-        <div class="border-right">
-                <div class="border-left">
-                    <div class="collapsible">
-                      <form  method="post">
-                        <?php   foreach($genres as $genr) 
-                        {   $valor=$genr->getDescription(); ?> 
-                                   <label > <input type="checkbox"  name="genreSelect[]"  value= "<?php  echo $valor ?>" ><?php echo $valor ?>  </label>
-                                
-                        
-                        <?php } ?>
-                        <br><br>
-                        
-                       
-                      
-                        <?php   foreach($array_days as $days) 
-                        {  ?> 
-                                   <label > <input type="checkbox"  name="daySelect[]"  value= "<?php  echo $days ?>" ><?php echo $days ?>  </label>
-                        
-                        
-                        <?php } ?>
-                        
+                    <option value="<?php echo $date->format('Y-m-d');?>"><?php echo Translator::Translate($date);  ?></option> 
 
-
-
-                      <button class="optButton optButton-block" type="submit"  > Actualizar  </button>
-                      </form>
-                    </div>
-                </div>
+                <?php 
+                $date->modify('+1 day');  
+                }  ?>   
+            </select>        
         </div>
+        <div class="selectButton">
+            <input type=submit class="optButton optButton-block" value="Filtrar">
+        </div>
+    </form>
+    </div>
+
+
+</br>
+
+
+<div class="tableContainer" >
+    <form action="<?php echo FRONT_ROOT."Billboard/GetAllMoviesInshowsByGenre" ?>" method="post">
+        <table>
+
+            <?php $cant = 0;  
+            
+                foreach($genres as $genre){ $cant++;?>
+                    <td>
+                        <label class="containerCheck">
+                        <?php echo $genre->getDescription() ?> <input  type="checkbox" name="genres[]" value="<?php echo $genre->getId() ?>">
+                        <span class="checkmark"></span>
+                        </label>
+                    </td>
+            <?php if($cant == 4){
+                $cant = 0;
+                echo "<tr></tr>";
+            }
+        
+                } ?>
+
+        </table>
+
+        <div class="selectButton">
+                <input type=submit class="optButton optButton-block" value="Filtrar">
+        </div>
+        
+
+    </form>
 </div>
-
-
+<br>
 
 <?php 
-  
-  $MoviesWithFilter=array();
-  
-  
-///filtro de generos
-if(isset($_POST["genreSelect"]))
-{   
-   
-   $i=0; //posMovie
-   $j=0; //pos genreMovie pos i
-   $k=0; //pos genreSelect
-   $found=0;
- 
-    while($i<count($Billboard))
-    { 
-        $genreMovie=$Billboard[$i]->getGenres(); ///genero de la pelicula pos i
-           
-           while($j<count($genreMovie))
-           {
-              
-                while ($k<count($_POST["genreSelect"]))
-                {         
-
-               
-                       if( $genreMovie[$j]->getDescription() == $_POST["genreSelect"][$k]){
-                         
-                       
-                        array_push($MoviesWithFilter,$Billboard[$i]);
-                             
-                      }
-
-                 $k++;
-                }
-               $k=0;
-               $j++;
-        }
-           $j=0;
-           $i++;
-    }
-}else 
-{
     foreach($Billboard as $movie)
-    {
-       array_push($MoviesWithFilter,$movie);
-    }
-}
-///filtro de dias 
-if(!isset($_POST["daySelect"]))
-{
-       
-}
-
-
-
-
-
-
-    foreach($MoviesWithFilter as $movie)
     {
 ?>
 
