@@ -13,8 +13,8 @@ if(isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]->getRol()->getDescr
             
             <li><a href="<?php echo FRONT_ROOT."Billboard/ShowMoviesInShows" ?>">Cartelera</a></li>
             <li><a href="<?php echo FRONT_ROOT."Purchase/ShowUserPurchases" ?>">Compras</a></li>
-            <li><a href="#">Extra</a></li>
-            <li class="last"><a href="#">Proximamente</a></li>
+            <li><a href="#"></a></li>
+            <li class="last"><a href="#"></a></li>
             
           </ul>
         </div>

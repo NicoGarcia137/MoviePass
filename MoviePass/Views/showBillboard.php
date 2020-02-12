@@ -61,7 +61,7 @@
                 } ?>
 
         </table>
-
+<br>
         <div class="selectButton">
                 <input type=submit class="optButton optButton-block" value="Filtrar">
         </div>

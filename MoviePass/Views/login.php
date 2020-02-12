@@ -39,9 +39,11 @@
                         
                         </form>
                         <br>
-                        <a href="https://www.facebook.com/v5.0/dialog/oauth?client_id=3079459188747276&state=a046cd1737175c594ec5140cda05ffde&response_type=code&sdk=php-sdk-5.7.0&redirect_uri=http%3A%2F%2Flocalhost%2FMoviePass%2FLogin%2FFacebookLogin&scope=">
-                            <img src="<?php echo FRONT_ROOT?>Views/images/fblogin.png" width="500" height="200" ></a>
 
+                        <div class="fbLog" >
+                        <a href="https://www.facebook.com/v5.0/dialog/oauth?client_id=3079459188747276&state=a046cd1737175c594ec5140cda05ffde&response_type=code&sdk=php-sdk-5.7.0&redirect_uri=http%3A%2F%2Flocalhost%2FMoviePass%2FLogin%2FFacebookLogin&scope=">
+                            <img src="<?php echo FRONT_ROOT?>Views/images/fblogin.png" width="400" height="85" ></a>
+                        </div>
                         
                         
                     </div><!-- tab-content -->

@@ -7,12 +7,13 @@ include_once("QR_BarCode.php");
 $qr = new QR_BarCode(); 
 
 // create text QR code 
-$qr->text($ticket->getId()); 
+$qr->text("Butaca " . $ticket->getSeat()); 
 
+$qr->url('Butaca'. $ticket->getSeat());
 
 // display QR code image
 // save QR code image
-$qr->qrCode(250,__DIR__.'/img/'. $ticket->getId().'.png');
+$qr->qrCode(250,'C:\wamp64\www\TP-MoviePass\MoviePass\QR\img\ '.$ticket->getSeat().'.png');
 
 
 ?>

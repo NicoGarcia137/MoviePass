@@ -24,8 +24,14 @@ if(isset($_GET["state"])){
     $_SESSION['FBRLH_state'] = $_GET['state'];
 }
 
+
+
+
 // URL a la que el usuario accede para loguear desde facebook
 echo '<a href="' . $loginUrl . '"> Sign up with Facebook ! </a>';
+
+
+
 
 
 // Traigo el token del helper

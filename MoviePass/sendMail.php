@@ -46,7 +46,7 @@ try {
         <h5><span> Asiento: </span> ".  $ticket->getSeat() ." </h5>
         <h5><span> Valor: $</span> ".  $ticket->getValue() ." </h5> <br><br>";
   
-        $mail->addAttachment("QR/img/".$ticket->getId().".png", "Butaca ".$ticket->getSeat());
+        $mail->addAttachment("C:\wamp64\www\TP-MoviePass\MoviePass\QR\img\ ".$ticket->getSeat().".png", "Butaca ".$ticket->getSeat());
 
     }
 
@@ -57,7 +57,7 @@ try {
     // Content
     $mail->isHTML(true);                                  // Set email format to HTML
     $mail->Subject = 'Gracias por realizar su compra en MoviePass';
-    $mail->Body    = 'Datos de su compra: <br><br><br>'.$msg;
+    $mail->Body    = '<br>Datos de su compra: <br><br><br>'.$msg;
 
 
     $mail->send();
