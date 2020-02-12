@@ -21,10 +21,10 @@ create table Rooms (
 
 create table Movies (
      Id int DEFAULT '0',
-     Name varchar (60) not null ,
+     Name varchar (220) not null ,
      Active boolean default true,
      Duration int not null ,
-     Language varchar (50) not null ,
+     Language varchar (220) not null ,
      Image varchar (200) not null , 
      constraint pk_MovieId primary key (Id) 
 );
@@ -116,10 +116,11 @@ create table Profile_Users
     constraint fk_User foreign key (UserId) references Users (Id)
 );
 
---echo "<script>if(confirm('echo $query'));</script>";
+
 insert into Rol (Description) values ("admin");
 insert into Rol (Description) values ("user");
 
 insert into Users (Email,Password,RolId,Profile_UserId) values ("a@a","a",1,1);
 insert into Profile_Users (FirstName,LastName,DNI,UserId) values ("Nico","Garcia",123,1);
 
+--echo "<script>if(confirm('echo $query'));</script>";

@@ -44,7 +44,7 @@
                try{
                 $cine = $this->CineDAOPDO->GetById($cineId);
                 if($this->RoomDAOPDO->NameCheck($Name)){
-                    if($Capacity < 0 ){
+                    if($Capacity > 0 ){
 
                     $Room = new Room();
                     $Room->setCapacity($Capacity);

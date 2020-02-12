@@ -63,7 +63,7 @@
 
                    if($this->CineDAOPDO->NameCheck($name)){
                        
-                        if($value < 0){
+                        if($value>0){
 
                             $Cine = new Cine();
                             $Cine->setName($name);
