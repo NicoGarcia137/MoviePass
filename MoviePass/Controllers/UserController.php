@@ -1,7 +1,7 @@
 <?php
     namespace Controllers;
 
-    use DAO\UserDAO as UserDAO;
+    use DAO\UserDAOPDO as UserDAO;
     use Models\Usuario as User;
     use Models\PerfilUsuario as PerfilUsuario;
     use Models\Rol as Rol;
